@@ -1,0 +1,45 @@
+import 'package:base_flutter_proj/core/base/api/base_api_response.dart';
+import 'package:base_flutter_proj/core/debug/logger.dart';
+
+/// Объект для возврата результата выполнения запроса к API.
+/// Любой внешний метод для вызова серверного метода API,
+/// должен возвращать объект такого формата.
+/// Кроме данных, которые есть в [BaseApiResponse], также содержит уже разобранные из JSON данные (тип [T]).
+/// Обычно [T] это:
+/// - Список сущностей - для методов загрузки списков данных с сервера, например, список публикаций в блоге: List<Post>
+/// - Одна сущность - для методов загрузки одной сущности с сервера, например, профиль пользователя: User
+/// - [bool] - для методов - действий, например, "лайкнуть публикацю", "удалить публикацию"
+class ApiResponse<T> extends BaseApiResponse {
+  T? result;
+
+  ApiResponse({required BaseApiResponse baseApiResponse, this.result})
+    : super(
+        meta: baseApiResponse.meta,
+        rawData: baseApiResponse.rawData,
+        dataJson: baseApiResponse.dataJson,
+        error: baseApiResponse.error,
+      ) {
+    logError();
+  }
+
+  ApiResponse.error({
+    required String error,
+    required BaseApiResponse baseApiResponse,
+  }) : super(
+         meta: baseApiResponse.meta,
+         rawData: baseApiResponse.rawData,
+         error: error,
+       ) {
+    logError();
+  }
+
+  void logError() {
+    if (rawData != null) {
+    } else {
+      CustomLogger.warning('No server response');
+    }
+    if (isError) {
+      CustomLogger.error('Error: ${error ?? ''}');
+    }
+  }
+}

@@ -1,8 +1,8 @@
-import 'package:base_flutter_proj/core/base_pages/base_page/base_page_provider.dart';
-import 'package:base_flutter_proj/core/base_pages/components/app_loading_indicator.dart';
-import 'package:base_flutter_proj/core/base_pages/components/base_error_widget.dart';
-import 'package:base_flutter_proj/core/base_pages/components/keyboard_dismisser.dart';
-import 'package:base_flutter_proj/core/base_pages/services/toast_service.dart';
+import 'package:base_flutter_proj/core/base/base_pages/base_page/base_page_provider.dart';
+import 'package:base_flutter_proj/core/base/base_pages/components/app_loading_indicator.dart';
+import 'package:base_flutter_proj/core/base/base_pages/components/base_error_widget.dart';
+import 'package:base_flutter_proj/core/base/base_pages/components/keyboard_dismisser.dart';
+import 'package:base_flutter_proj/core/base/base_pages/services/toast_service.dart';
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
