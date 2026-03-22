@@ -6,12 +6,26 @@ import 'package:base_flutter_proj/runner.dart';
 
 void main() async {
   await runZonedGuarded(() async {
-    await run(
-      Config(
+    await run(getConfig());
+  }, CustomLogger.onError);
+}
+
+Config getConfig() {
+  const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  switch (flavor) {
+    case 'dev':
+      return Config(
         apiUrlDomain: 'localhost',
         apiUrlRelativePath: '/api/',
-        appMetricaApiKey: '1111',
-      ),
-    );
-  }, CustomLogger.onError);
+        appMetricaApiKey: 'DEV_KEY',
+      );
+    case 'prod':
+      return Config(
+        apiUrlDomain: 'api.myapp.com',
+        apiUrlRelativePath: '/api/',
+        appMetricaApiKey: 'PROD_KEY',
+      );
+    default:
+      throw Exception('Unknown flavor: $flavor');
+  }
 }

@@ -1,0 +1,10 @@
+{
+    "editor.fontLigatures": true,
+    "dart.flutterSdkPath": "~/development/flutter",
+    "[dart]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll": "always"
+        },
+    }
+}

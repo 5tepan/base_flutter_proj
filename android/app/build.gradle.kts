@@ -37,6 +37,28 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+    
+    flavorDimensions += listOf("app")
+
+    productFlavors {
+        create("dev") {
+            dimension = "app"
+            manifestPlaceholders += mapOf(
+                "app_name" to "Dev Base App",
+            )
+        }
+        create("prod") {
+            dimension = "app"
+            applicationId = "com.whitetigersoft.ru.baseflutter.prod"
+            manifestPlaceholders += mapOf(
+                "app_name" to "Base App",
+            )
+        }
+    }
+
+    lint {
+        disable.add("InvalidPackage")
+    }
 }
 
 flutter {
