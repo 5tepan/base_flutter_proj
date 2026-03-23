@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:base_flutter_proj/core/base/api/api_response.dart';
-import 'package:base_flutter_proj/core/base/api/base_api_response.dart';
-import 'package:base_flutter_proj/core/base/api/json_schema.dart';
+import 'package:base_flutter_proj/core/base/base_api/api_response.dart';
+import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
+import 'package:base_flutter_proj/core/base/base_api/json_schema.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:http/http.dart' as http;
 

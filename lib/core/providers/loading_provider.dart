@@ -1,5 +1,3 @@
-import 'package:base_flutter_proj/core/base/base_pages/services/toast_service.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 final loadingProvider = StateNotifierProvider<LoadingController, LoadingState>(
@@ -31,7 +29,3 @@ class LoadingController extends StateNotifier<LoadingState> {
     state = const LoadingState();
   }
 }
-
-final toastServiceProvider = Provider<ToastService>((ref) {
-  return ToastService();
-});

@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/base/api/base_api_response.dart';
+import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 
 /// Объект для возврата результата выполнения запроса к API.
