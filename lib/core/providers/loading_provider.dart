@@ -1,7 +1,7 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final loadingProvider = StateNotifierProvider<LoadingController, LoadingState>(
-  (ref) => LoadingController(),
+final loadingProvider = NotifierProvider<LoadingController, LoadingState>(
+  LoadingController.new,
 );
 
 class LoadingState {
@@ -18,8 +18,11 @@ class LoadingState {
   }
 }
 
-class LoadingController extends StateNotifier<LoadingState> {
-  LoadingController() : super(const LoadingState());
+class LoadingController extends Notifier<LoadingState> {
+  @override
+  LoadingState build() {
+    return const LoadingState();
+  }
 
   void show({bool hideContent = false}) {
     state = state.copyWith(isLoading: true, hideContent: hideContent);
