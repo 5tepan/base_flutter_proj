@@ -135,6 +135,16 @@ abstract final class AppTextStyle {
   );
 }
 
+abstract final class AppShadows {
+  static final List<BoxShadow> defaultCardShadow = [
+    BoxShadow(
+      color: AppColors.border.withAlpha(65),
+      blurRadius: 4.0,
+      spreadRadius: 1.0,
+    ),
+  ];
+}
+
 /// Класс для формирования "визуальной темы" приложения
 /// - внешний вид текстов
 /// - внешний вид кнопок
@@ -474,20 +484,14 @@ class ThemeBuilder {
   }
 
   BoxDecoration buildCardDecoration(BuildContext context) => BoxDecoration(
-    boxShadow: [buildDefaultShadow(context)],
+    boxShadow: AppShadows.defaultCardShadow,
     color: AppColors.surfaceColor,
     borderRadius: BorderRadius.circular(cardBorderRadius),
   );
 
-  BoxShadow buildDefaultShadow(BuildContext context) => BoxShadow(
-    color: Colors.blueGrey.shade900.withAlpha(65),
-    blurRadius: 4.0,
-    spreadRadius: 1.0,
-  );
-
   BoxDecoration buildCircleDecoration(BuildContext context) => BoxDecoration(
     shape: BoxShape.circle,
-    boxShadow: [buildDefaultShadow(context)],
+    boxShadow: AppShadows.defaultCardShadow,
     color: AppColors.surfaceColor,
   );
 }
