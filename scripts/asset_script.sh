@@ -5,7 +5,7 @@
 # 2. Перемещает их в assets, assets/2.0x, assets/3.0x
 # 3. Добавляет запись в AssetsCatalog
 
-ASSETS_CATALOG="lib/core/model/helpers/assets_catalog.dart"
+ASSETS_CATALOG="lib/core/helpers/assets_catalog.dart"
 
 read -p "Введите имя ассета без .png: " name
 

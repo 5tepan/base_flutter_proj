@@ -4,36 +4,43 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> submitFormWithValidation({
-  required BuildContext context,
-  required WidgetRef ref,
   required AppFormController formController,
   required Future<void> Function() onSubmit,
+  BuildContext? context,
+  WidgetRef? ref,
   bool hideContentOnLoading = false,
+  bool saveForm = true,
+  bool unfocusOnSubmit = true,
+  VoidCallback? onInvalidForm,
 }) async {
-  if (formController.isSubmitting || !context.mounted) {
+  if (formController.isSubmitting || (context != null && !context.mounted)) {
     return;
   }
-
-  formController.enableAutovalidate();
 
   formController.isSubmitting = true;
 
   final isValid = await formController.validate();
   if (!isValid) {
+    formController.enableAutovalidate();
+    onInvalidForm?.call();
     formController.isSubmitting = false;
     return;
   }
 
-  formController.save();
-  FocusManager.instance.primaryFocus?.unfocus();
+  if (saveForm) {
+    formController.save();
+  }
+  if (unfocusOnSubmit) {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 
-  final loading = ref.read(loadingProvider.notifier);
-  loading.show(hideContent: hideContentOnLoading);
+  final loading = ref?.read(loadingProvider.notifier);
+  loading?.show(hideContent: hideContentOnLoading);
 
   try {
     await onSubmit();
   } finally {
-    loading.hide();
+    loading?.hide();
     formController.isSubmitting = false;
   }
 }

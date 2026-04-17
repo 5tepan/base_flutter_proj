@@ -18,7 +18,7 @@ class CustomBackButton extends StatelessWidget {
         ),
         color: color,
         tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-        onPressed: () => onPressed ?? context.pop(),
+        onPressed: onPressed ?? () => context.pop(),
       ),
     );
   }

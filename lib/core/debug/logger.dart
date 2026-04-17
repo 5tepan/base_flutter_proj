@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
 import 'package:base_flutter_proj/core/debug/event_bus_log.dart';
 import 'package:base_flutter_proj/core/debug/http_log_interceptor.dart';
 import 'package:base_flutter_proj/core/events/event.dart';
+import 'package:base_flutter_proj/core/helpers/app_platform.dart';
 import 'package:event_bus/event_bus.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -15,11 +15,8 @@ typedef LogEmit =
 // Класс для удобства работы с Talker
 abstract final class CustomLogger {
   static late final Talker _talker;
-
-  static LogEmit error = _talker.error;
-  static LogEmit warning = _talker.warning;
-  static LogEmit info = _talker.info;
-  static LogEmit verbose = _talker.verbose;
+  static bool _isInitialized = false;
+  static bool _isTalkerCreated = false;
 
   static String routeName = 'talker';
 
@@ -31,13 +28,33 @@ abstract final class CustomLogger {
 
   static bool get _isWeb => AppPlatform.isWeb;
 
-  // ignore: unnecessary_late
-  static late final HTTPLogInterceptor httpInterceptor = HTTPLogInterceptor(
-    talker: _talker,
+  static late final HTTPLogInterceptor _httpInterceptor = HTTPLogInterceptor(
+    talker: _ensureTalker(),
   );
 
+  static HTTPLogInterceptor get httpInterceptor => _httpInterceptor;
+
+  static void error(Object msg, [Object? exception, StackTrace? stackTrace]) {
+    _ensureTalker().error(msg, exception, stackTrace);
+  }
+
+  static void warning(Object msg, [Object? exception, StackTrace? stackTrace]) {
+    _ensureTalker().warning(msg, exception, stackTrace);
+  }
+
+  static void info(Object msg, [Object? exception, StackTrace? stackTrace]) {
+    _ensureTalker().info(msg, exception, stackTrace);
+  }
+
+  static void verbose(Object msg, [Object? exception, StackTrace? stackTrace]) {
+    _ensureTalker().verbose(msg, exception, stackTrace);
+  }
+
   static void init() {
-    _talker = TalkerFlutter.init();
+    _ensureTalker();
+    if (_isInitialized) {
+      return;
+    }
 
     _talker.stream.listen((event) {
       if (event is TalkerError) {
@@ -59,6 +76,16 @@ abstract final class CustomLogger {
     if (!_isWeb) {
       FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
     }
+    _isInitialized = true;
+  }
+
+  static Talker _ensureTalker() {
+    if (_isTalkerCreated) {
+      return _talker;
+    }
+    _talker = TalkerFlutter.init();
+    _isTalkerCreated = true;
+    return _talker;
   }
 
   static StreamSubscription? _subscription;

@@ -26,3 +26,16 @@ final connectivityCheckProvider = Provider<Future<bool>>((ref) async {
 final packageInfoProvider = Provider<PackageInfo>((ref) {
   throw UnimplementedError();
 });
+
+class AuthStatusNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void setAuthorized(bool value) {
+    state = value;
+  }
+}
+
+final authStatusProvider = NotifierProvider<AuthStatusNotifier, bool>(
+  AuthStatusNotifier.new,
+);
