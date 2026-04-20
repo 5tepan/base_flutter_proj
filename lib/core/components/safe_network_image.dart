@@ -44,7 +44,7 @@ class SafeNetworkImage extends StatelessWidget {
     this.decodingWidth,
     this.decodingHeight,
     this.color,
-  }) : imageUrl = image?.url,
+  }) : imageUrl = image?.displayUrl,
        blurHash = image?.blurHash;
 
   bool get isSvg => PictureCacheHelper.isSvg(imageUrl);

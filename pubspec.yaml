@@ -49,6 +49,7 @@ dependencies:
   flutter_native_splash: ^2.4.7
   flutter_blurhash: ^0.9.1
   flutter_svg: ^2.2.3
+  cross_file: ^0.3.4+2
 
   # Utils
   path: ^1.9.1
