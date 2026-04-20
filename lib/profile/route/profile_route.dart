@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 
 part 'profile_route.g.dart';
 
-@TypedGoRoute<ProfileRoute>(path: '/profile')
+const String _profilePath = '/profile';
+
+@TypedGoRoute<ProfileRoute>(path: _profilePath)
 class ProfileRoute extends GoRouteData with $ProfileRoute {
   const ProfileRoute();
 

@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/auth/route/auth_route.dart';
 import 'package:base_flutter_proj/home/home_route.dart';
-import 'package:base_flutter_proj/profile/profile_route.dart';
+import 'package:base_flutter_proj/profile/route/profile_route.dart';
 import 'package:base_flutter_proj/shop/shop_route.dart';
 import 'package:base_flutter_proj/web_view/route/web_view_route.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

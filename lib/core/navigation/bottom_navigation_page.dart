@@ -15,9 +15,8 @@ class BottomNavigationPage extends ConsumerWidget {
 
     return Scaffold(
       body: navigationShell,
-
       bottomNavigationBar: SafeArea(
-        top: false, // иначе внезапно появится лишний отступ сверху
+        top: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: AppNavBar(
