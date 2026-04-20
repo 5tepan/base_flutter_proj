@@ -1,6 +1,6 @@
 name: base_flutter_proj
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -94,7 +94,6 @@ dev_dependencies:
   go_router_builder: ^4.0.1
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -135,8 +134,8 @@ flutter:
           style: italic
 
 flutter_native_splash:
-  # image: assets/ic_logo.png
+  image: assets/splash.png
   color: "#ffffff"
   android_12:
-    # image: assets/ic_logo_12.png
+    image: assets/splash.png
     color: "#ffffff"
