@@ -6,4 +6,5 @@ abstract final class AssetsCatalog {
   static const String icOrder = 'assets/ic_order.png';
   static const String icUser = 'assets/ic_user.png';
   static const String icCatalog = 'assets/ic_catalog.png';
+  static const String placeholder = 'assets/placeholder.png';
 }
