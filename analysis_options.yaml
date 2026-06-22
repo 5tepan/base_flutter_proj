@@ -2,9 +2,6 @@ analyzer:
   language:
     strict-casts: true
 
-  plugins:
-    - custom_lint
-
   exclude:
     - build/**
     - "**/*.g.dart"
@@ -20,11 +17,6 @@ analyzer:
     always_use_package_imports: error
     avoid_relative_lib_imports: error
     avoid_dynamic_calls: error
-
-custom_lint:
-  rules:
-    - incorrect_todo_comment: false
-    - prefer_named_parameters: false
 
 linter:
   rules:
