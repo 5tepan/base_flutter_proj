@@ -1,10 +1,5 @@
-import 'dart:async';
-
-import 'package:base_flutter_proj/core/debug/event_bus_log.dart';
 import 'package:base_flutter_proj/core/debug/http_log_interceptor.dart';
-import 'package:base_flutter_proj/core/events/event.dart';
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
-import 'package:event_bus/event_bus.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -88,20 +83,6 @@ abstract final class CustomLogger {
     _talker = TalkerFlutter.init();
     _isTalkerCreated = true;
     return _talker;
-  }
-
-  static StreamSubscription? _subscription;
-
-  static void registerEventBusLogger(EventBus eventBus) {
-    if (_subscription != null) {
-      _subscription!.cancel();
-      _subscription = null;
-      warning('Сброс прослушивания EventBus');
-    }
-
-    _subscription = eventBus.on<BaseEvent>().listen((event) {
-      _talker.logCustom(EventBusLogEvent(event));
-    });
   }
 
   static void onFlutterError(FlutterErrorDetails details) {
