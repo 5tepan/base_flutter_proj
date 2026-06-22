@@ -74,5 +74,8 @@
   "validationPasswordMin": "at least 6 characters",
   "validationEmailRequired": "Enter e-mail",
   "validationEmailInvalid": "Invalid e-mail",
-  "validationPasswordMismatch": "passwords must match"
+  "validationPasswordMismatch": "passwords must match",
+  "shopTitle": "Shop",
+  "shopEmptyTitle": "Nothing here yet",
+  "shopEmptySubtitle": "Products will appear here"
 }

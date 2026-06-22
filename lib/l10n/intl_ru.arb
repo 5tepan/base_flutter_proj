@@ -74,5 +74,8 @@
   "validationPasswordMin": "не менее 6 символов",
   "validationEmailRequired": "Введите e-mail",
   "validationEmailInvalid": "Некорректный e-mail",
-  "validationPasswordMismatch": "пароль должен совпадать"
+  "validationPasswordMismatch": "пароль должен совпадать",
+  "shopTitle": "Магазин",
+  "shopEmptyTitle": "Пока пусто",
+  "shopEmptySubtitle": "Товары появятся здесь"
 }

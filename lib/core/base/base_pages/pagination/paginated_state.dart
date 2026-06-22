@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -8,7 +9,8 @@ class PaginatedState<T> {
     this.isRefreshing = false,
     this.isLoadingMore = false,
     this.isAllLoaded = false,
-    this.error,
+    this.errorCode,
+    this.serverMessage,
   });
 
   final List<T> items;
@@ -16,12 +18,13 @@ class PaginatedState<T> {
   final bool isRefreshing;
   final bool isLoadingMore;
   final bool isAllLoaded;
-  final String? error;
+  final AppErrorCode? errorCode;
+  final String? serverMessage;
 
-  bool get hasError => error != null;
+  bool get hasError => errorCode != null;
   bool get isEmpty => items.isEmpty;
   bool get showInitialLoading => isLoading && items.isEmpty;
-  bool get showEmpty => isAllLoaded && items.isEmpty && error == null;
+  bool get showEmpty => isAllLoaded && items.isEmpty && !hasError;
 
   PaginatedState<T> copyWith({
     List<T>? items,
@@ -29,7 +32,8 @@ class PaginatedState<T> {
     bool? isRefreshing,
     bool? isLoadingMore,
     bool? isAllLoaded,
-    String? error,
+    AppErrorCode? errorCode,
+    String? serverMessage,
     bool clearError = false,
   }) {
     return PaginatedState<T>(
@@ -38,7 +42,8 @@ class PaginatedState<T> {
       isRefreshing: isRefreshing ?? this.isRefreshing,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       isAllLoaded: isAllLoaded ?? this.isAllLoaded,
-      error: clearError ? null : (error ?? this.error),
+      errorCode: clearError ? null : (errorCode ?? this.errorCode),
+      serverMessage: clearError ? null : (serverMessage ?? this.serverMessage),
     );
   }
 }

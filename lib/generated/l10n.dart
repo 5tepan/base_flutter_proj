@@ -578,6 +578,31 @@ class S {
       args: [],
     );
   }
+
+  /// `Магазин`
+  String get shopTitle {
+    return Intl.message('Магазин', name: 'shopTitle', desc: '', args: []);
+  }
+
+  /// `Пока пусто`
+  String get shopEmptyTitle {
+    return Intl.message(
+      'Пока пусто',
+      name: 'shopEmptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Товары появятся здесь`
+  String get shopEmptySubtitle {
+    return Intl.message(
+      'Товары появятся здесь',
+      name: 'shopEmptySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

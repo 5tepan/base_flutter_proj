@@ -1,4 +1,6 @@
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/helpers/widget_extensions/simple_padding_extension.dart';
+import 'package:base_flutter_proj/core/l10n/error_localizer.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,29 @@ class BaseErrorWidget extends StatefulWidget {
     this.textError,
     this.textButton,
   });
+
+  factory BaseErrorWidget.fromError({
+    required AppErrorCode errorCode,
+    required VoidCallback onPressedButton,
+    String? serverMessage,
+    Key? key,
+    String? image,
+    String? titleError,
+    String? textButton,
+  }) {
+    final message = ErrorLocalizer.message(
+      errorCode,
+      serverMessage: serverMessage,
+    );
+    return BaseErrorWidget(
+      key: key,
+      onPressedButton: onPressedButton,
+      image: image,
+      titleError: titleError,
+      textError: message,
+      textButton: textButton,
+    );
+  }
 
   @override
   State<BaseErrorWidget> createState() => _BaseErrorWidgetState();

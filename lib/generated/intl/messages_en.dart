@@ -125,6 +125,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "resendCodeButton": MessageLookupByLibrary.simpleMessage("Resend code"),
     "resendCodeIn": m2,
+    "shopEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Products will appear here",
+    ),
+    "shopEmptyTitle": MessageLookupByLibrary.simpleMessage("Nothing here yet"),
+    "shopTitle": MessageLookupByLibrary.simpleMessage("Shop"),
     "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "termsOfUseTitle": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Try again"),

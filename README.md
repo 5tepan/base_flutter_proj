@@ -15,7 +15,7 @@
 | **Отладка** | Talker, HTTP-логи, debug banner (dev), опциональный Firebase Crashlytics |
 | **WebView** | Экран для политики конфиденциальности и документов |
 
-Заглушки: экраны **Shop** и часть **Home/Profile** — `PlaceholderPage` («В разработке»).
+Заглушки: **Home/Profile** — `PlaceholderPage`. **Shop** — эталонный экран списка с `PaginatedListView`.
 
 ## Стек
 
@@ -95,7 +95,9 @@ lib/
 3. Зарегистрировать провайдеры (см. `lib/auth/providers/` и `lib/core/providers/api_providers.dart`)
 4. UI → `Notifier` → `Repository` → `Api`
 
-Для списков с подгрузкой — наследуйте `PaginatedNotifier<T>`.
+Для списков с подгрузкой — наследуйте `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
+
+Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder`.
 
 ## Firebase (опционально)
 

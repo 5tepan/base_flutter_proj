@@ -133,6 +133,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Отправить код повторно",
     ),
     "resendCodeIn": m2,
+    "shopEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Товары появятся здесь",
+    ),
+    "shopEmptyTitle": MessageLookupByLibrary.simpleMessage("Пока пусто"),
+    "shopTitle": MessageLookupByLibrary.simpleMessage("Магазин"),
     "termsOfUse": MessageLookupByLibrary.simpleMessage(
       "Условиями использования",
     ),
