@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
 import 'package:base_flutter_proj/core/base/base_api/Interceptors/base_api_interceptor.dart';
 import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
@@ -17,18 +18,25 @@ abstract class BaseApi {
   final Config config;
   final PackageInfo packageInfo;
   final ConnectivityCheck checkConnection;
+  final AuthTokenHolder? tokenHolder;
+  final Future<bool> Function()? onRefreshToken;
 
   BaseApi({
     required this.config,
     required this.packageInfo,
     required this.checkConnection,
+    this.tokenHolder,
+    this.onRefreshToken,
   });
 
   bool isLoggerOutputEnabled = true;
 
   late final InterceptedClient client = InterceptedClient.build(
     interceptors: [
-      BaseApiInterceptor(packageInfo: packageInfo),
+      BaseApiInterceptor(
+        packageInfo: packageInfo,
+        tokenHolder: tokenHolder,
+      ),
       if (isLoggerOutputEnabled) CustomLogger.httpInterceptor,
     ],
   );
@@ -64,24 +72,26 @@ abstract class BaseApi {
     String relativePath, {
     Map<String, dynamic>? params,
   }) async {
-    if (!await checkConnection()) {
-      return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
-    }
+    return _withUnauthorizedRetry(() async {
+      if (!await checkConnection()) {
+        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+      }
 
-    try {
-      final uri = await buildUri(
-        relativePath: relativePath,
-        queryParameters: params?.map((k, v) => MapEntry(k, v.toString())),
-      );
+      try {
+        final uri = await buildUri(
+          relativePath: relativePath,
+          queryParameters: params?.map((k, v) => MapEntry(k, v.toString())),
+        );
 
-      final response = await client.get(uri);
-      return parseResponse(response);
-    } catch (error) {
-      return processResponseError(
-        error,
-        Uri.parse(config.apiUrlDomain + relativePath),
-      );
-    }
+        final response = await client.get(uri);
+        return parseResponse(response);
+      } catch (error) {
+        return processResponseError(
+          error,
+          Uri.parse(config.apiUrlDomain + relativePath),
+        );
+      }
+    });
   }
 
   Future<BaseApiResponse> sendPostRequest(
@@ -89,26 +99,60 @@ abstract class BaseApi {
     Map<String, dynamic>? body,
     Map<String, String>? headers,
   }) async {
-    if (!await checkConnection()) {
-      return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
-    }
+    return _withUnauthorizedRetry(() async {
+      if (!await checkConnection()) {
+        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+      }
 
-    try {
-      final uri = await buildUri(relativePath: relativePath);
-      final stringBody = body?.map((k, v) => MapEntry(k, v.toString()));
-      final response = await client.post(
-        uri,
-        body: stringBody,
-        headers: headers,
-      );
+      try {
+        final uri = await buildUri(relativePath: relativePath);
+        final stringBody = body?.map((k, v) => MapEntry(k, v.toString()));
+        final response = await client.post(
+          uri,
+          body: stringBody,
+          headers: headers,
+        );
 
-      return parseResponse(response);
-    } catch (error) {
-      return processResponseError(
-        error,
-        Uri.parse(config.apiUrlDomain + relativePath),
-      );
-    }
+        return parseResponse(response);
+      } catch (error) {
+        return processResponseError(
+          error,
+          Uri.parse(config.apiUrlDomain + relativePath),
+        );
+      }
+    });
+  }
+
+  Future<BaseApiResponse> sendPostJsonRequest(
+    String relativePath, {
+    Map<String, dynamic>? body,
+    Map<String, String>? headers,
+  }) async {
+    return _withUnauthorizedRetry(() async {
+      if (!await checkConnection()) {
+        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+      }
+
+      try {
+        final uri = await buildUri(relativePath: relativePath);
+        final requestHeaders = {
+          'Content-Type': 'application/json',
+          ...?headers,
+        };
+        final response = await client.post(
+          uri,
+          headers: requestHeaders,
+          body: body == null ? null : jsonEncode(body),
+        );
+
+        return parseResponse(response);
+      } catch (error) {
+        return processResponseError(
+          error,
+          Uri.parse(config.apiUrlDomain + relativePath),
+        );
+      }
+    });
   }
 
   Future<BaseApiResponse> sendPostRequestWithFiles(
@@ -116,32 +160,64 @@ abstract class BaseApi {
     List<http.MultipartFile> files, [
     Map<String, dynamic>? params,
   ]) async {
-    if (!await checkConnection()) {
-      return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
-    }
-
-    try {
-      final uri = await buildUri(relativePath: relativePath);
-      final request = http.MultipartRequest('POST', uri);
-
-      if (params != null) {
-        final stringParams = params.map(
-          (key, value) => MapEntry(key, value.toString()),
-        );
-        request.fields.addAll(stringParams);
+    return _withUnauthorizedRetry(() async {
+      if (!await checkConnection()) {
+        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
       }
 
-      request.files.addAll(files);
-      final streamedResponse = await client.send(request);
-      final response = await http.Response.fromStream(streamedResponse);
+      try {
+        final uri = await buildUri(relativePath: relativePath);
+        final request = http.MultipartRequest('POST', uri);
 
-      return parseResponse(response);
-    } catch (error) {
-      return processResponseError(
-        error,
-        Uri.parse(config.apiUrlDomain + relativePath),
-      );
+        if (params != null) {
+          final stringParams = params.map(
+            (key, value) => MapEntry(key, value.toString()),
+          );
+          request.fields.addAll(stringParams);
+        }
+
+        request.files.addAll(files);
+        final streamedResponse = await client.send(request);
+        final response = await http.Response.fromStream(streamedResponse);
+
+        return parseResponse(response);
+      } catch (error) {
+        return processResponseError(
+          error,
+          Uri.parse(config.apiUrlDomain + relativePath),
+        );
+      }
+    });
+  }
+
+  Future<BaseApiResponse> _withUnauthorizedRetry(
+    Future<BaseApiResponse> Function() send,
+  ) async {
+    final response = await send();
+    if (!_shouldRefreshToken(response)) {
+      return response;
     }
+
+    final refresh = onRefreshToken;
+    if (refresh == null) {
+      return response;
+    }
+
+    final refreshed = await refresh();
+    if (!refreshed) {
+      return response;
+    }
+
+    return send();
+  }
+
+  bool _shouldRefreshToken(BaseApiResponse response) {
+    if (response.meta?.invalidAccessToken == true) {
+      return true;
+    }
+
+    return response.error == 'Не удалось отправить запрос. Попробуйте еще раз' &&
+        (response.rawData?.contains('invalidAccessToken') ?? false);
   }
 
   BaseApiResponse processResponseError(Object error, Uri uri) {

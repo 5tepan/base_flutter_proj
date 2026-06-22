@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/auth/route/auth_route.dart';
-import 'package:base_flutter_proj/core/providers/core_providers.dart';
+import 'package:base_flutter_proj/auth/providers/auth_providers.dart';
 import 'package:base_flutter_proj/core/router/route_access_policy.dart';
 import 'package:base_flutter_proj/core/router/router_shell.dart';
 import 'package:base_flutter_proj/home/home_route.dart';
@@ -12,11 +12,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   final routerRefresh = ValueNotifier<int>(0);
   ref.onDispose(routerRefresh.dispose);
 
-  ref.listen<bool>(authStatusProvider, (_, __) {
+  ref.listen<AsyncValue>(authSessionProvider, (_, __) {
     routerRefresh.value++;
   });
 
-  final isAuthorized = ref.watch(authStatusProvider);
+  final sessionAsync = ref.watch(authSessionProvider);
   final publicRouteMatchers = ref.watch(publicRouteMatchersProvider);
   final guestOnlyRouteMatchers = ref.watch(guestOnlyRouteMatchersProvider);
   final authRequiredRouteMatchers = ref.watch(
@@ -31,6 +31,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: routerRefresh,
     routes: [...otherRoutes, navigationShell],
     redirect: (context, state) {
+      if (sessionAsync.isLoading) {
+        return null;
+      }
+
+      final isAuthorized = sessionAsync.value != null;
       final location = state.matchedLocation;
       final isPublicRoute = publicRouteMatchers.any(
         (matcher) => matcher.matches(location),

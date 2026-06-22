@@ -23,6 +23,7 @@ class Config {
 
   final bool showDebugBanner;
   final bool enableFirebase;
+  final bool useMockAuthApi;
   final AppNavigationMode defaultNavigationMode;
   final Flavor flavor;
 
@@ -39,6 +40,7 @@ class Config {
     this.imagePickerImageQuality = 95,
     this.showDebugBanner = true,
     this.enableFirebase = false,
+    this.useMockAuthApi = true,
     this.defaultNavigationMode = AppNavigationMode.bottom,
   });
 }

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:base_flutter_proj/auth/base_auth_form_page.dart';
 import 'package:base_flutter_proj/auth/providers/auth_form_providers.dart';
+import 'package:base_flutter_proj/auth/services/sms_autofill_service.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
-import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/home/home_route.dart';
 import 'package:flutter/material.dart';
@@ -28,18 +28,34 @@ class _PhoneConfirmationFormPageState
   final TextEditingController _codeController = TextEditingController();
   Timer? _timer;
   int _secondsLeft = _initialTimerSeconds;
+  late final SmsAutofillService _smsAutofill;
 
   @override
   void initState() {
     super.initState();
+    _smsAutofill = ref.read(smsAutofillServiceProvider);
     _startTimer();
+    _listenForSmsCode();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _smsAutofill.dispose();
     _codeController.dispose();
     super.dispose();
+  }
+
+  Future<void> _listenForSmsCode() async {
+    final code = await _smsAutofill.listenForCode();
+    if (!mounted || code == null || code.isEmpty) {
+      return;
+    }
+
+    _codeController.text = code;
+    ref
+        .read(phoneConfirmationFormProvider(widget.phoneNumber).notifier)
+        .updateCode(code);
   }
 
   @override
@@ -132,9 +148,8 @@ class _PhoneConfirmationFormPageState
       phoneConfirmationFormProvider(widget.phoneNumber).notifier,
     );
     notifier.updateCode(code);
-    await notifier.submitConfirmation();
-    if (!mounted) return;
-    ref.read(authStatusProvider.notifier).setAuthorized(true);
+    final success = await notifier.submitConfirmation();
+    if (!mounted || !success) return;
     const HomeRoute().go(context);
   }
 }

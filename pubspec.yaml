@@ -41,6 +41,10 @@ dependencies:
   cross_file: ^0.3.4+2
   cupertino_icons: ^1.0.8
 
+  # Auth
+  flutter_secure_storage: ^9.2.4
+  smart_auth: ^3.2.0
+
   # Utils
   http_interceptor: ^2.0.0
   collection: ^1.19.1

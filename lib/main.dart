@@ -21,6 +21,7 @@ Config getConfig() {
         flavor: Flavor.dev,
         showDebugBanner: true,
         enableFirebase: false,
+        useMockAuthApi: true,
       );
     case 'prod':
       return Config(
@@ -30,6 +31,7 @@ Config getConfig() {
         flavor: Flavor.prod,
         showDebugBanner: false,
         enableFirebase: false,
+        useMockAuthApi: false,
       );
     default:
       throw Exception('Unknown flavor: $flavor');
