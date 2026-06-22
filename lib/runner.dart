@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_flutter_proj/core/app_bootstrap.dart';
 import 'package:base_flutter_proj/core/application.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
@@ -15,8 +16,8 @@ Future<void> run(Config env) async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final packageInfo = await PackageInfo.fromPlatform();
-  // await Firebase.initializeApp();
 
+  await AppBootstrap.initialize(env);
   await _prepareSystemChrome();
   _runApp(env, packageInfo);
   FlutterNativeSplash.remove();

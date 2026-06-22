@@ -27,7 +27,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     initialLocation: const HomeRoute().location,
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: rootNavigatorKey,
     refreshListenable: routerRefresh,
     routes: [...otherRoutes, navigationShell],
     redirect: (context, state) {
@@ -55,4 +55,4 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   );
 });
 
-final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');

@@ -18,12 +18,18 @@ Config getConfig() {
         apiUrlDomain: 'localhost',
         apiUrlRelativePath: '/api/',
         appMetricaApiKey: 'DEV_KEY',
+        flavor: Flavor.dev,
+        showDebugBanner: true,
+        enableFirebase: false,
       );
     case 'prod':
       return Config(
         apiUrlDomain: 'api.myapp.com',
         apiUrlRelativePath: '/api/',
         appMetricaApiKey: 'PROD_KEY',
+        flavor: Flavor.prod,
+        showDebugBanner: false,
+        enableFirebase: false,
       );
     default:
       throw Exception('Unknown flavor: $flavor');

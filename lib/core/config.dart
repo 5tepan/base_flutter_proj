@@ -22,6 +22,7 @@ class Config {
   final String appMetricaApiKey;
 
   final bool showDebugBanner;
+  final bool enableFirebase;
   final AppNavigationMode defaultNavigationMode;
   final Flavor flavor;
 
@@ -37,6 +38,7 @@ class Config {
     this.imagePickerMaxImageSize = 1536.0,
     this.imagePickerImageQuality = 95,
     this.showDebugBanner = true,
+    this.enableFirebase = false,
     this.defaultNavigationMode = AppNavigationMode.bottom,
   });
 }
