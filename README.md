@@ -38,10 +38,10 @@ make generate
 make intl
 
 # Запуск dev (mock auth, debug banner)
-flutter run --dart-define=FLAVOR=dev
+flutter run --flavor dev
 
 # Запуск prod
-flutter run --dart-define=FLAVOR=prod
+flutter run --flavor prod
 ```
 
 ### Mock-авторизация (dev)
