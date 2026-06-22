@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+  "appTitle": "Base Flutter",
+  "continueButton": "Continue",
+  "authPhoneTitle": "Enter your phone number\nto receive a confirmation code",
+  "phoneLabel": "Phone",
+  "confirmationCodeLabel": "Confirmation code",
+  "codeSentToPhone": "An SMS with a confirmation code\nwas sent to {phone}",
+  "@codeSentToPhone": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "resendCodeIn": "Resend in {time}",
+  "@resendCodeIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "resendCodeButton": "Resend code",
+  "noInternet": "You are offline. Check your internet connection.",
+  "inDevelopment": "In development",
+  "privacyAgreementPrefix": "By tapping «{buttonText}», you agree to the ",
+  "@privacyAgreementPrefix": {
+    "placeholders": {
+      "buttonText": {
+        "type": "String"
+      }
+    }
+  },
+  "privacyPolicy": "Privacy Policy",
+  "privacyAgreementAnd": "\nand ",
+  "termsOfUse": "Terms of Use",
+  "termsOfUseTitle": "Terms of Use",
+  "privacyPolicyTitle": "Privacy Policy",
+  "documentDefaultTitle": "Document",
+  "webViewNoUrl": "No URL provided",
+  "tryAgain": "Try again",
+  "errorLoadingTitle": "Failed to load data",
+  "errorLoadingText": "Data could not be loaded. Please try again.",
+  "enterCode": "Enter the code",
+  "enterPhone": "Enter phone number",
+  "phoneInvalid": "Enter a valid phone number",
+  "authSendCodeError": "Failed to send code. Please try again later",
+  "authConfirmCodeError": "Failed to verify code. Please try again later",
+  "authResendCodeError": "Failed to resend code"
+}

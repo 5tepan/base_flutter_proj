@@ -1,5 +1,6 @@
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +25,7 @@ class NoInternetConnection extends ConsumerWidget {
                   horizontal: 8,
                 ),
                 child: Text(
-                  'Вы не в сети. Проверьте подключение к Интернету.',
+                  S.of(context).noInternet,
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: Theme.of(

@@ -1,6 +1,7 @@
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
@@ -11,7 +12,9 @@ abstract final class AppBootstrap {
   static Future<void> initialize(Config config) async {
     if (config.enableFirebase && !AppPlatform.isWeb) {
       try {
-        await Firebase.initializeApp();
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
         isFirebaseInitialized = true;
       } catch (error, stackTrace) {
         debugPrint('Firebase initialization failed: $error');

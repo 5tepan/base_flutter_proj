@@ -6,6 +6,7 @@ import 'package:base_flutter_proj/auth/services/sms_autofill_service.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:base_flutter_proj/home/home_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,6 +61,7 @@ class _PhoneConfirmationFormPageState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     final formProvider = phoneConfirmationFormProvider(widget.phoneNumber);
     final isSubmitting = ref.watch(
       formProvider.select((state) => state.isSubmitting),
@@ -68,49 +70,39 @@ class _PhoneConfirmationFormPageState
 
     return BaseAuthFormPage(
       appBarConfig: const AppPageAppBarConfig(needBuildAppBar: false),
-      startInfo: _buildStartInfo(),
+      startInfo: Text(
+        l10n.codeSentToPhone(widget.phoneNumber),
+        style: AppTextStyle.body,
+        textAlign: TextAlign.center,
+      ),
       fieldController: _codeController,
-      fieldLabel: 'Код подтверждения',
+      fieldLabel: l10n.confirmationCodeLabel,
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      validator: FormValidator.validateCode,
+      validator: (value) => FormValidator.validateCode(
+        value,
+        error: l10n.enterCode,
+      ),
       onChanged: notifier.updateCode,
       onContinue: _onContinuePressed,
       isSubmitting: isSubmitting,
       bottomWidget: _buildBottomWidget(context),
-      buttonText: 'Продолжить',
-    );
-  }
-
-  Widget _buildStartInfo() {
-    const baseStyle = AppTextStyle.body;
-    return Text.rich(
-      TextSpan(
-        style: baseStyle,
-        children: [
-          TextSpan(text: 'На телефон '),
-          TextSpan(
-            text: widget.phoneNumber,
-            style: baseStyle.copyWith(fontWeight: FontWeight.w700),
-          ),
-          TextSpan(text: ' отправлено\nСМС с кодом подтверждения'),
-        ],
-      ),
-      textAlign: TextAlign.center,
+      buttonText: l10n.continueButton,
     );
   }
 
   Widget _buildBottomWidget(BuildContext context) {
+    final l10n = S.of(context);
     if (_secondsLeft > 0) {
       return Text(
-        'Повторная отправка через ${_formatDuration(_secondsLeft)}',
+        l10n.resendCodeIn(_formatDuration(_secondsLeft)),
         style: AppTextStyle.body.copyWith(color: AppColors.darkGrey),
       );
     }
 
     return TextButton(
       onPressed: _onResendPressed,
-      child: const Text('Отправить код повторно'),
+      child: Text(l10n.resendCodeButton),
     );
   }
 

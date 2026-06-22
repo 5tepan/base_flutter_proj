@@ -1,0 +1,51 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Base Flutter",
+  "continueButton": "Продолжить",
+  "authPhoneTitle": "Введите номер телефона,\nчтобы получить код подтверждения",
+  "phoneLabel": "Телефон",
+  "confirmationCodeLabel": "Код подтверждения",
+  "codeSentToPhone": "На телефон {phone} отправлено\nСМС с кодом подтверждения",
+  "@codeSentToPhone": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "resendCodeIn": "Повторная отправка через {time}",
+  "@resendCodeIn": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "resendCodeButton": "Отправить код повторно",
+  "noInternet": "Вы не в сети. Проверьте подключение к Интернету.",
+  "inDevelopment": "В разработке",
+  "privacyAgreementPrefix": "Нажимая на кнопку «{buttonText}», Вы\n соглашаетесь с ",
+  "@privacyAgreementPrefix": {
+    "placeholders": {
+      "buttonText": {
+        "type": "String"
+      }
+    }
+  },
+  "privacyPolicy": "Политикой конфиденциальности",
+  "privacyAgreementAnd": "\nи c ",
+  "termsOfUse": "Условиями использования",
+  "termsOfUseTitle": "Условия использования",
+  "privacyPolicyTitle": "Политика конфиденциальности",
+  "documentDefaultTitle": "Документ",
+  "webViewNoUrl": "Ссылка для отображения не передана",
+  "tryAgain": "Попробовать снова",
+  "errorLoadingTitle": "Ошибка загрузки данных",
+  "errorLoadingText": "Данные не были загружены, пожалуйста, попробуйте еще раз",
+  "enterCode": "Введите код",
+  "enterPhone": "Введите номер телефона",
+  "phoneInvalid": "Введите корректный номер телефона",
+  "authSendCodeError": "Не удалось отправить код. Попробуйте позже",
+  "authConfirmCodeError": "Не удалось подтвердить код. Попробуйте позже",
+  "authResendCodeError": "Не удалось отправить код повторно"
+}

@@ -7,6 +7,7 @@ import 'package:base_flutter_proj/core/base/model/notifiers/form_notifier.dart';
 import 'package:base_flutter_proj/core/base/model/states/form_state.dart';
 import 'package:base_flutter_proj/core/providers/toast_service_provider.dart';
 import 'package:base_flutter_proj/core/services/toast_service.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authByPhoneFormProvider =
@@ -61,7 +62,7 @@ class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
     } on AuthException catch (error) {
       _toast.showError(error.message);
     } catch (error) {
-      _toast.showError('Не удалось отправить код. Попробуйте позже');
+      _toast.showError(S.current.authSendCodeError);
     }
   }
 }
@@ -116,7 +117,7 @@ class PhoneConfirmationFormNotifier
       _toast.showError(error.message);
       return false;
     } catch (error) {
-      _toast.showError('Не удалось подтвердить код. Попробуйте позже');
+      _toast.showError(S.current.authConfirmCodeError);
       return false;
     }
   }
@@ -129,7 +130,7 @@ class PhoneConfirmationFormNotifier
     } on AuthException catch (error) {
       _toast.showError(error.message);
     } catch (error) {
-      _toast.showError('Не удалось отправить код повторно');
+      _toast.showError(S.current.authResendCodeError);
     }
   }
 }

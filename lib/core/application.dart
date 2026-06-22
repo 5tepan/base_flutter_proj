@@ -5,6 +5,7 @@ import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/router/router_provider.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,11 +27,12 @@ class Application extends ConsumerWidget with DebugBannerMixin {
       theme: ThemeBuilder().buildThemeData(),
       routerConfig: router,
       localizationsDelegates: const [
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale('ru'), Locale('en')],
+      supportedLocales: S.delegate.supportedLocales,
       builder: (context, child) {
         final wrappedChild = botToastBuilder(context, child);
         return Stack(children: [wrappedChild, const NoInternetConnection()]);

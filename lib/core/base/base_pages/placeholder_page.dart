@@ -1,4 +1,5 @@
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 /// Экран-заглушка "В разработке".
@@ -18,9 +19,9 @@ class _PlaceholderPageState extends State<PlaceholderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'В разработке',
-          style: TextStyle(color: AppColors.white),
+        title: Text(
+          S.of(context).inDevelopment,
+          style: const TextStyle(color: AppColors.white),
         ),
         actions: [
           IconButton(

@@ -2,6 +2,7 @@ import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/app_loading_indicator.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -70,9 +71,9 @@ class _WebViewPageState extends State<WebViewPage> {
           if (hasUrl)
             WebViewWidget(controller: _controller)
           else
-            const Center(
+            Center(
               child: Text(
-                'Ссылка для отображения не передана',
+                S.of(context).webViewNoUrl,
                 style: AppTextStyle.body,
                 textAlign: TextAlign.center,
               ),

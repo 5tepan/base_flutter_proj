@@ -1,6 +1,8 @@
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// Стандартный паттерн пагинации в проекте.
+/// Наследуйте для списков с подгрузкой страниц; `ListNotifier` удалён.
 abstract class PaginatedNotifier<T> extends Notifier<PaginatedState<T>> {
   @override
   PaginatedState<T> build() {

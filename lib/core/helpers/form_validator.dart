@@ -17,8 +17,8 @@ abstract class FormValidator {
     return validateRequiredField(value, error: "Введите ФИО");
   }
 
-  static String? validateCode(String? value) {
-    return validateRequiredField(value, error: 'Введите код');
+  static String? validateCode(String? value, {String? error}) {
+    return validateRequiredField(value, error: error ?? 'Введите код');
   }
 
   static String? validateRequiredField<T>(T? value, {String? error}) {
@@ -29,12 +29,16 @@ abstract class FormValidator {
     return value == null ? error : null;
   }
 
-  static String? validatePhone(String? value) {
+  static String? validatePhone(
+    String? value, {
+    String? emptyError,
+    String? invalidError,
+  }) {
     if (value == null || value.isEmpty) {
-      return 'Введите номер телефона';
+      return emptyError ?? 'Введите номер телефона';
     }
     if (value.length < 18) {
-      return 'Введите корректный номер телефона';
+      return invalidError ?? 'Введите корректный номер телефона';
     }
     return null;
   }

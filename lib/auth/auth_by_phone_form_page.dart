@@ -5,6 +5,7 @@ import 'package:base_flutter_proj/auth/view/privacy_policy_widget.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,7 @@ class _AuthByPhoneFormPageState extends ConsumerState<AuthByPhoneFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     final isSubmitting = ref.watch(
       authByPhoneFormProvider.select((state) => state.isSubmitting),
     );
@@ -36,21 +38,25 @@ class _AuthByPhoneFormPageState extends ConsumerState<AuthByPhoneFormPage> {
     return BaseAuthFormPage(
       appBarConfig: const AppPageAppBarConfig(needBuildAppBar: false),
       startInfo: Text(
-        'Введите номер телефона,\nчтобы получить код подтверждения',
+        l10n.authPhoneTitle,
         style: AppTextStyle.body,
         textAlign: TextAlign.center,
       ),
       fieldController: _phoneController,
-      fieldLabel: 'Телефон',
+      fieldLabel: l10n.phoneLabel,
       keyboardType: TextInputType.phone,
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[\d+()\-\s]')),
       ],
-      validator: FormValidator.validatePhone,
+      validator: (value) => FormValidator.validatePhone(
+        value,
+        emptyError: l10n.enterPhone,
+        invalidError: l10n.phoneInvalid,
+      ),
       onChanged: notifier.updatePhone,
       onContinue: _onContinuePressed,
       isSubmitting: isSubmitting,
-      bottomWidget: const PrivacyPolicyWidget(nextButtonText: 'Продолжить'),
+      bottomWidget: PrivacyPolicyWidget(nextButtonText: l10n.continueButton),
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:base_flutter_proj/core/components/gestures/on_tap_gesture_recognizer.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:base_flutter_proj/web_view/route/web_view_route.dart';
 import 'package:flutter/material.dart';
 
@@ -18,24 +19,23 @@ class PrivacyPolicyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     final defaultStyle = AppTextStyle.body.copyWith(color: AppColors.darkGrey);
     return Text.rich(
       TextSpan(
         children: [
+          TextSpan(text: l10n.privacyAgreementPrefix(nextButtonText)),
           TextSpan(
-            text: 'Нажимая на кнопку «$nextButtonText», Вы\n соглашаетесь с ',
-          ),
-          TextSpan(
-            text: 'Политикой конфиденциальности',
+            text: l10n.privacyPolicy,
             style: AppTextStyle.body.copyWith(color: AppColors.secondaryColor),
             recognizer: OnTapGestureRecognizer(() async {
               await _onPolicyPressed(context);
               onReturnFromDocument?.call();
             }),
           ),
-          const TextSpan(text: '\nи c '),
+          TextSpan(text: l10n.privacyAgreementAnd),
           TextSpan(
-            text: 'Условиями использования',
+            text: l10n.termsOfUse,
             style: AppTextStyle.body.copyWith(color: AppColors.secondaryColor),
             recognizer: OnTapGestureRecognizer(() async {
               await _onTermsOfUsePressed(context);
@@ -50,16 +50,18 @@ class PrivacyPolicyWidget extends StatelessWidget {
   }
 
   Future<void> _onTermsOfUsePressed(BuildContext context) async {
+    final l10n = S.of(context);
     await WebViewRoute(
       url: _termsOfUseUrl,
-      title: 'Условия использования',
+      title: l10n.termsOfUseTitle,
     ).push(context);
   }
 
   Future<void> _onPolicyPressed(BuildContext context) async {
+    final l10n = S.of(context);
     await WebViewRoute(
       url: _privacyPolicyUrl,
-      title: 'Политика конфиденциальности',
+      title: l10n.privacyPolicyTitle,
     ).push(context);
   }
 }
