@@ -1,3 +1,7 @@
+# Cursor / AI
+.cursor/rules/
+PROJECT_MAP.md
+
 # Miscellaneous
 *.class
 *.log
