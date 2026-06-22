@@ -308,6 +308,276 @@ class S {
       args: [],
     );
   }
+
+  /// `Нет интернета. Попробуйте позже.`
+  String get apiNoInternet {
+    return Intl.message(
+      'Нет интернета. Попробуйте позже.',
+      name: 'apiNoInternet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ошибка подключения к интернету`
+  String get apiConnectionError {
+    return Intl.message(
+      'Ошибка подключения к интернету',
+      name: 'apiConnectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Неизвестная ошибка. Попробуйте позже`
+  String get apiUnknownError {
+    return Intl.message(
+      'Неизвестная ошибка. Попробуйте позже',
+      name: 'apiUnknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось отправить запрос. Попробуйте еще раз`
+  String get apiRequestFailed {
+    return Intl.message(
+      'Не удалось отправить запрос. Попробуйте еще раз',
+      name: 'apiRequestFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Данные не найдены`
+  String get apiDataNotFound {
+    return Intl.message(
+      'Данные не найдены',
+      name: 'apiDataNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Произошла ошибка. Попробуйте позже.`
+  String get apiParseError {
+    return Intl.message(
+      'Произошла ошибка. Попробуйте позже.',
+      name: 'apiParseError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось получить meta часть запроса`
+  String get apiMissingMeta {
+    return Intl.message(
+      'Не удалось получить meta часть запроса',
+      name: 'apiMissingMeta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось получить data часть запроса`
+  String get apiMissingData {
+    return Intl.message(
+      'Не удалось получить data часть запроса',
+      name: 'apiMissingData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось разобрать meta часть запроса`
+  String get apiInvalidMeta {
+    return Intl.message(
+      'Не удалось разобрать meta часть запроса',
+      name: 'apiInvalidMeta',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Некорректный формат запроса`
+  String get apiBadRequestFormat {
+    return Intl.message(
+      'Некорректный формат запроса',
+      name: 'apiBadRequestFormat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ответ сервера не является валидным JSON`
+  String get apiInvalidJson {
+    return Intl.message(
+      'Ответ сервера не является валидным JSON',
+      name: 'apiInvalidJson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Укажите номер телефона`
+  String get authPhoneRequired {
+    return Intl.message(
+      'Укажите номер телефона',
+      name: 'authPhoneRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Неверный код подтверждения`
+  String get authInvalidConfirmationCode {
+    return Intl.message(
+      'Неверный код подтверждения',
+      name: 'authInvalidConfirmationCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сессия истекла. Войдите снова`
+  String get authSessionExpired {
+    return Intl.message(
+      'Сессия истекла. Войдите снова',
+      name: 'authSessionExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось отправить код`
+  String get authSendCodeFailed {
+    return Intl.message(
+      'Не удалось отправить код',
+      name: 'authSendCodeFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось подтвердить код`
+  String get authVerifyCodeFailed {
+    return Intl.message(
+      'Не удалось подтвердить код',
+      name: 'authVerifyCodeFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось отправить код повторно`
+  String get authResendCodeFailed {
+    return Intl.message(
+      'Не удалось отправить код повторно',
+      name: 'authResendCodeFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось обновить сессию`
+  String get authRefreshSessionFailed {
+    return Intl.message(
+      'Не удалось обновить сессию',
+      name: 'authRefreshSessionFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выберите дату рождения`
+  String get validationDateOfBirth {
+    return Intl.message(
+      'Выберите дату рождения',
+      name: 'validationDateOfBirth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите имя`
+  String get validationName {
+    return Intl.message(
+      'Введите имя',
+      name: 'validationName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите фамилию`
+  String get validationSurname {
+    return Intl.message(
+      'Введите фамилию',
+      name: 'validationSurname',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите ФИО`
+  String get validationFio {
+    return Intl.message(
+      'Введите ФИО',
+      name: 'validationFio',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Неверно заполнено поле`
+  String get validationRequiredField {
+    return Intl.message(
+      'Неверно заполнено поле',
+      name: 'validationRequiredField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `не менее 6 символов`
+  String get validationPasswordMin {
+    return Intl.message(
+      'не менее 6 символов',
+      name: 'validationPasswordMin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Введите e-mail`
+  String get validationEmailRequired {
+    return Intl.message(
+      'Введите e-mail',
+      name: 'validationEmailRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Некорректный e-mail`
+  String get validationEmailInvalid {
+    return Intl.message(
+      'Некорректный e-mail',
+      name: 'validationEmailInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `пароль должен совпадать`
+  String get validationPasswordMismatch {
+    return Intl.message(
+      'пароль должен совпадать',
+      name: 'validationPasswordMismatch',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

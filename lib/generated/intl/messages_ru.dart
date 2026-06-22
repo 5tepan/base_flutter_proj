@@ -30,18 +30,72 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "apiBadRequestFormat": MessageLookupByLibrary.simpleMessage(
+      "Некорректный формат запроса",
+    ),
+    "apiConnectionError": MessageLookupByLibrary.simpleMessage(
+      "Ошибка подключения к интернету",
+    ),
+    "apiDataNotFound": MessageLookupByLibrary.simpleMessage(
+      "Данные не найдены",
+    ),
+    "apiInvalidJson": MessageLookupByLibrary.simpleMessage(
+      "Ответ сервера не является валидным JSON",
+    ),
+    "apiInvalidMeta": MessageLookupByLibrary.simpleMessage(
+      "Не удалось разобрать meta часть запроса",
+    ),
+    "apiMissingData": MessageLookupByLibrary.simpleMessage(
+      "Не удалось получить data часть запроса",
+    ),
+    "apiMissingMeta": MessageLookupByLibrary.simpleMessage(
+      "Не удалось получить meta часть запроса",
+    ),
+    "apiNoInternet": MessageLookupByLibrary.simpleMessage(
+      "Нет интернета. Попробуйте позже.",
+    ),
+    "apiParseError": MessageLookupByLibrary.simpleMessage(
+      "Произошла ошибка. Попробуйте позже.",
+    ),
+    "apiRequestFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось отправить запрос. Попробуйте еще раз",
+    ),
+    "apiUnknownError": MessageLookupByLibrary.simpleMessage(
+      "Неизвестная ошибка. Попробуйте позже",
+    ),
     "appTitle": MessageLookupByLibrary.simpleMessage("Base Flutter"),
     "authConfirmCodeError": MessageLookupByLibrary.simpleMessage(
       "Не удалось подтвердить код. Попробуйте позже",
     ),
+    "authInvalidConfirmationCode": MessageLookupByLibrary.simpleMessage(
+      "Неверный код подтверждения",
+    ),
+    "authPhoneRequired": MessageLookupByLibrary.simpleMessage(
+      "Укажите номер телефона",
+    ),
     "authPhoneTitle": MessageLookupByLibrary.simpleMessage(
       "Введите номер телефона,\nчтобы получить код подтверждения",
+    ),
+    "authRefreshSessionFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось обновить сессию",
     ),
     "authResendCodeError": MessageLookupByLibrary.simpleMessage(
       "Не удалось отправить код повторно",
     ),
+    "authResendCodeFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось отправить код повторно",
+    ),
     "authSendCodeError": MessageLookupByLibrary.simpleMessage(
       "Не удалось отправить код. Попробуйте позже",
+    ),
+    "authSendCodeFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось отправить код",
+    ),
+    "authSessionExpired": MessageLookupByLibrary.simpleMessage(
+      "Сессия истекла. Войдите снова",
+    ),
+    "authVerifyCodeFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось подтвердить код",
     ),
     "codeSentToPhone": m0,
     "confirmationCodeLabel": MessageLookupByLibrary.simpleMessage(
@@ -86,6 +140,29 @@ class MessageLookup extends MessageLookupByLibrary {
       "Условия использования",
     ),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Попробовать снова"),
+    "validationDateOfBirth": MessageLookupByLibrary.simpleMessage(
+      "Выберите дату рождения",
+    ),
+    "validationEmailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Некорректный e-mail",
+    ),
+    "validationEmailRequired": MessageLookupByLibrary.simpleMessage(
+      "Введите e-mail",
+    ),
+    "validationFio": MessageLookupByLibrary.simpleMessage("Введите ФИО"),
+    "validationName": MessageLookupByLibrary.simpleMessage("Введите имя"),
+    "validationPasswordMin": MessageLookupByLibrary.simpleMessage(
+      "не менее 6 символов",
+    ),
+    "validationPasswordMismatch": MessageLookupByLibrary.simpleMessage(
+      "пароль должен совпадать",
+    ),
+    "validationRequiredField": MessageLookupByLibrary.simpleMessage(
+      "Неверно заполнено поле",
+    ),
+    "validationSurname": MessageLookupByLibrary.simpleMessage(
+      "Введите фамилию",
+    ),
     "webViewNoUrl": MessageLookupByLibrary.simpleMessage(
       "Ссылка для отображения не передана",
     ),

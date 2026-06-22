@@ -1,32 +1,50 @@
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/helpers/string_validator.dart';
+import 'package:base_flutter_proj/core/l10n/error_localizer.dart';
 
 abstract class FormValidator {
   static String? validateDateOfBirth(DateTime? value) {
-    return validateRequiredField(value, error: 'Выберите дату рождения');
+    return validateRequiredField(
+      value,
+      error: ErrorLocalizer.message(AppErrorCode.dateOfBirthRequired),
+    );
   }
 
   static String? validateName(String? value) {
-    return validateRequiredField(value, error: 'Введите имя');
+    return validateRequiredField(
+      value,
+      error: ErrorLocalizer.message(AppErrorCode.nameRequired),
+    );
   }
 
   static String? validateSurname(String? value) {
-    return validateRequiredField(value, error: 'Введите фамилию');
+    return validateRequiredField(
+      value,
+      error: ErrorLocalizer.message(AppErrorCode.surnameRequired),
+    );
   }
 
   static String? validateFIOField(String? value) {
-    return validateRequiredField(value, error: "Введите ФИО");
+    return validateRequiredField(
+      value,
+      error: ErrorLocalizer.message(AppErrorCode.fioRequired),
+    );
   }
 
   static String? validateCode(String? value, {String? error}) {
-    return validateRequiredField(value, error: error ?? 'Введите код');
+    return validateRequiredField(
+      value,
+      error: error ?? ErrorLocalizer.message(AppErrorCode.codeRequired),
+    );
   }
 
   static String? validateRequiredField<T>(T? value, {String? error}) {
-    error ??= 'Неверно заполнено поле';
+    final message =
+        error ?? ErrorLocalizer.message(AppErrorCode.fieldRequired);
     if (value is String) {
-      return value.trim().isEmpty ? error : null;
+      return value.trim().isEmpty ? message : null;
     }
-    return value == null ? error : null;
+    return value == null ? message : null;
   }
 
   static String? validatePhone(
@@ -35,24 +53,28 @@ abstract class FormValidator {
     String? invalidError,
   }) {
     if (value == null || value.isEmpty) {
-      return emptyError ?? 'Введите номер телефона';
+      return emptyError ??
+          ErrorLocalizer.message(AppErrorCode.phoneRequired);
     }
     if (value.length < 18) {
-      return invalidError ?? 'Введите корректный номер телефона';
+      return invalidError ??
+          ErrorLocalizer.message(AppErrorCode.phoneInvalid);
     }
     return null;
   }
 
   static String? validatePassword(String? value) {
-    return ((value?.length ?? 0) < 6) ? "не менее 6 символов" : null;
+    return ((value?.length ?? 0) < 6)
+        ? ErrorLocalizer.message(AppErrorCode.passwordMinLength)
+        : null;
   }
 
   static String? validateEmail(String? value) {
     if (value?.trim().isEmpty ?? true) {
-      return 'Введите e-mail';
+      return ErrorLocalizer.message(AppErrorCode.emailRequired);
     }
     if (!StringValidator.validateEmail(email: value!)) {
-      return 'Некорректный e-mail';
+      return ErrorLocalizer.message(AppErrorCode.emailInvalid);
     }
     return null;
   }
@@ -65,6 +87,8 @@ abstract class FormValidator {
     if (firstValidateRes?.isNotEmpty ?? false) {
       return firstValidateRes;
     }
-    return value == original ? null : 'пароль должен совпадать';
+    return value == original
+        ? null
+        : ErrorLocalizer.message(AppErrorCode.passwordMismatch);
   }
 }

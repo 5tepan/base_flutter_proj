@@ -5,6 +5,7 @@ import 'package:base_flutter_proj/auth/services/sms_autofill_service.dart';
 import 'package:base_flutter_proj/core/base/model/models/form_model.dart';
 import 'package:base_flutter_proj/core/base/model/notifiers/form_notifier.dart';
 import 'package:base_flutter_proj/core/base/model/states/form_state.dart';
+import 'package:base_flutter_proj/core/l10n/error_localizer.dart';
 import 'package:base_flutter_proj/core/providers/toast_service_provider.dart';
 import 'package:base_flutter_proj/core/services/toast_service.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
@@ -60,7 +61,7 @@ class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
         await _repository.requestConfirmationCode(model.phoneNumber);
       });
     } on AuthException catch (error) {
-      _toast.showError(error.message);
+      _toast.showError(ErrorLocalizer.fromAuthException(error));
     } catch (error) {
       _toast.showError(S.current.authSendCodeError);
     }
@@ -114,7 +115,7 @@ class PhoneConfirmationFormNotifier
       });
       return true;
     } on AuthException catch (error) {
-      _toast.showError(error.message);
+      _toast.showError(ErrorLocalizer.fromAuthException(error));
       return false;
     } catch (error) {
       _toast.showError(S.current.authConfirmCodeError);
@@ -128,7 +129,7 @@ class PhoneConfirmationFormNotifier
         await _repository.resendCode(model.phoneNumber);
       });
     } on AuthException catch (error) {
-      _toast.showError(error.message);
+      _toast.showError(ErrorLocalizer.fromAuthException(error));
     } catch (error) {
       _toast.showError(S.current.authResendCodeError);
     }

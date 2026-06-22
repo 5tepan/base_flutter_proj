@@ -7,6 +7,7 @@ import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
@@ -74,7 +75,7 @@ abstract class BaseApi {
   }) async {
     return _withUnauthorizedRetry(() async {
       if (!await checkConnection()) {
-        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+        return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
       try {
@@ -101,7 +102,7 @@ abstract class BaseApi {
   }) async {
     return _withUnauthorizedRetry(() async {
       if (!await checkConnection()) {
-        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+        return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
       try {
@@ -130,7 +131,7 @@ abstract class BaseApi {
   }) async {
     return _withUnauthorizedRetry(() async {
       if (!await checkConnection()) {
-        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+        return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
       try {
@@ -162,7 +163,7 @@ abstract class BaseApi {
   ]) async {
     return _withUnauthorizedRetry(() async {
       if (!await checkConnection()) {
-        return BaseApiResponse(error: 'Нет интернета. Попробуйте позже.');
+        return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
       try {
@@ -216,24 +217,20 @@ abstract class BaseApi {
       return true;
     }
 
-    return response.error == 'Не удалось отправить запрос. Попробуйте еще раз' &&
+    return response.errorCode == AppErrorCode.requestFailed &&
         (response.rawData?.contains('invalidAccessToken') ?? false);
   }
 
   BaseApiResponse processResponseError(Object error, Uri uri) {
-    String errorMessage;
-
     switch (error) {
       case String msg:
-        errorMessage = msg;
+        return BaseApiResponse(serverMessage: msg);
       case SocketException _:
-        errorMessage = 'Ошибка подключения к интернету';
+        return BaseApiResponse(errorCode: AppErrorCode.connectionError);
       default:
-        errorMessage = 'Неизвестная ошибка. Попробуйте позже';
         CustomLogger.error(error);
+        return BaseApiResponse(errorCode: AppErrorCode.unknownError);
     }
-
-    return BaseApiResponse(error: errorMessage);
   }
 
   @protected

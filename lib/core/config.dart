@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum AppNavigationMode {
   side,
   bottom;
@@ -8,6 +10,15 @@ enum AppNavigationMode {
 }
 
 enum Flavor { dev, prod }
+
+/// Режим локализации приложения.
+enum AppLocaleMode {
+  /// Только русский язык, независимо от языка системы.
+  russianOnly,
+
+  /// Русский и английский; выбор по языку системы.
+  russianAndEnglish,
+}
 
 /// Класс-конфиг приложения.
 /// Предполагается, что у тестовых сборок приложения и релизных сборок приложения будет свой конфиг:
@@ -25,6 +36,7 @@ class Config {
   final bool enableFirebase;
   final bool useMockAuthApi;
   final AppNavigationMode defaultNavigationMode;
+  final AppLocaleMode localeMode;
   final Flavor flavor;
 
   final String? livekitUrl;
@@ -42,5 +54,21 @@ class Config {
     this.enableFirebase = false,
     this.useMockAuthApi = true,
     this.defaultNavigationMode = AppNavigationMode.bottom,
+    this.localeMode = AppLocaleMode.russianAndEnglish,
   });
+
+  /// Локали, доступные в приложении.
+  List<Locale> get supportedLocales => switch (localeMode) {
+        AppLocaleMode.russianOnly => const [Locale('ru')],
+        AppLocaleMode.russianAndEnglish => const [
+            Locale('ru'),
+            Locale('en'),
+          ],
+      };
+
+  /// Принудительная локаль. `null` — выбор по языку системы.
+  Locale? get forcedLocale => switch (localeMode) {
+        AppLocaleMode.russianOnly => const Locale('ru'),
+        AppLocaleMode.russianAndEnglish => null,
+      };
 }

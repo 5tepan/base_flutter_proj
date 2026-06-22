@@ -22,6 +22,7 @@ Config getConfig() {
         showDebugBanner: true,
         enableFirebase: false,
         useMockAuthApi: true,
+        localeMode: AppLocaleMode.russianAndEnglish,
       );
     case 'prod':
       return Config(
@@ -32,6 +33,7 @@ Config getConfig() {
         showDebugBanner: false,
         enableFirebase: false,
         useMockAuthApi: false,
+        localeMode: AppLocaleMode.russianOnly,
       );
     default:
       throw Exception('Unknown flavor: $flavor');

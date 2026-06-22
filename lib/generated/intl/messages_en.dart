@@ -30,18 +30,70 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "apiBadRequestFormat": MessageLookupByLibrary.simpleMessage(
+      "Invalid request format",
+    ),
+    "apiConnectionError": MessageLookupByLibrary.simpleMessage(
+      "Internet connection error",
+    ),
+    "apiDataNotFound": MessageLookupByLibrary.simpleMessage("Data not found"),
+    "apiInvalidJson": MessageLookupByLibrary.simpleMessage(
+      "Server response is not valid JSON",
+    ),
+    "apiInvalidMeta": MessageLookupByLibrary.simpleMessage(
+      "Failed to parse meta from response",
+    ),
+    "apiMissingData": MessageLookupByLibrary.simpleMessage(
+      "Failed to read data from response",
+    ),
+    "apiMissingMeta": MessageLookupByLibrary.simpleMessage(
+      "Failed to read meta from response",
+    ),
+    "apiNoInternet": MessageLookupByLibrary.simpleMessage(
+      "No internet. Please try again later.",
+    ),
+    "apiParseError": MessageLookupByLibrary.simpleMessage(
+      "An error occurred. Please try again later.",
+    ),
+    "apiRequestFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to send request. Please try again",
+    ),
+    "apiUnknownError": MessageLookupByLibrary.simpleMessage(
+      "Unknown error. Please try again later",
+    ),
     "appTitle": MessageLookupByLibrary.simpleMessage("Base Flutter"),
     "authConfirmCodeError": MessageLookupByLibrary.simpleMessage(
       "Failed to verify code. Please try again later",
     ),
+    "authInvalidConfirmationCode": MessageLookupByLibrary.simpleMessage(
+      "Invalid confirmation code",
+    ),
+    "authPhoneRequired": MessageLookupByLibrary.simpleMessage(
+      "Enter phone number",
+    ),
     "authPhoneTitle": MessageLookupByLibrary.simpleMessage(
       "Enter your phone number\nto receive a confirmation code",
+    ),
+    "authRefreshSessionFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to refresh session",
     ),
     "authResendCodeError": MessageLookupByLibrary.simpleMessage(
       "Failed to resend code",
     ),
+    "authResendCodeFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to resend code",
+    ),
     "authSendCodeError": MessageLookupByLibrary.simpleMessage(
       "Failed to send code. Please try again later",
+    ),
+    "authSendCodeFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to send code",
+    ),
+    "authSessionExpired": MessageLookupByLibrary.simpleMessage(
+      "Session expired. Please sign in again",
+    ),
+    "authVerifyCodeFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to verify code",
     ),
     "codeSentToPhone": m0,
     "confirmationCodeLabel": MessageLookupByLibrary.simpleMessage(
@@ -76,6 +128,29 @@ class MessageLookup extends MessageLookupByLibrary {
     "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "termsOfUseTitle": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Try again"),
+    "validationDateOfBirth": MessageLookupByLibrary.simpleMessage(
+      "Select date of birth",
+    ),
+    "validationEmailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Invalid e-mail",
+    ),
+    "validationEmailRequired": MessageLookupByLibrary.simpleMessage(
+      "Enter e-mail",
+    ),
+    "validationFio": MessageLookupByLibrary.simpleMessage("Enter full name"),
+    "validationName": MessageLookupByLibrary.simpleMessage("Enter first name"),
+    "validationPasswordMin": MessageLookupByLibrary.simpleMessage(
+      "at least 6 characters",
+    ),
+    "validationPasswordMismatch": MessageLookupByLibrary.simpleMessage(
+      "passwords must match",
+    ),
+    "validationRequiredField": MessageLookupByLibrary.simpleMessage(
+      "Field is filled incorrectly",
+    ),
+    "validationSurname": MessageLookupByLibrary.simpleMessage(
+      "Enter last name",
+    ),
     "webViewNoUrl": MessageLookupByLibrary.simpleMessage("No URL provided"),
   };
 }

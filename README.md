@@ -2,8 +2,6 @@
 
 Базовый Flutter-шаблон для мобильных приложений. Содержит готовую инфраструктуру: навигацию, авторизацию, сетевой слой, тему, локализацию и отладочные инструменты. На его основе можно быстро стартовать новый продукт, не собирая boilerplate с нуля.
 
-Подробная карта проекта — в [`PROJECT_MAP.md`](PROJECT_MAP.md) (локальный файл, не в git).
-
 ## Что уже есть
 
 | Модуль | Описание |
@@ -61,8 +59,13 @@ flutter run --dart-define=FLAVOR=prod
 | `useMockAuthApi` | `true` | `false` |
 | `showDebugBanner` | `true` | `false` |
 | `enableFirebase` | `false` | `false` |
+| `localeMode` | `russianAndEnglish` | `russianOnly` |
 
 Конфиг: `lib/core/config.dart`, выбор flavor — `lib/main.dart` (`FLAVOR` env).
+
+### Только русский язык
+
+В `Config` установите `localeMode: AppLocaleMode.russianOnly` — приложение всегда на русском, независимо от языка системы. В prod-сборке в `main.dart` это уже так по умолчанию.
 
 ## Структура `lib/`
 
@@ -108,7 +111,8 @@ lib/
 - Исходники: `lib/l10n/intl_ru.arb`, `intl_en.arb`
 - Генерация: `make intl` → `lib/generated/l10n.dart`
 - В UI: `S.of(context).someKey`
-- В notifiers (после старта app): `S.current.someKey`
+- Ошибки API/auth: `AppErrorCode` + `ErrorLocalizer.message(code)` (`lib/core/l10n/error_localizer.dart`)
+- Режим языков: `Config.localeMode` — `russianOnly` или `russianAndEnglish`
 
 ## Make-команды
 
@@ -118,7 +122,3 @@ lib/
 | `make intl` | intl_utils:generate |
 | `make createSplash` | нативный splash screen |
 | `make toAssets` | генерация каталога ассетов |
-
-## Опциональные зависимости
-
-Список пакетов, которые можно добавить по необходимости — в `docs/optional-deps.md`.

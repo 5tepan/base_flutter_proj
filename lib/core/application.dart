@@ -32,7 +32,8 @@ class Application extends ConsumerWidget with DebugBannerMixin {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: S.delegate.supportedLocales,
+      supportedLocales: config.supportedLocales,
+      locale: config.forcedLocale,
       builder: (context, child) {
         final wrappedChild = botToastBuilder(context, child);
         return Stack(children: [wrappedChild, const NoInternetConnection()]);

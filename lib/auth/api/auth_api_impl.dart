@@ -5,6 +5,7 @@ import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
 import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 
 class AuthApiImpl extends BaseApi implements AuthApi {
   AuthApiImpl({
@@ -29,7 +30,7 @@ class AuthApiImpl extends BaseApi implements AuthApi {
       _sendCodePath,
       body: {'phone': phoneNumber},
     );
-    _ensureSuccess(response, defaultError: 'Не удалось отправить код');
+    _ensureSuccess(response, defaultCode: AppErrorCode.sendCodeFailed);
   }
 
   @override
@@ -47,7 +48,7 @@ class AuthApiImpl extends BaseApi implements AuthApi {
 
     return _parseSession(
       response,
-      defaultError: 'Не удалось подтвердить код',
+      defaultCode: AppErrorCode.verifyCodeFailed,
     );
   }
 
@@ -57,7 +58,7 @@ class AuthApiImpl extends BaseApi implements AuthApi {
       _resendCodePath,
       body: {'phone': phoneNumber},
     );
-    _ensureSuccess(response, defaultError: 'Не удалось отправить код повторно');
+    _ensureSuccess(response, defaultCode: AppErrorCode.resendCodeFailed);
   }
 
   @override
@@ -69,31 +70,40 @@ class AuthApiImpl extends BaseApi implements AuthApi {
 
     return _parseSession(
       response,
-      defaultError: 'Не удалось обновить сессию',
+      defaultCode: AppErrorCode.refreshSessionFailed,
     );
   }
 
   AuthSession _parseSession(
     BaseApiResponse response, {
-    required String defaultError,
+    required AppErrorCode defaultCode,
   }) {
     final parsed = ApiResponseParser.parseObjectFromResponse<AuthSession>(
       response,
       key: 'session',
       fromJson: AuthSession.fromApiJson,
-      emptyError: defaultError,
+      emptyErrorCode: defaultCode,
     );
 
     if (parsed.isError || parsed.result == null) {
-      throw AuthException(parsed.error ?? defaultError);
+      throw AuthException(
+        parsed.errorCode ?? defaultCode,
+        serverMessage: parsed.serverMessage,
+      );
     }
 
     return parsed.result!;
   }
 
-  void _ensureSuccess(BaseApiResponse response, {required String defaultError}) {
+  void _ensureSuccess(
+    BaseApiResponse response, {
+    required AppErrorCode defaultCode,
+  }) {
     if (response.isError) {
-      throw AuthException(response.error ?? defaultError);
+      throw AuthException(
+        response.errorCode ?? defaultCode,
+        serverMessage: response.serverMessage,
+      );
     }
   }
 }

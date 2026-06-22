@@ -1,6 +1,7 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
 import 'package:base_flutter_proj/auth/model/auth_exception.dart';
 import 'package:base_flutter_proj/auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 
 /// Mock API for local development without backend.
 /// Verification code: [mockVerificationCode].
@@ -11,7 +12,7 @@ class MockAuthApi implements AuthApi {
   Future<void> requestConfirmationCode(String phoneNumber) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
     if (phoneNumber.trim().isEmpty) {
-      throw const AuthException('Укажите номер телефона');
+      throw const AuthException(AppErrorCode.phoneRequired);
     }
   }
 
@@ -22,7 +23,7 @@ class MockAuthApi implements AuthApi {
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
     if (confirmationCode != mockVerificationCode) {
-      throw const AuthException('Неверный код подтверждения');
+      throw const AuthException(AppErrorCode.invalidConfirmationCode);
     }
 
     return AuthSession(
@@ -42,7 +43,7 @@ class MockAuthApi implements AuthApi {
   Future<AuthSession> refreshToken(String refreshToken) async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
     if (!refreshToken.startsWith('mock_refresh_')) {
-      throw const AuthException('Сессия истекла. Войдите снова');
+      throw const AuthException(AppErrorCode.sessionExpired);
     }
 
     final phoneNumber = refreshToken.replaceFirst('mock_refresh_', '');

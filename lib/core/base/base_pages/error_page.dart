@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
 import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
-import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/core/helpers/widget_extensions/simple_padding_extension.dart';
+import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +87,7 @@ class _ErrorPageState extends State<ErrorPage> {
                 isLoading = false;
               });
             },
-      child: const Text('Попробовать снова'),
+      child: Text(S.of(context).tryAgain),
     );
   }
 

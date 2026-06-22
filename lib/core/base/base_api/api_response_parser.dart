@@ -4,35 +4,34 @@ import 'package:base_flutter_proj/core/base/base_api/api_response.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
 import 'package:base_flutter_proj/core/base/base_api/json_schema.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:http/http.dart' as http;
 
 /// Утилитарный класс для парсинга ответа сервера.
-/// Позволяет парсить список сущностей, возвращенных с сервера.
-/// А также одну сущность, возвращенную с сервера.
 class ApiResponseParser {
   static BaseApiResponse parseRawResponse(http.Response response) {
     final statusCode = response.statusCode;
 
     if (statusCode < 200 || statusCode >= 300) {
       return BaseApiResponse(
-        error: 'Не удалось отправить запрос. Попробуйте еще раз',
+        errorCode: AppErrorCode.requestFailed,
         rawData: response.body,
       );
     }
     return _parseBody(response.body);
   }
 
-  /// Парсинг списка объектов из результата выполненного запроса к API.
   static ApiResponse<List<T>> parseListFromResponse<T>(
     BaseApiResponse response, {
     required String key,
     required T Function(Map<String, dynamic>) fromJson,
-    String? emptyError,
+    AppErrorCode emptyErrorCode = AppErrorCode.dataNotFound,
   }) {
     try {
       if (response.isError) {
         return ApiResponse.error(
-          error: response.error!,
+          errorCode: response.errorCode ?? AppErrorCode.requestFailed,
+          serverMessage: response.serverMessage,
           baseApiResponse: response,
         );
       }
@@ -40,7 +39,7 @@ class ApiResponseParser {
       final jsonData = (response.dataJson as Map?)?[key];
       if (jsonData == null) {
         return ApiResponse.error(
-          error: emptyError ?? 'Данные не найдены',
+          errorCode: emptyErrorCode,
           baseApiResponse: response,
         );
       }
@@ -51,30 +50,30 @@ class ApiResponseParser {
     } catch (e, s) {
       CustomLogger.error('Parse list error', e, s);
       return ApiResponse.error(
-        error: 'Произошла ошибка, Попробуйте позже.',
+        errorCode: AppErrorCode.parseError,
         baseApiResponse: response,
       );
     }
   }
 
-  /// Парсинг одного объекта из результата выполненного запроса к API.
   static ApiResponse<T> parseObjectFromResponse<T>(
     BaseApiResponse response, {
     required T Function(Map<String, dynamic>) fromJson,
     String? key,
-    String? emptyError,
+    AppErrorCode emptyErrorCode = AppErrorCode.dataNotFound,
   }) {
     try {
       if (response.isError) {
         return ApiResponse.error(
-          error: response.error!,
+          errorCode: response.errorCode ?? AppErrorCode.requestFailed,
+          serverMessage: response.serverMessage,
           baseApiResponse: response,
         );
       }
 
       if (response.dataJson == null) {
         return ApiResponse.error(
-          error: emptyError ?? 'Данные не найдены',
+          errorCode: emptyErrorCode,
           baseApiResponse: response,
         );
       }
@@ -84,16 +83,16 @@ class ApiResponseParser {
           : response.dataJson;
       if (jsonData == null) {
         return ApiResponse.error(
-          error: emptyError ?? 'Данные не найдены',
+          errorCode: emptyErrorCode,
           baseApiResponse: response,
         );
       }
       final object = fromJson(jsonData as JsonSchema);
       return ApiResponse(baseApiResponse: response, result: object);
     } catch (e, s) {
-      CustomLogger.error('Parse list error', e, s);
+      CustomLogger.error('Parse object error', e, s);
       return ApiResponse.error(
-        error: 'Произошла ошибка, Попробуйте позже.',
+        errorCode: AppErrorCode.parseError,
         baseApiResponse: response,
       );
     }
@@ -101,12 +100,15 @@ class ApiResponseParser {
 
   static BaseApiResponse _parseBody(String? body) {
     if (body == null) {
-      return BaseApiResponse(error: 'Bad Request Format', rawData: body);
+      return BaseApiResponse(
+        errorCode: AppErrorCode.badRequestFormat,
+        rawData: body,
+      );
     }
     final dynamic responseJson = json.decode(body);
     if (responseJson is! Map<String, dynamic>) {
       return BaseApiResponse(
-        error: 'Response is not valid json',
+        errorCode: AppErrorCode.invalidJson,
         rawData: body,
       );
     }
@@ -114,13 +116,13 @@ class ApiResponseParser {
     final metaJson = responseJson['meta'];
     if (metaJson == null) {
       return BaseApiResponse(
-        error: 'Не удалось получить meta часть запроса',
+        errorCode: AppErrorCode.missingMeta,
         rawData: body,
       );
     }
     if (dataJson == null) {
       return BaseApiResponse(
-        error: 'Не удалось получить data часть запроса',
+        errorCode: AppErrorCode.missingData,
         rawData: body,
       );
     }
@@ -129,7 +131,8 @@ class ApiResponseParser {
 
       if (!(apiResponseMeta.success ?? false)) {
         return BaseApiResponse(
-          error: apiResponseMeta.error,
+          errorCode: AppErrorCode.requestFailed,
+          serverMessage: apiResponseMeta.error,
           meta: apiResponseMeta,
           rawData: body,
         );
@@ -142,7 +145,7 @@ class ApiResponseParser {
       );
     } catch (e) {
       return BaseApiResponse(
-        error: 'Не удалось разобрать meta часть запроса',
+        errorCode: AppErrorCode.invalidMeta,
         rawData: body,
       );
     }
