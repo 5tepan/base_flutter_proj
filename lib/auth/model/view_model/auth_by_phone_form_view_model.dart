@@ -15,7 +15,12 @@ class AuthByPhoneFormModel extends FormModel {
 }
 
 class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
-  AuthByPhoneFormNotifier(super.model);
+  final AuthByPhoneFormModel _model = AuthByPhoneFormModel(
+    AuthByPhoneDataModel(),
+  );
+
+  @override
+  AuthByPhoneFormModel get model => _model;
 
   void updatePhone(String value) {
     setField(AuthByPhoneFormModel.phoneField, value);

@@ -1,10 +1,12 @@
 import 'package:base_flutter_proj/core/base/model/models/item_model.dart';
 import 'package:base_flutter_proj/core/base/model/states/item_state.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ItemNotifier<T> extends StateNotifier<ItemState<T>> {
-  final ItemModel<T> model;
-  ItemNotifier(this.model) : super(const ItemState());
+abstract class ItemNotifier<T> extends Notifier<ItemState<T>> {
+  ItemModel<T> get model;
+
+  @override
+  ItemState<T> build() => const ItemState();
 
   Future<void> load() async {
     if (state.isLoading) return;

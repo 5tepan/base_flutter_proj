@@ -20,7 +20,16 @@ class PhoneConfirmationFormModel extends FormModel {
 
 class PhoneConfirmationFormNotifier
     extends FormNotifier<PhoneConfirmationFormModel> {
-  PhoneConfirmationFormNotifier(super.model);
+  PhoneConfirmationFormNotifier(String phoneNumber)
+      : _model = PhoneConfirmationFormModel(
+          phoneNumber: phoneNumber,
+          dataModel: PhoneConfirmationDataModel(),
+        );
+
+  final PhoneConfirmationFormModel _model;
+
+  @override
+  PhoneConfirmationFormModel get model => _model;
 
   void updateCode(String value) {
     setField(PhoneConfirmationFormModel.codeField, value);

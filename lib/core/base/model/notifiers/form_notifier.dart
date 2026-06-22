@@ -1,10 +1,12 @@
 import 'package:base_flutter_proj/core/base/model/models/form_model.dart';
 import 'package:base_flutter_proj/core/base/model/states/form_state.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FormNotifier<T extends FormModel> extends StateNotifier<FormState> {
-  final T model;
-  FormNotifier(this.model) : super(const FormState());
+abstract class FormNotifier<T extends FormModel> extends Notifier<FormState> {
+  T get model;
+
+  @override
+  FormState build() => const FormState();
 
   void setField(String key, dynamic value) {
     model.setField(key, value);

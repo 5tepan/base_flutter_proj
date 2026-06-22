@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:base_flutter_proj/auth/base_auth_form_page.dart';
-import 'package:base_flutter_proj/auth/model/data_model/phone_confirmation_form_data_model.dart';
-import 'package:base_flutter_proj/auth/model/view_model/phone_confirmation_form_view_model.dart';
+import 'package:base_flutter_proj/auth/providers/auth_form_providers.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
-import 'package:base_flutter_proj/core/helpers/mixins/loading_notifier_mixin.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/home/home_route.dart';
@@ -24,27 +22,16 @@ class PhoneConfirmationFormPage extends ConsumerStatefulWidget {
 }
 
 class _PhoneConfirmationFormPageState
-    extends ConsumerState<PhoneConfirmationFormPage>
-    with LoadingNotifierMixin {
+    extends ConsumerState<PhoneConfirmationFormPage> {
   static const int _initialTimerSeconds = 60;
 
   final TextEditingController _codeController = TextEditingController();
-  late final PhoneConfirmationFormModel _model = PhoneConfirmationFormModel(
-    phoneNumber: widget.phoneNumber,
-    dataModel: PhoneConfirmationDataModel(),
-  );
-  late final PhoneConfirmationFormNotifier _notifier =
-      PhoneConfirmationFormNotifier(_model);
   Timer? _timer;
   int _secondsLeft = _initialTimerSeconds;
 
   @override
   void initState() {
     super.initState();
-    bindLoading(
-      notifier: _notifier,
-      selectIsLoading: (state) => state.isSubmitting,
-    );
     _startTimer();
   }
 
@@ -57,6 +44,12 @@ class _PhoneConfirmationFormPageState
 
   @override
   Widget build(BuildContext context) {
+    final formProvider = phoneConfirmationFormProvider(widget.phoneNumber);
+    final isSubmitting = ref.watch(
+      formProvider.select((state) => state.isSubmitting),
+    );
+    final notifier = ref.read(formProvider.notifier);
+
     return BaseAuthFormPage(
       appBarConfig: const AppPageAppBarConfig(needBuildAppBar: false),
       startInfo: _buildStartInfo(),
@@ -65,9 +58,9 @@ class _PhoneConfirmationFormPageState
       keyboardType: TextInputType.number,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: FormValidator.validateCode,
-      onChanged: (value) => _notifier.updateCode(value),
+      onChanged: notifier.updateCode,
       onContinue: _onContinuePressed,
-      isSubmitting: isScreenLoading,
+      isSubmitting: isSubmitting,
       bottomWidget: _buildBottomWidget(context),
       buttonText: 'Продолжить',
     );
@@ -126,14 +119,20 @@ class _PhoneConfirmationFormPageState
   }
 
   Future<void> _onResendPressed() async {
-    await _notifier.resendCode();
+    final notifier = ref.read(
+      phoneConfirmationFormProvider(widget.phoneNumber).notifier,
+    );
+    await notifier.resendCode();
     if (!mounted) return;
     setState(_startTimer);
   }
 
   Future<void> _onContinuePressed(String code) async {
-    _notifier.updateCode(code);
-    await _notifier.submitConfirmation();
+    final notifier = ref.read(
+      phoneConfirmationFormProvider(widget.phoneNumber).notifier,
+    );
+    notifier.updateCode(code);
+    await notifier.submitConfirmation();
     if (!mounted) return;
     ref.read(authStatusProvider.notifier).setAuthorized(true);
     const HomeRoute().go(context);

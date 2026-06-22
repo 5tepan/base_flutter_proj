@@ -1,10 +1,12 @@
 import 'package:base_flutter_proj/core/base/model/models/list_model.dart';
 import 'package:base_flutter_proj/core/base/model/states/list_state.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ListNotifier<T> extends StateNotifier<ListState<T>> {
-  final ListModel<T> model;
-  ListNotifier(this.model) : super(const ListState());
+abstract class ListNotifier<T> extends Notifier<ListState<T>> {
+  ListModel<T> get model;
+
+  @override
+  ListState<T> build() => const ListState();
 
   Future<void> loadNext() async {
     if (state.isLoading || state.isAllLoaded) return;
