@@ -15,6 +15,15 @@ SCD := scripts
 generate:
 	sh $(SCD)/one_time_code_generation.sh
 
+setup-secrets:
+	sh $(SCD)/setup_secrets.sh
+
+run-dev:
+	flutter run --flavor dev --dart-define-from-file=env/dev.env.json
+
+run-prod:
+	flutter run --flavor prod --dart-define-from-file=env/prod.env.json
+
 toAssets:
 	sh $(SCD)/asset_script.sh
 

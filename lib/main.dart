@@ -1,41 +1,11 @@
 import 'dart:async';
 
-import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
+import 'package:base_flutter_proj/core/env_reader.dart';
 import 'package:base_flutter_proj/runner.dart';
 
 void main() async {
   await runZonedGuarded(() async {
-    await run(getConfig());
+    await run(EnvReader.getConfig());
   }, CustomLogger.onError);
-}
-
-Config getConfig() {
-  const flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  switch (flavor) {
-    case 'dev':
-      return Config(
-        apiUrlDomain: 'localhost',
-        apiUrlRelativePath: '/api/',
-        appMetricaApiKey: 'DEV_KEY',
-        flavor: Flavor.dev,
-        showDebugBanner: true,
-        enableFirebase: false,
-        useMockAuthApi: true,
-        localeMode: AppLocaleMode.russianAndEnglish,
-      );
-    case 'prod':
-      return Config(
-        apiUrlDomain: 'api.myapp.com',
-        apiUrlRelativePath: '/api/',
-        appMetricaApiKey: 'PROD_KEY',
-        flavor: Flavor.prod,
-        showDebugBanner: false,
-        enableFirebase: false,
-        useMockAuthApi: false,
-        localeMode: AppLocaleMode.russianOnly,
-      );
-    default:
-      throw Exception('Unknown flavor: $flavor');
-  }
 }

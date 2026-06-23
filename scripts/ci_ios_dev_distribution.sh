@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. "$(dirname "$0")/load_env.sh"
+
 if ! firebase help > /dev/null 2>&1; then
     echo Error: Firebase CLI not installed! Open link for install firebase https://firebase.google.com/docs/cli#install_the_firebase_cli
     exit -1
@@ -10,20 +12,20 @@ if ! firebase projects:list > /dev/null 2>&1; then
     exit -1
 fi
 
-# appId=<Input Firebase App ID here>
-appId=1:293893731044:ios:827ea9f2751bf9442c32f1
+# Задайте FIREBASE_IOS_APP_ID в .env
+appId="${FIREBASE_IOS_APP_ID:-}"
 
-if [ -z ${appId+x} ]; then
-    echo Error: Firebase App ID not found. Input Firebase App ID
-    exit -1
+if [ -z "$appId" ]; then
+    echo "Error: FIREBASE_IOS_APP_ID not set. Add it to .env (see .env.example)"
+    exit 1
 fi
 
 FILE=Dev_ExportOptions.plist
 if [ ! -f "$FILE" ]; then
     echo "Warning: $FILE does not exist. Сommand 'firebase appdistribution:distribute' will not be executed. Export the IPA archive manually and copy the file ExportOptions.plist to Dev_ExportOptions.plist"
-    flutter build ipa -t lib/main.dart --flavor dev
+    flutter build ipa -t lib/main.dart --flavor dev --dart-define-from-file=env/dev.env.json
 else
-    if flutter build ipa -t lib/main.dart --flavor dev --export-options-plist Dev_ExportOptions.plist;  then 
+    if flutter build ipa -t lib/main.dart --flavor dev --export-options-plist Dev_ExportOptions.plist --dart-define-from-file=env/dev.env.json;  then 
         ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ios/Runner/GoogleService-Info.plist -p ios build/ios/archive/Runner.xcarchive/dSYMs
         if firebase appdistribution:distribute build/ios/ipa/base_flutter_proj.ipa --app $appId --groups Base;  then 
             echo "Upload success!"

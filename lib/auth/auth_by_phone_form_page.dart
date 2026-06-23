@@ -4,10 +4,10 @@ import 'package:base_flutter_proj/auth/route/auth_route.dart';
 import 'package:base_flutter_proj/auth/view/privacy_policy_widget.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
+import 'package:base_flutter_proj/core/helpers/phone_input_helper.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthByPhoneFormPage extends ConsumerStatefulWidget {
@@ -45,9 +45,7 @@ class _AuthByPhoneFormPageState extends ConsumerState<AuthByPhoneFormPage> {
       fieldController: _phoneController,
       fieldLabel: l10n.phoneLabel,
       keyboardType: TextInputType.phone,
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[\d+()\-\s]')),
-      ],
+      inputFormatters: PhoneInputHelper.defaultPhoneInputFormatter,
       validator: (value) => FormValidator.validatePhone(
         value,
         emptyError: l10n.enterPhone,

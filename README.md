@@ -38,10 +38,15 @@ make generate
 make intl
 
 # Запуск dev (mock auth, debug banner)
-flutter run --flavor dev
+make setup-secrets   # первый раз: создаёт .env и env/*.json из example
+make run-dev
 
 # Запуск prod
-flutter run --flavor prod
+make run-prod
+
+# Или напрямую:
+flutter run --flavor dev --dart-define-from-file=env/dev.env.json
+flutter run --flavor prod --dart-define-from-file=env/prod.env.json
 ```
 
 ### Mock-авторизация (dev)
@@ -61,7 +66,28 @@ flutter run --flavor prod
 | `enableFirebase` | `false` | `false` |
 | `localeMode` | `russianAndEnglish` | `russianOnly` |
 
-Конфиг: `lib/core/config.dart`, выбор flavor — `lib/main.dart` (`FLAVOR` env).
+Конфиг: `lib/core/config.dart`, значения — из `env/<flavor>.env.json` (`EnvReader`).
+
+### Секреты и окружение
+
+Секреты **не хранятся в репозитории**. Перед первым запуском:
+
+```bash
+make setup-secrets
+```
+
+| Файл | Назначение |
+|------|------------|
+| `.env` | Shell/CI: Team ID, Firebase App IDs |
+| `env/dev.env.json` | Dart `--dart-define-from-file` для dev |
+| `env/prod.env.json` | То же для prod |
+| `secrets/google-services.json` | Firebase Android |
+| `secrets/GoogleService-Info.plist` | Firebase iOS |
+| `ios/Flutter/Secrets.xcconfig` | `DEVELOPMENT_TEAM` для Xcode |
+
+Шаблоны: `.env.example`, `env/*.env.json.example`, `secrets/*.example`.
+
+> Если секреты уже попали в git — **ротируйте ключи** в Firebase Console.
 
 ### Только русский язык
 

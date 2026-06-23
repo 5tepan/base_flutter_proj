@@ -3,6 +3,19 @@
 PROJECT_MAP.md
 docs/
 
+# Secrets and environment
+.env
+.env.*
+!.env.example
+env/*.env.json
+!env/*.env.json.example
+secrets/*
+!secrets/*.example
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/Flutter/Secrets.xcconfig
+!ios/Flutter/Secrets.xcconfig.example
+
 # Miscellaneous
 *.class
 *.log
