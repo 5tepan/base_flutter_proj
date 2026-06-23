@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/push/push_message.dart';
+
 /// События приложения. Эмит через [appEventProvider], подписка через `ref.listen`.
 sealed class AppEvent {
   const AppEvent();
@@ -27,4 +29,11 @@ final class AppReloadRequested extends AppEvent {
 /// Перезапуск карты / тяжёлого виджета.
 final class AppMapRerunRequested extends AppEvent {
   const AppMapRerunRequested();
+}
+
+/// Пуш-уведомление получено и распарсено.
+final class PushReceived extends AppEvent {
+  const PushReceived(this.message);
+
+  final PushMessage message;
 }

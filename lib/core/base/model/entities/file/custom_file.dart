@@ -13,6 +13,7 @@ class CustomFile {
   String? url;
   String? fullSize;
   String? name;
+  @MediaTypeJsonConverter()
   MediaType? type;
   String? mimeType;
   String? originalName;

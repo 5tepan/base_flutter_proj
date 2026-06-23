@@ -1,5 +1,5 @@
-import 'package:base_flutter_proj/auth/route/auth_route.dart';
 import 'package:base_flutter_proj/auth/providers/auth_providers.dart';
+import 'package:base_flutter_proj/auth/route/auth_route.dart';
 import 'package:base_flutter_proj/core/router/route_access_policy.dart';
 import 'package:base_flutter_proj/core/router/router_shell.dart';
 import 'package:base_flutter_proj/home/home_route.dart';

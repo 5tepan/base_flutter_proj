@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:http_parser/http_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 class DateTimeJsonConverter implements JsonConverter<DateTime?, dynamic> {
@@ -111,6 +112,31 @@ class DoubleJsonConverter implements JsonConverter<double?, dynamic> {
 
   @override
   dynamic toJson(double? object) => object;
+}
+
+class MediaTypeJsonConverter implements JsonConverter<MediaType?, dynamic> {
+  const MediaTypeJsonConverter();
+
+  @override
+  MediaType? fromJson(dynamic json) {
+    if (json == null) {
+      return null;
+    }
+    if (json is MediaType) {
+      return json;
+    }
+    if (json is String && json.isNotEmpty) {
+      try {
+        return MediaType.parse(json);
+      } catch (_) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  @override
+  String? toJson(MediaType? object) => object?.mimeType;
 }
 
 class ColorJsonConverter implements JsonConverter<Color?, String?> {

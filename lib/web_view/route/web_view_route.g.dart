@@ -24,7 +24,7 @@ mixin $WebViewRoute on GoRouteData {
     '/web-view',
     queryParams: {
       if (_self.url != null) 'url': _self.url,
-      'title': _self.title,
+      if (_self.title != 'Документ') 'title': _self.title,
     },
   );
 
