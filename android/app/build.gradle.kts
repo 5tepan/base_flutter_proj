@@ -49,7 +49,7 @@ android {
         }
         create("prod") {
             dimension = "app"
-            applicationId = "com.whitetigersoft.ru.baseflutter.prod"
+            applicationId = "com.base.ru.baseflutterproj.prod"
             manifestPlaceholders += mapOf(
                 "app_name" to "Base App",
             )

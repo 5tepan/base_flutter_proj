@@ -66,7 +66,7 @@ flutter run --flavor prod --dart-define-from-file=env/prod.env.json
 | `showDebugBanner` | `true` | `false` |
 | `enableFirebase` | `false` | `false` |
 | `localeMode` | `russianAndEnglish` | `russianOnly` |
-| Android `applicationId` | `com.base.base_flutter_proj` | `com.whitetigersoft.ru.baseflutter.prod` |
+| Android `applicationId` | `com.base.base_flutter_proj` | `com.base.ru.baseflutterproj.prod` |
 | iOS bundle ID | `com.base.base-flutter-proj` | `com.example.baseFlutterProj.prod` |
 
 Конфиг: `lib/core/config.dart` + `lib/core/env_reader.dart`, значения — в `env/<flavor>.env.json`.
