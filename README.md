@@ -6,7 +6,7 @@
 
 | Модуль | Описание |
 |--------|----------|
-| **Auth** | Вход по телефону + SMS-код, secure storage, refresh token, mock/real API |
+| **Auth** | Вход по телефону + SMS-код, маска RU (`PhoneInputHelper`), secure storage, refresh token, mock/real API |
 | **Навигация** | go_router, типобезопасные маршруты, bottom tabs (Home / Shop / Profile) |
 | **Сеть** | `BaseApi` + interceptors, Bearer token, retry при 401 |
 | **State** | Riverpod 3 (`Notifier`, `AsyncNotifier`) |
@@ -22,8 +22,8 @@
 - Flutter SDK ^3.11
 - Riverpod 3, go_router, http + http_interceptor
 - flutter_secure_storage, smart_auth (SMS autofill на Android)
-- firebase_core / firebase_crashlytics (опционально)
-- intl_utils для генерации `S` (локализация)
+- firebase_core / firebase_crashlytics (опционально; ключи через env JSON)
+- bottom_picker, intl — выбор даты/времени в формах
 
 ## Быстрый старт
 
@@ -65,8 +65,10 @@ flutter run --flavor prod --dart-define-from-file=env/prod.env.json
 | `showDebugBanner` | `true` | `false` |
 | `enableFirebase` | `false` | `false` |
 | `localeMode` | `russianAndEnglish` | `russianOnly` |
+| Android `applicationId` | `com.base.base_flutter_proj` | `com.whitetigersoft.ru.baseflutter.prod` |
+| iOS bundle ID | `com.base.base-flutter-proj` | `com.example.baseFlutterProj.prod` |
 
-Конфиг: `lib/core/config.dart`, значения — из `env/<flavor>.env.json` (`EnvReader`).
+Конфиг: `lib/core/config.dart` + `lib/core/env_reader.dart`, значения — в `env/<flavor>.env.json`.
 
 ### Секреты и окружение
 
@@ -91,24 +93,25 @@ make setup-secrets
 
 ### Только русский язык
 
-В `Config` установите `localeMode: AppLocaleMode.russianOnly` — приложение всегда на русском, независимо от языка системы. В prod-сборке в `main.dart` это уже так по умолчанию.
+В `env/<flavor>.env.json` установите `"localeMode": "russianOnly"` — приложение всегда на русском. В prod-шаблоне это значение по умолчанию.
 
 ## Структура `lib/`
 
 ```
 lib/
-├── main.dart, runner.dart      # Точка входа
+├── main.dart, runner.dart      # Точка входа (Config через EnvReader)
 ├── auth/                       # Авторизация (Repository → Api → Storage)
-├── home/, shop/, profile/       # Табы
+├── home/, shop/, profile/      # Табы
 ├── web_view/                   # WebView
 ├── l10n/                       # ARB-файлы (ru, en)
 ├── generated/                  # Сгенерированная локализация (S)
-├── firebase_options.dart       # Плейсхолдер — заменить после flutterfire configure
+├── firebase_options.dart       # Firebase keys из --dart-define-from-file
 └── core/                       # Инфраструктура
     ├── application.dart        # MaterialApp.router
     ├── app_bootstrap.dart      # Firebase + логгер
-    ├── config.dart
-    ├── providers/              # Riverpod (core, api, toast)
+    ├── config.dart, env_reader.dart
+    ├── helpers/                # phone_input_helper, formatters/
+    ├── providers/              # Riverpod (core, api, toast, theme)
     ├── router/                 # GoRouter, shell, access policy
     ├── network/                # CoreApi
     └── base/                   # BaseApi, формы, пагинация, scaffold
@@ -127,12 +130,22 @@ lib/
 
 ## Firebase (опционально)
 
-1. `dart pub global activate flutterfire_cli`
-2. `flutterfire configure` — перезапишет `lib/firebase_options.dart`
-3. Добавить `google-services.json` / `GoogleService-Info.plist`
-4. В `lib/core/config.dart` установить `enableFirebase: true`
+1. Скопировать шаблоны: `make setup-secrets`
+2. Положить `secrets/google-services.json` и `secrets/GoogleService-Info.plist` из Firebase Console
+3. Заполнить Firebase keys в `env/dev.env.json` (см. `env/dev.env.json.example`)
+4. В `.env` — `FIREBASE_ANDROID_APP_ID`, `FIREBASE_IOS_APP_ID` для CI distribution
+5. Установить `"enableFirebase": true` в env JSON
 
 По умолчанию Firebase выключен — шаблон работает без настройки.
+
+**App Distribution (dev):**
+
+```bash
+sh scripts/ci_android_dev_distribution.sh   # APK
+sh scripts/ci_ios_dev_distribution.sh     # IPA (нужен paid Apple Developer + ad-hoc signing)
+```
+
+Package/bundle ID dev должны совпадать с Firebase Console (`com.base.base_flutter_proj` / `com.base.base-flutter-proj`).
 
 ## Локализация
 
@@ -146,7 +159,12 @@ lib/
 
 | Команда | Действие |
 |---------|----------|
+| `make setup-secrets` | secrets → платформы, env/json, Secrets.xcconfig |
+| `make run-dev` | flutter run dev flavor |
+| `make run-prod` | flutter run prod flavor |
 | `make generate` | build_runner (маршруты, JSON) |
 | `make intl` | intl_utils:generate |
 | `make createSplash` | нативный splash screen |
 | `make toAssets` | генерация каталога ассетов |
+
+Подробная карта проекта: `PROJECT_MAP.md` (локально, в `.gitignore`).
