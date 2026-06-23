@@ -145,6 +145,57 @@ abstract final class AppShadows {
   ];
 }
 
+/// Общие стили для табов таб бара
+class FulfillmentSegmentTabsStyle {
+  final double pillBorderRadius;
+  final double tabGap;
+  final double? tabHeight;
+  final double tabWidth;
+  final EdgeInsetsGeometry contentPadding;
+  final double titleSubtitleSpacing;
+  final Color selectedFillColor;
+  final Color unselectedFillColor;
+  final Color selectedBorderColor;
+  final Color unselectedBorderColor;
+  final double borderWidth;
+  final TextStyle? titleStyle;
+  final TextStyle? subtitleStyle;
+  final InteractiveInkFeatureFactory? splashFactory;
+  final WidgetStateProperty<Color?>? overlayColor;
+
+  const FulfillmentSegmentTabsStyle({
+    this.pillBorderRadius = 20,
+    this.tabGap = 4,
+    this.tabHeight,
+    this.tabWidth = double.infinity,
+    this.contentPadding = const EdgeInsets.all(9),
+    this.titleSubtitleSpacing = 2,
+    this.selectedFillColor = AppColors.lightBlue,
+    this.unselectedFillColor = AppColors.white,
+    this.selectedBorderColor = AppColors.black,
+    this.unselectedBorderColor = AppColors.midGrey,
+    this.borderWidth = 1,
+    this.titleStyle,
+    this.subtitleStyle,
+    this.overlayColor,
+    this.splashFactory = NoSplash.splashFactory,
+  });
+
+  TextStyle resolvedTitleStyle({TextStyle? tabTitleStyle}) {
+    return tabTitleStyle ?? titleStyle ?? AppTextStyle.body;
+  }
+
+  TextStyle resolvedSubtitleStyle({TextStyle? tabSubtitleStyle}) {
+    return tabSubtitleStyle ??
+        subtitleStyle ??
+        AppTextStyle.small2.copyWith(color: AppColors.darkGrey);
+  }
+
+  WidgetStateProperty<Color?> get resolvedOverlayColor {
+    return overlayColor ?? WidgetStateProperty.all<Color?>(Colors.transparent);
+  }
+}
+
 /// Класс для формирования "визуальной темы" приложения
 /// - внешний вид текстов
 /// - внешний вид кнопок

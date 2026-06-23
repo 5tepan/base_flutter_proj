@@ -4,8 +4,8 @@ import 'package:base_flutter_proj/core/debug/debug_banner_mixin.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/providers/app_event_bindings.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
+import 'package:base_flutter_proj/core/providers/theme_provider.dart';
 import 'package:base_flutter_proj/core/router/router_provider.dart';
-import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +21,12 @@ class Application extends ConsumerWidget with DebugBannerMixin {
     final router = ref.watch(goRouterProvider);
     final config = ref.watch(configProvider);
     final packageInfo = ref.watch(packageInfoProvider);
+    final themeBuilder = ref.watch(themeBuilderProvider);
     final botToastBuilder = BotToastInit();
 
     final app = MaterialApp.router(
       title: 'Base Flutter',
-      theme: ThemeBuilder().buildThemeData(),
+      theme: themeBuilder.buildThemeData(),
       routerConfig: router,
       localizationsDelegates: const [
         S.delegate,

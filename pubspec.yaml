@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^2.2.3
   cross_file: ^0.3.4+2
   cupertino_icons: ^1.0.8
+  bottom_picker: ^4.1.1
 
   # Auth
   flutter_secure_storage: ^9.2.4
