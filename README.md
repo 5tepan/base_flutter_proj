@@ -13,6 +13,7 @@
 | **UI** | Material 3, `ThemeBuilder`, формы, пагинация (`PaginatedNotifier`) |
 | **Локализация** | ru / en через `intl_utils` (`lib/l10n/`, `make intl`) |
 | **Отладка** | Talker, HTTP-логи, debug banner (dev), опциональный Firebase Crashlytics |
+| **Push** | FCM (`firebase_messaging`): типы в `PushType`, топики в `PushTopic`, обработчики в модулях фич |
 | **WebView** | Экран для политики конфиденциальности и документов |
 
 Заглушки: **Home/Profile** — `PlaceholderPage`. **Shop** — эталонный экран списка с `PaginatedListView`.
@@ -22,7 +23,7 @@
 - Flutter SDK ^3.11
 - Riverpod 3, go_router, http + http_interceptor
 - flutter_secure_storage, smart_auth (SMS autofill на Android)
-- firebase_core / firebase_crashlytics (опционально; ключи через env JSON)
+- firebase_core / firebase_crashlytics / firebase_messaging (опционально; ключи через env JSON)
 - bottom_picker, intl — выбор даты/времени в формах
 
 ## Быстрый старт
@@ -110,6 +111,7 @@ lib/
     ├── application.dart        # MaterialApp.router
     ├── app_bootstrap.dart      # Firebase + логгер
     ├── config.dart, env_reader.dart
+    ├── push/                   # FCM: PushType, PushTopic, dispatcher, service
     ├── helpers/                # phone_input_helper, formatters/
     ├── providers/              # Riverpod (core, api, toast, theme)
     ├── router/                 # GoRouter, shell, access policy
@@ -128,6 +130,35 @@ lib/
 
 Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder`.
 
+## Push-уведомления (опционально)
+
+Требует `"enableFirebase": true` в `env/*.env.json` и настроенных Firebase-файлах.
+
+**Каталог (единое место для всех фич):**
+
+- `lib/core/push/push_types.dart` — числовые типы (`PushType.shopOrderUpdate = 1`)
+- `lib/core/push/push_topics.dart` — FCM topics (`PushTopic.shopPromotions`)
+
+**Обработчики в фиче** — `lib/<feature>/push/<feature>_push_module.dart`:
+
+```dart
+PushHandlerModule(
+  typeHandlers: {
+    PushType.shopOrderUpdate: (message, delivery) { ... },
+  },
+  topicHandlers: {
+    PushTopic.shopPromotions: (message, delivery) { ... },
+  },
+)
+```
+
+Подключение модуля — в `pushHandlerModulesProvider` (`lib/core/push/push_providers.dart`).
+
+Подписка на topic: `ref.read(pushTopicManagerProvider).subscribe(PushTopic.shopPromotions)`.
+
+Парсер поддерживает `type` как `int` или `'1'`, на корне или внутри `data`.  
+Эталон: `lib/shop/push/shop_push_module.dart`.
+
 ## Firebase (опционально)
 
 1. Скопировать шаблоны: `make setup-secrets`
@@ -136,7 +167,7 @@ lib/
 4. В `.env` — `FIREBASE_ANDROID_APP_ID`, `FIREBASE_IOS_APP_ID` для CI distribution
 5. Установить `"enableFirebase": true` в env JSON
 
-По умолчанию Firebase выключен — шаблон работает без настройки.
+По умолчанию Firebase выключен — шаблон работает без настройки. Push и Crashlytics активируются вместе с Firebase.
 
 **App Distribution (dev):**
 
