@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
     storageBucket: String.fromEnvironment('FIREBASE_STORAGE_BUCKET'),
     iosBundleId: String.fromEnvironment(
       'FIREBASE_IOS_BUNDLE_ID',
-      defaultValue: 'com.example.baseFlutterProj',
+      defaultValue: 'com.base.base-flutter-proj',
     ),
   );
 
