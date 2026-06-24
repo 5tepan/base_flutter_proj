@@ -1,15 +1,15 @@
 class AuthSession {
-  final String accessToken;
-  final String refreshToken;
-  final String phoneNumber;
-  final DateTime? expiresAt;
-
   const AuthSession({
     required this.accessToken,
     required this.refreshToken,
     required this.phoneNumber,
     this.expiresAt,
   });
+
+  final String accessToken;
+  final String refreshToken;
+  final String phoneNumber;
+  final DateTime? expiresAt;
 
   bool get isExpired {
     final expiresAt = this.expiresAt;
@@ -41,9 +41,12 @@ class AuthSession {
 
   factory AuthSession.fromApiJson(Map<String, dynamic> json) {
     return AuthSession(
-      accessToken: json['access_token'] as String? ?? json['accessToken'] as String,
-      refreshToken: json['refresh_token'] as String? ?? json['refreshToken'] as String,
-      phoneNumber: json['phone_number'] as String? ?? json['phoneNumber'] as String,
+      accessToken:
+          json['access_token'] as String? ?? json['accessToken'] as String,
+      refreshToken:
+          json['refresh_token'] as String? ?? json['refreshToken'] as String,
+      phoneNumber:
+          json['phone_number'] as String? ?? json['phoneNumber'] as String,
       expiresAt: _parseExpiresAt(json),
     );
   }

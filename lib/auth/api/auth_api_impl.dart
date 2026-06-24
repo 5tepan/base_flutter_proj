@@ -1,23 +1,17 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
-import 'package:base_flutter_proj/auth/model/auth_exception.dart';
-import 'package:base_flutter_proj/auth/model/auth_session.dart';
-import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/errors/app_exception.dart';
+import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
 import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
-import 'package:base_flutter_proj/core/base/base_api/base_api.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
+import 'package:base_flutter_proj/core/network/public_api.dart';
 
-class AuthApiImpl extends BaseApi implements AuthApi {
+class AuthApiImpl extends PublicApi implements AuthApi {
   AuthApiImpl({
     required super.config,
     required super.packageInfo,
     required super.checkConnection,
-    required AuthTokenHolder tokenHolder,
-    required Future<bool> Function() onRefreshToken,
-  }) : super(
-          tokenHolder: tokenHolder,
-          onRefreshToken: onRefreshToken,
-        );
+  });
 
   static const _sendCodePath = 'auth/send-code';
   static const _verifyCodePath = 'auth/verify-code';
@@ -86,7 +80,7 @@ class AuthApiImpl extends BaseApi implements AuthApi {
     );
 
     if (parsed.isError || parsed.result == null) {
-      throw AuthException(
+      throw AppException(
         parsed.errorCode ?? defaultCode,
         serverMessage: parsed.serverMessage,
       );
@@ -100,7 +94,7 @@ class AuthApiImpl extends BaseApi implements AuthApi {
     required AppErrorCode defaultCode,
   }) {
     if (response.isError) {
-      throw AuthException(
+      throw AppException(
         response.errorCode ?? defaultCode,
         serverMessage: response.serverMessage,
       );

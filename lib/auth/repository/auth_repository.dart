@@ -1,8 +1,8 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
-import 'package:base_flutter_proj/auth/model/auth_exception.dart';
-import 'package:base_flutter_proj/auth/model/auth_session.dart';
-import 'package:base_flutter_proj/auth/storage/auth_session_storage.dart';
-import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/errors/app_exception.dart';
+import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/base/base_auth/storage/auth_session_storage.dart';
+import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
 
 class AuthRepository {
   AuthRepository({
@@ -63,7 +63,7 @@ class AuthRepository {
       final session = await _api.refreshToken(refreshToken);
       await saveSession(session);
       return true;
-    } on AuthException {
+    } on AppException {
       await signOut();
       return false;
     } catch (_) {

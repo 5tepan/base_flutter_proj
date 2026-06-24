@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
 
 abstract class AuthApi {
   Future<void> requestConfirmationCode(String phoneNumber);

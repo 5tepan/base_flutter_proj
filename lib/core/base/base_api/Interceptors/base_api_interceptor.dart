@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 

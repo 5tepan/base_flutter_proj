@@ -1,7 +1,6 @@
-import 'package:base_flutter_proj/auth/model/auth_exception.dart';
+import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/auth/providers/auth_providers.dart';
 import 'package:base_flutter_proj/auth/repository/auth_repository.dart';
-import 'package:base_flutter_proj/auth/services/sms_autofill_service.dart';
 import 'package:base_flutter_proj/core/base/model/models/form_model.dart';
 import 'package:base_flutter_proj/core/base/model/notifiers/form_notifier.dart';
 import 'package:base_flutter_proj/core/base/model/states/form_state.dart';
@@ -22,10 +21,6 @@ final phoneConfirmationFormProvider = NotifierProvider.family<
     String>(
   PhoneConfirmationFormNotifier.new,
 );
-
-final smsAutofillServiceProvider = Provider<SmsAutofillService>((ref) {
-  return SmsAutofillService();
-});
 
 class AuthByPhoneFormModel extends FormModel {
   static const String phoneField = 'phone_number';
@@ -60,8 +55,8 @@ class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
       await runSubmit((model) async {
         await _repository.requestConfirmationCode(model.phoneNumber);
       });
-    } on AuthException catch (error) {
-      _toast.showError(ErrorLocalizer.fromAuthException(error));
+    } on AppException catch (error) {
+      _toast.showError(ErrorLocalizer.fromAppException(error));
     } catch (error) {
       _toast.showError(S.current.authSendCodeError);
     }
@@ -114,8 +109,8 @@ class PhoneConfirmationFormNotifier
         await ref.read(authSessionProvider.notifier).signIn(session);
       });
       return true;
-    } on AuthException catch (error) {
-      _toast.showError(ErrorLocalizer.fromAuthException(error));
+    } on AppException catch (error) {
+      _toast.showError(ErrorLocalizer.fromAppException(error));
       return false;
     } catch (error) {
       _toast.showError(S.current.authConfirmCodeError);
@@ -128,8 +123,8 @@ class PhoneConfirmationFormNotifier
       await runSubmit((model) async {
         await _repository.resendCode(model.phoneNumber);
       });
-    } on AuthException catch (error) {
-      _toast.showError(ErrorLocalizer.fromAuthException(error));
+    } on AppException catch (error) {
+      _toast.showError(ErrorLocalizer.fromAppException(error));
     } catch (error) {
       _toast.showError(S.current.authResendCodeError);
     }

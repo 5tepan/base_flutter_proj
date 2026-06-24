@@ -1,6 +1,6 @@
-import 'package:base_flutter_proj/auth/model/auth_exception.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
+import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 
 /// Маппинг [AppErrorCode] → локализованная строка.
@@ -47,7 +47,7 @@ abstract final class ErrorLocalizer {
     };
   }
 
-  static String fromAuthException(AuthException error) {
+  static String fromAppException(AppException error) {
     return message(error.code, serverMessage: error.serverMessage);
   }
 

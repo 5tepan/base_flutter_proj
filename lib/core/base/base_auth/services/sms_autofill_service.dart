@@ -2,6 +2,7 @@ import 'package:base_flutter_proj/core/helpers/app_platform.dart';
 import 'package:flutter/foundation.dart';
 import 'package:smart_auth/smart_auth.dart';
 
+/// SMS User Consent API (Android) для автоподстановки кода.
 class SmsAutofillService {
   SmsAutofillService({SmartAuth? smartAuth})
       : _smartAuth = smartAuth ?? SmartAuth.instance;

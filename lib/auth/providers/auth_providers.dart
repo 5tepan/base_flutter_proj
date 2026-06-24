@@ -1,25 +1,11 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
 import 'package:base_flutter_proj/auth/api/auth_api_impl.dart';
 import 'package:base_flutter_proj/auth/api/mock_auth_api.dart';
-import 'package:base_flutter_proj/auth/model/auth_session.dart';
 import 'package:base_flutter_proj/auth/repository/auth_repository.dart';
-import 'package:base_flutter_proj/auth/storage/auth_session_storage.dart';
-import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/base/base_auth/providers/auth_infra_providers.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-final authTokenHolderProvider = Provider<AuthTokenHolder>((ref) {
-  return AuthTokenHolder();
-});
-
-final authSessionStorageProvider = Provider<AuthSessionStorage>((ref) {
-  return const AuthSessionStorage(
-    FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    ),
-  );
-});
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final config = ref.watch(configProvider);
@@ -36,8 +22,6 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
       config: config,
       packageInfo: ref.watch(packageInfoProvider),
       checkConnection: () => ref.read(connectivityCheckProvider),
-      tokenHolder: tokenHolder,
-      onRefreshToken: () => repository.refreshTokens(),
     );
   }
 

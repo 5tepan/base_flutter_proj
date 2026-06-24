@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:base_flutter_proj/auth/base_auth_form_page.dart';
 import 'package:base_flutter_proj/auth/providers/auth_form_providers.dart';
-import 'package:base_flutter_proj/auth/services/sms_autofill_service.dart';
+import 'package:base_flutter_proj/core/base/base_auth/providers/auth_infra_providers.dart';
+import 'package:base_flutter_proj/core/base/base_auth/services/sms_autofill_service.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';

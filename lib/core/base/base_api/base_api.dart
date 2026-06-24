@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:base_flutter_proj/auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
 import 'package:base_flutter_proj/core/base/base_api/Interceptors/base_api_interceptor.dart';
 import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
 import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';

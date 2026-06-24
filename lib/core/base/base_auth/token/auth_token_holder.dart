@@ -1,6 +1,6 @@
-import 'package:base_flutter_proj/auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
 
-/// In-memory holder for auth tokens used by [BaseApiInterceptor].
+/// In-memory holder для токенов. Используется [BaseApiInterceptor].
 class AuthTokenHolder {
   AuthSession? _session;
 

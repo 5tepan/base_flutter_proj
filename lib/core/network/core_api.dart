@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/core/base/base_api/base_api.dart';
 
-/// Базовый HTTP-клиент для feature API, наследующих [BaseApi].
+/// HTTP-клиент для защищённых эндпоинтов с Authorization и refresh token.
 class CoreApi extends BaseApi {
   CoreApi({
     required super.config,

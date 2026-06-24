@@ -115,7 +115,7 @@ lib/
     ├── helpers/                # phone_input_helper, formatters/
     ├── providers/              # Riverpod (core, api, toast, theme)
     ├── router/                 # GoRouter, shell, access policy
-    ├── network/                # CoreApi
+    ├── network/                # PublicApi, CoreApi
     └── base/                   # BaseApi, формы, пагинация, scaffold
 ```
 
@@ -159,7 +159,7 @@ AppPageScaffold(
 
 ## Добавление feature API
 
-1. Создать `*Api` extends `BaseApi` (или `CoreApi`) с методами эндпоинтов
+1. Создать `*Api` extends `PublicApi` (guest) или `CoreApi` (с токеном) с методами эндпоинтов
 2. Создать `*Repository` — бизнес-логика, маппинг ошибок
 3. Зарегистрировать провайдеры (см. `lib/auth/providers/` и `lib/core/providers/api_providers.dart`)
 4. UI → `Notifier` → `Repository` → `Api`

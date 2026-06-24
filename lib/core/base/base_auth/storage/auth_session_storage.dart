@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:base_flutter_proj/auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+/// Secure storage для [AuthSession].
 class AuthSessionStorage {
   static const _sessionKey = 'auth_session';
 
