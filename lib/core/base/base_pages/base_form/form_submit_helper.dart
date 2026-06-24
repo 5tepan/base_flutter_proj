@@ -1,19 +1,14 @@
 import 'package:base_flutter_proj/core/base/base_pages/base_form/app_form_controller.dart';
-import 'package:base_flutter_proj/core/providers/loading_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/widgets.dart';
 
+/// Валидация и submit формы. Loading — через `isSubmitting` на странице
+/// (например `AppPageScaffold.isLoading`), не через глобальный provider.
 Future<void> submitFormWithValidation({
   required AppFormController formController,
   required Future<void> Function() onSubmit,
-  BuildContext? context,
-  WidgetRef? ref,
-  bool hideContentOnLoading = false,
-  bool saveForm = true,
-  bool unfocusOnSubmit = true,
   VoidCallback? onInvalidForm,
 }) async {
-  if (formController.isSubmitting || (context != null && !context.mounted)) {
+  if (formController.isSubmitting) {
     return;
   }
 
@@ -27,20 +22,12 @@ Future<void> submitFormWithValidation({
     return;
   }
 
-  if (saveForm) {
-    formController.save();
-  }
-  if (unfocusOnSubmit) {
-    FocusManager.instance.primaryFocus?.unfocus();
-  }
-
-  final loading = ref?.read(loadingProvider.notifier);
-  loading?.show(hideContent: hideContentOnLoading);
+  formController.save();
+  FocusManager.instance.primaryFocus?.unfocus();
 
   try {
     await onSubmit();
   } finally {
-    loading?.hide();
     formController.isSubmitting = false;
   }
 }

@@ -119,6 +119,44 @@ lib/
     └── base/                   # BaseApi, формы, пагинация, scaffold
 ```
 
+## Каркас страницы (`AppPageScaffold`)
+
+Композиция из модулей в `lib/core/base/base_pages/`:
+
+| Виджет | Назначение |
+|--------|------------|
+| `AppPageScaffold` | Scaffold + PopScope + system UI |
+| `AppDefaultAppBar` | Стандартный AppBar |
+| `AppPageBody` | SafeArea, padding, dismiss keyboard |
+| `AppLoadingOverlay` | Блокирующий loading |
+
+**Когда использовать `AppPageScaffold`:** обычная страница со стандартным AppBar и простым body (список, форма, WebView).
+
+**Приоритет AppBar:**
+
+1. `appBarConfig.needBuildAppBar: false` — без AppBar
+2. `appBar:` — готовый виджет
+3. `appBarBuilder:` — кастомная сборка с `AppPageAppBarLayout` (back, canPop)
+4. По умолчанию — `AppDefaultAppBar` из `appBarConfig`
+
+**Сложные экраны** (SliverAppBar, карта, nested scroll): чистый `Scaffold` + при необходимости только `AppPageBody` / `AppLoadingOverlay`.
+
+**Слоты Scaffold:** `floatingActionButton`, `bottomNavigationBar`, `bottomSheet`, `drawer`, `extendBody`, `extendBodyBehindAppBar` и др.
+
+```dart
+// Кастомный AppBar без раздувания конфига
+AppPageScaffold(
+  appBarBuilder: (context, layout) => AppBar(
+    title: const Text('Заказ'),
+    leading: layout.showBackButton
+        ? BackButton(onPressed: layout.onBackPressed)
+        : null,
+  ),
+  floatingActionButton: FloatingActionButton(...),
+  body: ...,
+)
+```
+
 ## Добавление feature API
 
 1. Создать `*Api` extends `BaseApi` (или `CoreApi`) с методами эндпоинтов
@@ -126,9 +164,15 @@ lib/
 3. Зарегистрировать провайдеры (см. `lib/auth/providers/` и `lib/core/providers/api_providers.dart`)
 4. UI → `Notifier` → `Repository` → `Api`
 
-Для списков с подгрузкой — наследуйте `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
+Для списков с подгрузкой — `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
+
+Для сетки — `PaginatedGridView` + тот же notifier.
 
 Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder`.
+
+Формы: loading через `isSubmitting` на странице (`AppPageScaffold.isLoading`).
+
+Полноэкранные ошибки — `AppErrorPage` (`AppErrorCode`).
 
 ## Push-уведомления (опционально)
 
@@ -198,4 +242,4 @@ Package/bundle ID dev должны совпадать с Firebase Console (`com.
 | `make createSplash` | нативный splash screen |
 | `make toAssets` | генерация каталога ассетов |
 
-Подробная карта проекта: `PROJECT_MAP.md` (локально, в `.gitignore`).
+Подробная карта проекта: [`docs/PROJECT_MAP.md`](docs/PROJECT_MAP.md).

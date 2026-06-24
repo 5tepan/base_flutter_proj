@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/empty_state_widget.dart';
-import 'package:base_flutter_proj/core/components/paginated_list_view.dart';
+import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_view.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:base_flutter_proj/shop/model/product.dart';

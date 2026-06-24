@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:base_flutter_proj/core/base/base_pages/base_form/app_form_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -28,8 +26,6 @@ class AppForm extends StatefulWidget {
 }
 
 class _AppFormState extends State<AppForm> {
-  double _maxPageHeight = 0;
-
   @override
   void initState() {
     super.initState();
@@ -79,15 +75,13 @@ class _AppFormState extends State<AppForm> {
   Widget _buildFullScreenSizeFormBody(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        _maxPageHeight = max(constraints.maxHeight, _maxPageHeight);
-
         return SingleChildScrollView(
           controller: widget.controller.scrollController,
           child: SizedBox(
             width: constraints.maxWidth,
-            height: _maxPageHeight,
+            height: constraints.maxHeight,
             child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: _maxPageHeight),
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: _wrapFormChild(widget.child),
             ),
           ),
