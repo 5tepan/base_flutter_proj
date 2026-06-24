@@ -6,7 +6,6 @@ analyzer:
     - build/**
     - "**/*.g.dart"
     - lib/generated/**
-    - lib/components/formatter/**
 
   errors:
     # Повышаем только важные для стабильности/архитектуры

@@ -8,7 +8,7 @@
 |--------|----------|
 | **Auth** | Вход по телефону + SMS-код, маска RU (`PhoneInputHelper`), secure storage, refresh token, mock/real API |
 | **Навигация** | go_router, типобезопасные маршруты, bottom tabs (Home / Shop / Profile) |
-| **Сеть** | `BaseApi` + interceptors, Bearer token, retry при 401 |
+| **Сеть** | `PublicApi` / `CoreApi` + interceptors, Bearer token, retry при 401 |
 | **State** | Riverpod 3 (`Notifier`, `AsyncNotifier`) |
 | **UI** | Material 3, `ThemeBuilder`, формы, пагинация (`PaginatedNotifier`) |
 | **Локализация** | ru / en через `intl_utils` (`lib/l10n/`, `make intl`) |
@@ -161,7 +161,7 @@ AppPageScaffold(
 
 1. Создать `*Api` extends `PublicApi` (guest) или `CoreApi` (с токеном) с методами эндпоинтов
 2. Создать `*Repository` — бизнес-логика, маппинг ошибок
-3. Зарегистрировать провайдеры (см. `lib/auth/providers/` и `lib/core/providers/api_providers.dart`)
+3. Зарегистрировать провайдеры (см. `lib/auth/providers/` — `authApiProvider` использует `publicApiProvider`)
 4. UI → `Notifier` → `Repository` → `Api`
 
 Для списков с подгрузкой — `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).

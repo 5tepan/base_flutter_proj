@@ -77,5 +77,8 @@
   "validationPasswordMismatch": "passwords must match",
   "shopTitle": "Shop",
   "shopEmptyTitle": "Nothing here yet",
-  "shopEmptySubtitle": "Products will appear here"
+  "shopEmptySubtitle": "Products will appear here",
+  "navHome": "Home",
+  "navShop": "Shop",
+  "navProfile": "Profile"
 }

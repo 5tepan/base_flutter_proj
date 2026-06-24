@@ -114,6 +114,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Ошибка загрузки данных",
     ),
     "inDevelopment": MessageLookupByLibrary.simpleMessage("В разработке"),
+    "navHome": MessageLookupByLibrary.simpleMessage("Главная"),
+    "navProfile": MessageLookupByLibrary.simpleMessage("Профиль"),
+    "navShop": MessageLookupByLibrary.simpleMessage("Магазин"),
     "noInternet": MessageLookupByLibrary.simpleMessage(
       "Вы не в сети. Проверьте подключение к Интернету.",
     ),

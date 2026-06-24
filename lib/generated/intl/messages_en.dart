@@ -110,6 +110,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Failed to load data",
     ),
     "inDevelopment": MessageLookupByLibrary.simpleMessage("In development"),
+    "navHome": MessageLookupByLibrary.simpleMessage("Home"),
+    "navProfile": MessageLookupByLibrary.simpleMessage("Profile"),
+    "navShop": MessageLookupByLibrary.simpleMessage("Shop"),
     "noInternet": MessageLookupByLibrary.simpleMessage(
       "You are offline. Check your internet connection.",
     ),

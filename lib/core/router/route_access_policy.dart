@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/auth/route/auth_route.dart';
-import 'package:base_flutter_proj/home/home_route.dart';
+import 'package:base_flutter_proj/home/route/home_route.dart';
 import 'package:base_flutter_proj/profile/route/profile_route.dart';
 import 'package:base_flutter_proj/shop/route/shop_route.dart';
 import 'package:base_flutter_proj/web_view/route/web_view_route.dart';

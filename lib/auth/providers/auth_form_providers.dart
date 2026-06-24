@@ -1,9 +1,10 @@
-import 'package:base_flutter_proj/core/errors/app_exception.dart';
+import 'package:base_flutter_proj/auth/model/auth_by_phone_form_model.dart';
+import 'package:base_flutter_proj/auth/model/phone_confirmation_form_model.dart';
 import 'package:base_flutter_proj/auth/providers/auth_providers.dart';
 import 'package:base_flutter_proj/auth/repository/auth_repository.dart';
-import 'package:base_flutter_proj/core/base/model/models/form_model.dart';
 import 'package:base_flutter_proj/core/base/model/notifiers/form_notifier.dart';
 import 'package:base_flutter_proj/core/base/model/states/form_state.dart';
+import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/core/l10n/error_localizer.dart';
 import 'package:base_flutter_proj/core/providers/toast_service_provider.dart';
 import 'package:base_flutter_proj/core/services/toast_service.dart';
@@ -21,14 +22,6 @@ final phoneConfirmationFormProvider = NotifierProvider.family<
     String>(
   PhoneConfirmationFormNotifier.new,
 );
-
-class AuthByPhoneFormModel extends FormModel {
-  static const String phoneField = 'phone_number';
-
-  String get phoneNumber => getField<String>(phoneField) ?? '';
-
-  set phoneNumber(String value) => setField(phoneField, value);
-}
 
 class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
   final AuthByPhoneFormModel _model = AuthByPhoneFormModel();
@@ -61,18 +54,6 @@ class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
       _toast.showError(S.current.authSendCodeError);
     }
   }
-}
-
-class PhoneConfirmationFormModel extends FormModel {
-  static const String codeField = 'confirmation_code';
-
-  PhoneConfirmationFormModel(this.phoneNumber);
-
-  final String phoneNumber;
-
-  String get confirmationCode => getField<String>(codeField) ?? '';
-
-  set confirmationCode(String value) => setField(codeField, value);
 }
 
 class PhoneConfirmationFormNotifier

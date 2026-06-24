@@ -77,5 +77,8 @@
   "validationPasswordMismatch": "пароль должен совпадать",
   "shopTitle": "Магазин",
   "shopEmptyTitle": "Пока пусто",
-  "shopEmptySubtitle": "Товары появятся здесь"
+  "shopEmptySubtitle": "Товары появятся здесь",
+  "navHome": "Главная",
+  "navShop": "Магазин",
+  "navProfile": "Профиль"
 }

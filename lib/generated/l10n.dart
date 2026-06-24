@@ -603,6 +603,21 @@ class S {
       args: [],
     );
   }
+
+  /// `Главная`
+  String get navHome {
+    return Intl.message('Главная', name: 'navHome', desc: '', args: []);
+  }
+
+  /// `Магазин`
+  String get navShop {
+    return Intl.message('Магазин', name: 'navShop', desc: '', args: []);
+  }
+
+  /// `Профиль`
+  String get navProfile {
+    return Intl.message('Профиль', name: 'navProfile', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

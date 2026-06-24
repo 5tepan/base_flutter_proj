@@ -1,8 +1,8 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
-import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
 import 'package:base_flutter_proj/core/base/base_auth/storage/auth_session_storage.dart';
 import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/errors/app_exception.dart';
 
 class AuthRepository {
   AuthRepository({
