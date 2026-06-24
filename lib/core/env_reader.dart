@@ -28,6 +28,7 @@ abstract final class EnvReader {
       showDebugBanner: _showDebugBanner(defaultValue: true),
       enableFirebase: _enableFirebase,
       useMockAuthApi: _useMockAuthApi(defaultValue: true),
+      useMockShopApi: _useMockShopApi(defaultValue: true),
       localeMode: _localeMode(
         const String.fromEnvironment(
           'LOCALE_MODE',
@@ -54,6 +55,7 @@ abstract final class EnvReader {
       showDebugBanner: _showDebugBanner(),
       enableFirebase: _enableFirebase,
       useMockAuthApi: _useMockAuthApi(),
+      useMockShopApi: _useMockShopApi(),
       localeMode: _localeMode(
         const String.fromEnvironment(
           'LOCALE_MODE',
@@ -79,6 +81,11 @@ abstract final class EnvReader {
 
   static bool _useMockAuthApi({bool defaultValue = false}) => _parseBool(
         const String.fromEnvironment('USE_MOCK_AUTH_API'),
+        defaultValue: defaultValue,
+      );
+
+  static bool _useMockShopApi({bool defaultValue = false}) => _parseBool(
+        const String.fromEnvironment('USE_MOCK_SHOP_API'),
         defaultValue: defaultValue,
       );
 

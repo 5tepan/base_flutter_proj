@@ -35,6 +35,7 @@ class Config {
   final bool showDebugBanner;
   final bool enableFirebase;
   final bool useMockAuthApi;
+  final bool useMockShopApi;
   final AppNavigationMode defaultNavigationMode;
   final AppLocaleMode localeMode;
   final Flavor flavor;
@@ -53,6 +54,7 @@ class Config {
     this.showDebugBanner = true,
     this.enableFirebase = false,
     this.useMockAuthApi = true,
+    this.useMockShopApi = true,
     this.defaultNavigationMode = AppNavigationMode.bottom,
     this.localeMode = AppLocaleMode.russianAndEnglish,
   });

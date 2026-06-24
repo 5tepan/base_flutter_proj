@@ -16,7 +16,7 @@
 | **Push** | FCM (`firebase_messaging`): типы в `PushType`, топики в `PushTopic`, обработчики в модулях фич |
 | **WebView** | Экран для политики конфиденциальности и документов |
 
-Заглушки: **Home/Profile** — `PlaceholderPage`. **Shop** — эталонный экран списка с `PaginatedListView`.
+Заглушки: **Home/Profile** — `PlaceholderPage`. **Shop** — эталон: список/сетка, Repository, деталка товара.
 
 ## Стек
 
@@ -63,6 +63,7 @@ flutter run --flavor prod --dart-define-from-file=env/prod.env.json
 |----------|-----|------|
 | `apiUrlDomain` | localhost | api.myapp.com |
 | `useMockAuthApi` | `true` | `false` |
+| `useMockShopApi` | `true` | `false` |
 | `showDebugBanner` | `true` | `false` |
 | `enableFirebase` | `false` | `false` |
 | `localeMode` | `russianAndEnglish` | `russianOnly` |
@@ -102,7 +103,7 @@ make setup-secrets
 lib/
 ├── main.dart, runner.dart      # Точка входа (Config через EnvReader)
 ├── auth/                       # Авторизация (Repository → Api → Storage)
-├── home/, shop/, profile/      # Табы
+├── home/, shop/, profile/      # Табы (shop — эталон Api/Repository/Notifier)
 ├── web_view/                   # WebView
 ├── l10n/                       # ARB-файлы (ru, en)
 ├── generated/                  # Сгенерированная локализация (S)
@@ -159,16 +160,16 @@ AppPageScaffold(
 
 ## Добавление feature API
 
-1. Создать `*Api` extends `PublicApi` (guest) или `CoreApi` (с токеном) с методами эндпоинтов
+1. Создать `*Api` (guest) или реализацию через `publicApiProvider` / `coreApiProvider`
 2. Создать `*Repository` — бизнес-логика, маппинг ошибок
-3. Зарегистрировать провайдеры (см. `lib/auth/providers/` — `authApiProvider` использует `publicApiProvider`)
+3. Зарегистрировать провайдеры (эталон: `lib/shop/providers/shop_providers.dart`, auth: `authApiProvider`)
 4. UI → `Notifier` → `Repository` → `Api`
 
 Для списков с подгрузкой — `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
 
-Для сетки — `PaginatedGridView` + тот же notifier.
+Для сетки — `PaginatedGridView` + тот же notifier (`ShopPage`).
 
-Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder`.
+Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder` + `AppErrorPage` (`product_detail_page.dart` + `view/product_detail_body.dart`).
 
 Формы: loading через `isSubmitting` на странице (`AppPageScaffold.isLoading`).
 

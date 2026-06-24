@@ -604,6 +604,36 @@ class S {
     );
   }
 
+  /// `Список`
+  String get shopLayoutList {
+    return Intl.message('Список', name: 'shopLayoutList', desc: '', args: []);
+  }
+
+  /// `Сетка`
+  String get shopLayoutGrid {
+    return Intl.message('Сетка', name: 'shopLayoutGrid', desc: '', args: []);
+  }
+
+  /// `Товар`
+  String get shopProductDetailTitle {
+    return Intl.message(
+      'Товар',
+      name: 'shopProductDetailTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Описание`
+  String get shopProductDescription {
+    return Intl.message(
+      'Описание',
+      name: 'shopProductDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Главная`
   String get navHome {
     return Intl.message('Главная', name: 'navHome', desc: '', args: []);

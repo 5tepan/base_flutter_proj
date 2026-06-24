@@ -78,6 +78,10 @@
   "shopTitle": "Магазин",
   "shopEmptyTitle": "Пока пусто",
   "shopEmptySubtitle": "Товары появятся здесь",
+  "shopLayoutList": "Список",
+  "shopLayoutGrid": "Сетка",
+  "shopProductDetailTitle": "Товар",
+  "shopProductDescription": "Описание",
   "navHome": "Главная",
   "navShop": "Магазин",
   "navProfile": "Профиль"

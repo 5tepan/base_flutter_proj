@@ -132,6 +132,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Products will appear here",
     ),
     "shopEmptyTitle": MessageLookupByLibrary.simpleMessage("Nothing here yet"),
+    "shopLayoutGrid": MessageLookupByLibrary.simpleMessage("Grid"),
+    "shopLayoutList": MessageLookupByLibrary.simpleMessage("List"),
+    "shopProductDescription": MessageLookupByLibrary.simpleMessage(
+      "Description",
+    ),
+    "shopProductDetailTitle": MessageLookupByLibrary.simpleMessage("Product"),
     "shopTitle": MessageLookupByLibrary.simpleMessage("Shop"),
     "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "termsOfUseTitle": MessageLookupByLibrary.simpleMessage("Terms of Use"),

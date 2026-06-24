@@ -78,6 +78,10 @@
   "shopTitle": "Shop",
   "shopEmptyTitle": "Nothing here yet",
   "shopEmptySubtitle": "Products will appear here",
+  "shopLayoutList": "List",
+  "shopLayoutGrid": "Grid",
+  "shopProductDetailTitle": "Product",
+  "shopProductDescription": "Description",
   "navHome": "Home",
   "navShop": "Shop",
   "navProfile": "Profile"

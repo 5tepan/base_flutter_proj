@@ -140,6 +140,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Товары появятся здесь",
     ),
     "shopEmptyTitle": MessageLookupByLibrary.simpleMessage("Пока пусто"),
+    "shopLayoutGrid": MessageLookupByLibrary.simpleMessage("Сетка"),
+    "shopLayoutList": MessageLookupByLibrary.simpleMessage("Список"),
+    "shopProductDescription": MessageLookupByLibrary.simpleMessage("Описание"),
+    "shopProductDetailTitle": MessageLookupByLibrary.simpleMessage("Товар"),
     "shopTitle": MessageLookupByLibrary.simpleMessage("Магазин"),
     "termsOfUse": MessageLookupByLibrary.simpleMessage(
       "Условиями использования",

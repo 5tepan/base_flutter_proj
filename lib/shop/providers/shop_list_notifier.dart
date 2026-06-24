@@ -1,6 +1,8 @@
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_notifier.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_state.dart';
 import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/providers/shop_providers.dart';
+import 'package:base_flutter_proj/shop/repository/shop_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Публичный контракт notifier списка (аналог IWidgetModel в Elementary).
@@ -12,31 +14,20 @@ abstract class ShopListActions {
 
 class ShopListNotifier extends PaginatedNotifier<Product>
     implements ShopListActions {
-  static const int _totalMockItems = 45;
+  late ShopRepository _repository;
 
   @override
   int get pageSize => 20;
 
   @override
-  Future<List<Product>> loadPage(int page) async {
-    await Future<void>.delayed(const Duration(milliseconds: 400));
+  PaginatedState<Product> build() {
+    _repository = ref.read(shopRepositoryProvider);
+    return super.build();
+  }
 
-    final start = page * pageSize;
-    if (start >= _totalMockItems) {
-      return [];
-    }
-
-    final count = (start + pageSize > _totalMockItems)
-        ? _totalMockItems - start
-        : pageSize;
-
-    return List.generate(
-      count,
-      (index) => Product(
-        id: 'product_${start + index}',
-        name: 'Product ${start + index + 1}',
-      ),
-    );
+  @override
+  Future<List<Product>> loadPage(int page) {
+    return _repository.fetchProducts(page: page, pageSize: pageSize);
   }
 }
 
