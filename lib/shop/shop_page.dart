@@ -1,9 +1,9 @@
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/grid_layout_delegate.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_grid_view.dart';
+import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_layout.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_view.dart';
 import 'package:base_flutter_proj/core/components/empty_state_widget.dart';
-import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:base_flutter_proj/shop/model/product.dart';
 import 'package:base_flutter_proj/shop/providers/shop_list_notifier.dart';
@@ -12,6 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ShopLayoutMode { list, grid }
+
+Widget _shopListSeparator(BuildContext context, int index) {
+  return PaginatedSeparator.divider();
+}
 
 /// Эталонный экран списка: Repository → PaginatedNotifier → List/Grid.
 class ShopPage extends ConsumerStatefulWidget {
@@ -23,6 +27,10 @@ class ShopPage extends ConsumerStatefulWidget {
 
 class _ShopPageState extends ConsumerState<ShopPage> {
   ShopLayoutMode _layoutMode = ShopLayoutMode.list;
+
+  static const _listLayout = PaginatedListLayout(
+    separatorBuilder: _shopListSeparator,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +74,7 @@ class _ShopPageState extends ConsumerState<ShopPage> {
       body: switch (_layoutMode) {
         ShopLayoutMode.list => PaginatedListView<Product>(
             state: listState,
+            listLayout: _listLayout,
             onRefresh: notifier.reload,
             onLoadMore: notifier.loadMore,
             onRetry: notifier.loadInitial,
@@ -79,8 +88,7 @@ class _ShopPageState extends ConsumerState<ShopPage> {
             onLoadMore: notifier.loadMore,
             onRetry: notifier.loadInitial,
             empty: empty,
-            padding: const EdgeInsets.all(ThemeBuilder.defaultPadding),
-            layout: const GridLayoutDelegate(childAspectRatio: 0.85),
+            gridLayout: const GridLayoutDelegate(childAspectRatio: 0.85),
             itemBuilder: (context, product, index) =>
                 ProductGridTile(product: product),
           ),

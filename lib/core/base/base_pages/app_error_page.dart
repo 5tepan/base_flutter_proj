@@ -2,7 +2,6 @@ import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/base_error_widget.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
-import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
 /// Полноэкранная ошибка на [AppPageScaffold] + [BaseErrorWidget].
@@ -24,7 +23,10 @@ class AppErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppPageScaffold(
       appBarConfig: const AppPageAppBarConfig(needBuildAppBar: false),
-      bodyConfig: const AppPageBodyConfig(dismissKeyboardOnTap: false),
+      bodyConfig: const AppPageBodyConfig(
+        padding: ScreenContentInsets.zero,
+        dismissKeyboardOnTap: false,
+      ),
       body: Column(
         children: [
           if (showLogo)
@@ -45,9 +47,7 @@ class AppErrorPage extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: ThemeBuilder.defaultPadding,
-              ),
+              padding: ScreenContentInsets.horizontal,
               child: BaseErrorWidget.fromError(
                 errorCode: errorCode,
                 serverMessage: serverMessage,

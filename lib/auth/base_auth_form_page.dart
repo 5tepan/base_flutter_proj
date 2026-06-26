@@ -19,7 +19,6 @@ class BaseAuthFormPage extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final Future<void> Function(String value)? onContinue;
   final bool isSubmitting;
-  final double horizontalPadding;
   final AppFormType formType;
   final double logoSize;
   final AppPageAppBarConfig appBarConfig;
@@ -39,7 +38,6 @@ class BaseAuthFormPage extends StatefulWidget {
     this.onChanged,
     this.onContinue,
     this.isSubmitting = false,
-    this.horizontalPadding = 16,
     this.formType = AppFormType.fullScreenSize,
     this.logoSize = 90,
     this.appBarConfig = const AppPageAppBarConfig(),
@@ -70,11 +68,9 @@ class _BaseAuthFormPageState extends State<BaseAuthFormPage> {
         controller: _formController,
         formType: widget.formType,
         useSafeArea: false,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: widget.horizontalPadding),
-          child: Column(
-            spacing: 20,
-            children: [
+        child: Column(
+          spacing: 20,
+          children: [
               const Spacer(),
               Image.asset(
                 AssetsCatalog.logo,
@@ -104,7 +100,6 @@ class _BaseAuthFormPageState extends State<BaseAuthFormPage> {
               const Spacer(),
             ],
           ),
-        ),
       ),
     );
   }

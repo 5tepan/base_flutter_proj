@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// Сетка с пагинацией — тот же паттерн load more, что у [PaginatedListView].
 ///
 /// Scroll-header/footer: [header], [footer].
-/// Fixed header/footer: оберните в [PaginatedListFrame].
+/// Fixed header/footer: [PaginatedListFrame].
 class PaginatedGridView<T> extends StatelessWidget {
   const PaginatedGridView({
     required this.state,
@@ -19,8 +19,7 @@ class PaginatedGridView<T> extends StatelessWidget {
     this.header,
     this.footer,
     this.empty,
-    this.layout = const GridLayoutDelegate(),
-    this.padding = EdgeInsets.zero,
+    this.gridLayout = const GridLayoutDelegate(),
     this.loadMoreThreshold = 200,
   });
 
@@ -32,8 +31,7 @@ class PaginatedGridView<T> extends StatelessWidget {
   final Widget? header;
   final Widget? footer;
   final Widget? empty;
-  final GridLayoutDelegate layout;
-  final EdgeInsetsGeometry padding;
+  final GridLayoutDelegate gridLayout;
   final double loadMoreThreshold;
 
   @override
@@ -51,8 +49,7 @@ class PaginatedGridView<T> extends StatelessWidget {
         if (header == null && footer == null) {
           return GridView.builder(
             physics: physics,
-            padding: padding,
-            gridDelegate: layout.toGridDelegate(),
+            gridDelegate: gridLayout.toGridDelegate(),
             itemCount: itemCount,
             itemBuilder: _buildItem,
           );
@@ -62,14 +59,11 @@ class PaginatedGridView<T> extends StatelessWidget {
           physics: physics,
           slivers: [
             if (header != null) SliverToBoxAdapter(child: header),
-            SliverPadding(
-              padding: padding,
-              sliver: SliverGrid(
-                gridDelegate: layout.toGridDelegate(),
-                delegate: SliverChildBuilderDelegate(
-                  _buildItem,
-                  childCount: itemCount,
-                ),
+            SliverGrid(
+              gridDelegate: gridLayout.toGridDelegate(),
+              delegate: SliverChildBuilderDelegate(
+                _buildItem,
+                childCount: itemCount,
               ),
             ),
             if (footer != null) SliverToBoxAdapter(child: footer),

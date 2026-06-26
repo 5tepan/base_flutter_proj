@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_layout.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_scroll_view.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_state.dart';
 import 'package:base_flutter_proj/core/components/app_loading_indicator.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 /// Список с пагинацией, pull-to-refresh и обработкой состояний [PaginatedState].
 ///
 /// Scroll-header/footer: [header], [footer].
-/// Fixed header/footer: оберните в [PaginatedListFrame].
+/// Fixed header/footer: [PaginatedListFrame].
+/// Разделители: [listLayout].
 class PaginatedListView<T> extends StatelessWidget {
   const PaginatedListView({
     required this.state,
@@ -16,6 +18,7 @@ class PaginatedListView<T> extends StatelessWidget {
     required this.onLoadMore,
     required this.onRetry,
     super.key,
+    this.listLayout = const PaginatedListLayout(),
     this.header,
     this.footer,
     this.empty,
@@ -27,6 +30,7 @@ class PaginatedListView<T> extends StatelessWidget {
   final Future<void> Function() onRefresh;
   final Future<void> Function() onLoadMore;
   final VoidCallback onRetry;
+  final PaginatedListLayout listLayout;
   final Widget? header;
   final Widget? footer;
   final Widget? empty;
@@ -72,10 +76,29 @@ class PaginatedListView<T> extends StatelessWidget {
   Widget _buildItem(BuildContext context, int index) {
     if (index >= state.items.length) {
       return const Padding(
-        padding: EdgeInsets.all(ThemeBuilder.defaultPadding),
+        padding: EdgeInsets.symmetric(vertical: ThemeBuilder.defaultPadding),
         child: Center(child: AppLoadingIndicator()),
       );
     }
-    return itemBuilder(context, state.items[index], index);
+
+    final item = itemBuilder(context, state.items[index], index);
+    final separatorBuilder = listLayout.separatorBuilder;
+    if (separatorBuilder == null) {
+      return item;
+    }
+
+    final isLast = index == state.items.length - 1;
+    if (isLast && !listLayout.showSeparatorAfterLastItem) {
+      return item;
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        item,
+        separatorBuilder(context, index),
+      ],
+    );
   }
 }

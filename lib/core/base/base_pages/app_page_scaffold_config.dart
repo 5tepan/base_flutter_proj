@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/base/base_pages/screen_content_insets.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -53,15 +54,19 @@ typedef AppPageAppBarBuilder =
       AppPageAppBarLayout layout,
     );
 
-/// Обёртки body: SafeArea, padding, dismiss keyboard.
+/// Обёртка body: SafeArea, отступы контента, dismiss keyboard.
+///
+/// [padding] по умолчанию — [ScreenContentInsets.defaultInsets].
+/// Переопределение: `AppPageBodyConfig(padding: EdgeInsets.all(20))`.
+/// Full-bleed: `AppPageBodyConfig(padding: ScreenContentInsets.zero)`.
 class AppPageBodyConfig {
   const AppPageBodyConfig({
     this.safeArea = true,
-    this.padding,
+    this.padding = ScreenContentInsets.defaultInsets,
     this.dismissKeyboardOnTap = true,
   });
 
   final bool safeArea;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
   final bool dismissKeyboardOnTap;
 }

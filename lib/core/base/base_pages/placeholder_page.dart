@@ -27,6 +27,7 @@ class PlaceholderPage extends StatelessWidget {
         ],
       ),
       bodyConfig: const AppPageBodyConfig(
+        padding: ScreenContentInsets.zero,
         safeArea: false,
         dismissKeyboardOnTap: false,
       ),

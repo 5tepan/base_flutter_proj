@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Обёртка body: padding → SafeArea → dismiss keyboard.
 ///
+/// Отступы контента задаются в [AppPageBodyConfig.padding] на [AppPageScaffold].
 /// Можно использовать отдельно на сложных экранах без [AppPageScaffold].
 class AppPageBody extends StatelessWidget {
   const AppPageBody({
@@ -18,8 +19,8 @@ class AppPageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     var content = child;
 
-    if (config.padding != null) {
-      content = Padding(padding: config.padding!, child: content);
+    if (config.padding != EdgeInsets.zero) {
+      content = Padding(padding: config.padding, child: content);
     }
 
     if (config.safeArea) {

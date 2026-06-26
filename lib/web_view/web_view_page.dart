@@ -63,6 +63,7 @@ class _WebViewPageState extends State<WebViewPage> {
     return AppPageScaffold(
       appBarConfig: AppPageAppBarConfig(title: widget.title),
       bodyConfig: const AppPageBodyConfig(
+        padding: ScreenContentInsets.zero,
         safeArea: false,
         dismissKeyboardOnTap: false,
       ),

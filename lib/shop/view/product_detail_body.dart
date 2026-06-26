@@ -13,7 +13,6 @@ class ProductDetailBody extends StatelessWidget {
     final l10n = S.of(context);
 
     return ListView(
-      padding: const EdgeInsets.all(ThemeBuilder.defaultPadding),
       children: [
         Text(product.name, style: AppTextStyle.title),
         const SizedBox(height: 8),

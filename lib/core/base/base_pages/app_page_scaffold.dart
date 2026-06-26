@@ -10,6 +10,7 @@ export 'app_default_app_bar.dart';
 export 'app_loading_overlay.dart';
 export 'app_page_body.dart';
 export 'app_page_scaffold_config.dart';
+export 'screen_content_insets.dart';
 
 /// Универсальный каркас страницы: Scaffold + стандартные обёртки body.
 ///
