@@ -167,6 +167,8 @@ AppPageScaffold(
 
 Для списков с подгрузкой — `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
 
+Scroll header/footer — `PaginatedListView.header` / `.footer`. Fixed — `PaginatedListFrame` + `PaginatedFixedSlot`.
+
 Для сетки — `PaginatedGridView` + тот же notifier (`ShopPage`).
 
 Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder` + `AppErrorPage` (`product_detail_page.dart` + `view/product_detail_body.dart`).

@@ -5,6 +5,9 @@ import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
 /// Список с пагинацией, pull-to-refresh и обработкой состояний [PaginatedState].
+///
+/// Scroll-header/footer: [header], [footer].
+/// Fixed header/footer: оберните в [PaginatedListFrame].
 class PaginatedListView<T> extends StatelessWidget {
   const PaginatedListView({
     required this.state,
@@ -13,6 +16,8 @@ class PaginatedListView<T> extends StatelessWidget {
     required this.onLoadMore,
     required this.onRetry,
     super.key,
+    this.header,
+    this.footer,
     this.empty,
     this.loadMoreThreshold = 200,
   });
@@ -22,6 +27,8 @@ class PaginatedListView<T> extends StatelessWidget {
   final Future<void> Function() onRefresh;
   final Future<void> Function() onLoadMore;
   final VoidCallback onRetry;
+  final Widget? header;
+  final Widget? footer;
   final Widget? empty;
   final double loadMoreThreshold;
 
@@ -35,20 +42,40 @@ class PaginatedListView<T> extends StatelessWidget {
       empty: empty,
       loadMoreThreshold: loadMoreThreshold,
       builder: (context, physics) {
-        return ListView.builder(
+        final itemCount = state.items.length + (state.isLoadingMore ? 1 : 0);
+
+        if (header == null && footer == null) {
+          return ListView.builder(
+            physics: physics,
+            itemCount: itemCount,
+            itemBuilder: _buildItem,
+          );
+        }
+
+        return CustomScrollView(
           physics: physics,
-          itemCount: state.items.length + (state.isLoadingMore ? 1 : 0),
-          itemBuilder: (context, index) {
-            if (index >= state.items.length) {
-              return const Padding(
-                padding: EdgeInsets.all(ThemeBuilder.defaultPadding),
-                child: Center(child: AppLoadingIndicator()),
-              );
-            }
-            return itemBuilder(context, state.items[index], index);
-          },
+          slivers: [
+            if (header != null) SliverToBoxAdapter(child: header),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                _buildItem,
+                childCount: itemCount,
+              ),
+            ),
+            if (footer != null) SliverToBoxAdapter(child: footer),
+          ],
         );
       },
     );
+  }
+
+  Widget _buildItem(BuildContext context, int index) {
+    if (index >= state.items.length) {
+      return const Padding(
+        padding: EdgeInsets.all(ThemeBuilder.defaultPadding),
+        child: Center(child: AppLoadingIndicator()),
+      );
+    }
+    return itemBuilder(context, state.items[index], index);
   }
 }
