@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
 import 'package:base_flutter_proj/core/errors/app_exception.dart';
-import 'package:base_flutter_proj/core/base/base_auth/model/auth_session.dart';
+import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 
 /// Mock API for local development without backend.

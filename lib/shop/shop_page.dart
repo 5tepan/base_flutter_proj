@@ -5,7 +5,7 @@ import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_view.dart';
 import 'package:base_flutter_proj/core/components/empty_state_widget.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 import 'package:base_flutter_proj/shop/providers/shop_list_notifier.dart';
 import 'package:base_flutter_proj/shop/view/product_tile.dart';
 import 'package:flutter/material.dart';

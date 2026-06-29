@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/shop/api/shop_api.dart';
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 
 class ShopRepository {
   ShopRepository(this._api);

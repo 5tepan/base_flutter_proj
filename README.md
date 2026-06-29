@@ -102,8 +102,8 @@ make setup-secrets
 ```
 lib/
 ├── main.dart, runner.dart      # Точка входа (Config через EnvReader)
-├── auth/                       # Авторизация (Repository → Api → Storage)
-├── home/, shop/, profile/      # Табы (shop — эталон Api/Repository/Notifier)
+├── auth/                       # Эталон форм (см. шаблон фичи ниже)
+├── home/, shop/, profile/      # Табы (shop — эталон списка/деталки)
 ├── web_view/                   # WebView
 ├── l10n/                       # ARB-файлы (ru, en)
 ├── generated/                  # Сгенерированная локализация (S)
@@ -117,8 +117,44 @@ lib/
     ├── providers/              # Riverpod (core, api, toast, theme)
     ├── router/                 # GoRouter, shell, access policy
     ├── network/                # PublicApi, CoreApi
-    └── base/                   # BaseApi, формы, пагинация, scaffold
+    ├── l10n/                   # ErrorLocalizer
+    └── base/
+        ├── base_api/           # BaseApi, ApiResponseParser, entities/
+        ├── base_auth/          # AuthSession, storage, token, infra providers
+        ├── base_pages/         # AppPageScaffold, пагинация, формы
+        └── model/              # EntityState, FormState, базовые notifier'ы
 ```
+
+### Шаблон фичи (`lib/<feature>/`)
+
+| Папка / файл | Назначение |
+|--------------|------------|
+| `entities/` | Доменные сущности с API (`json_serializable`): `Product`, `Order`… |
+| `model/` | Модели UI-данных: `FormModel` для форм (поля ввода до submit) |
+| `api/` | Контракт + `*Impl` + `mock_*` |
+| `repository/` | Бизнес-слой между Api и UI |
+| `providers/` | Riverpod: DI (`*_providers.dart`) + notifier'ы |
+| `route/` | TypedGoRoute, пути — в `const` в начале файла |
+| `view/` | Переиспользуемые виджеты фичи |
+| `push/` | Опционально: `PushHandlerModule` |
+| `*_page.dart` | Экраны (в корне фичи) |
+
+**Эталоны:**
+
+- `auth/` — форма: `model/` (FormModel) + `providers/auth_form_providers.dart` (FormNotifier)
+- `shop/` — список/деталка: `entities/` (Product) + `PaginatedNotifier` / `ItemNotifier`
+
+Инфраструктурные сущности auth (`AuthSession`) — в `core/base/base_auth/entities/`, т.к. используются роутером, storage и interceptors.
+
+### Паттерны экранов
+
+| Тип экрана | Базовый notifier | State | UI |
+|------------|------------------|-------|-----|
+| Форма | `FormNotifier` | `FormState` | `AppForm` + `BaseAuthFormPage` |
+| Список с пагинацией | `PaginatedNotifier` | `PaginatedState` | `PaginatedListView` / `PaginatedGridView` |
+| Деталка | `ItemNotifier` | `EntityState` | `EntityStateBuilder` + `AppErrorPage` |
+
+Сущность (`Product`) — в `entities/`. Notifier'ы — в `providers/` (как в auth и shop).
 
 ## Каркас страницы (`AppPageScaffold`)
 
@@ -160,10 +196,12 @@ AppPageScaffold(
 
 ## Добавление feature API
 
-1. Создать `*Api` (guest) или реализацию через `publicApiProvider` / `coreApiProvider`
-2. Создать `*Repository` — бизнес-логика, маппинг ошибок
-3. Зарегистрировать провайдеры (эталон: `lib/shop/providers/shop_providers.dart`, auth: `authApiProvider`)
-4. UI → `Notifier` → `Repository` → `Api`
+1. `entities/` — доменные сущности (`@JsonSerializable`, `fromJson` / `fromApiJson`)
+2. `api/` — контракт + `*Impl` + `mock_*` (через `publicApiProvider` или `coreApiProvider`)
+3. `repository/` — бизнес-логика, маппинг ошибок
+4. `providers/<feature>_providers.dart` — DI + переключение mock/real (эталон: `shop/providers/shop_providers.dart`)
+5. Notifier в `providers/` по типу экрана (см. таблицу паттернов выше)
+6. UI → `Notifier` → `Repository` → `Api`
 
 Для списков с подгрузкой — `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
 

@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
+import 'package:base_flutter_proj/core/base/base_api/entities/base_api_response.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';

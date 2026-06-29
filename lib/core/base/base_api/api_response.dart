@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/base/base_api/base_api_response.dart';
+import 'package:base_flutter_proj/core/base/base_api/entities/base_api_response.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 

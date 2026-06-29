@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductDetailBody extends StatelessWidget {

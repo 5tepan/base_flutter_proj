@@ -3,7 +3,7 @@ import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/base/model/states/entity_state.dart';
 import 'package:base_flutter_proj/core/components/entity_state_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 import 'package:base_flutter_proj/shop/providers/product_detail_notifier.dart';
 import 'package:base_flutter_proj/shop/view/product_detail_body.dart';
 import 'package:flutter/material.dart';

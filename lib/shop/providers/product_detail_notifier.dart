@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/core/base/model/notifiers/item_notifier.dart';
 import 'package:base_flutter_proj/core/base/model/states/entity_state.dart';
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 import 'package:base_flutter_proj/shop/providers/shop_providers.dart';
 import 'package:base_flutter_proj/shop/repository/shop_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

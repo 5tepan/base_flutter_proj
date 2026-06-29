@@ -1,7 +1,7 @@
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/shop/api/shop_api.dart';
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 
 /// Mock API для dev без бэкенда.
 /// Для демо [AppErrorPage] откройте товар с id [errorProductId].

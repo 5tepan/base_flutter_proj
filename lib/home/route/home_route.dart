@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 
 part 'home_route.g.dart';
 
-@TypedGoRoute<HomeRoute>(path: '/home')
+const String _homePath = '/home';
+
+@TypedGoRoute<HomeRoute>(path: _homePath)
 class HomeRoute extends GoRouteData with $HomeRoute {
   const HomeRoute();
 

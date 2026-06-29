@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/shop/model/product.dart';
+import 'package:base_flutter_proj/shop/entities/product.dart';
 
 abstract class ShopApi {
   Future<List<Product>> fetchProducts({

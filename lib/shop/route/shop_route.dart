@@ -5,10 +5,13 @@ import 'package:go_router/go_router.dart';
 
 part 'shop_route.g.dart';
 
+const String _shopPath = '/shop';
+const String _productPath = 'product/:productId';
+
 @TypedGoRoute<ShopRoute>(
-  path: '/shop',
+  path: _shopPath,
   routes: [
-    TypedGoRoute<ShopProductRoute>(path: 'product/:productId'),
+    TypedGoRoute<ShopProductRoute>(path: _productPath),
   ],
 )
 class ShopRoute extends GoRouteData with $ShopRoute {
