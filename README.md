@@ -23,6 +23,7 @@
 - Flutter SDK ^3.11
 - Riverpod 3, go_router, http + http_interceptor
 - flutter_secure_storage, smart_auth (SMS autofill на Android)
+- hive / hive_flutter — локальный кеш и история поиска
 - firebase_core / firebase_crashlytics / firebase_messaging (опционально; ключи через env JSON)
 - bottom_picker, intl — выбор даты/времени в формах
 
@@ -216,6 +217,30 @@ Scroll header/footer — `PaginatedListView.header` / `.footer`. Fixed — `Pagi
 Формы: loading через `isSubmitting` на странице (`AppPageScaffold.isLoading`).
 
 Полноэкранные ошибки — `AppErrorPage` (`AppErrorCode`).
+
+### Поиск с автокомплитом
+
+`SearchAutocompleteField<T>` — `lib/core/components/search_autocomplete/`.
+
+- Обычное поле ввода с `prefix` / `suffix`, debounce, лимит подсказок
+- `autocompleteEnabled` — вкл/выкл подсказок
+- `historyEnabled` — история поиска (по умолчанию persistent через `HiveSearchAutocompleteHistoryStorage`)
+- Кастомизация: `suggestionBuilder`, `optionsViewBuilder`, `SearchAutocompleteOptionsStyle`
+
+```dart
+SearchAutocompleteField<String>(
+  hintText: 'Поиск',
+  prefix: const Icon(Icons.search),
+  showClearButton: true,
+  historyEnabled: true,
+  historyStorageKey: 'shop_search',
+  maxSuggestions: 8,
+  onSuggestionsRequested: (query) => repository.searchSuggestions(query),
+  onSubmitted: (query) => _search(query),
+)
+```
+
+Hive инициализируется в `AppBootstrap` (`lib/core/storage/hive_bootstrap.dart`).
 
 ## Push-уведомления (опционально)
 

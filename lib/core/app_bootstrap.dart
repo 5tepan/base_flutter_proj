@@ -1,6 +1,7 @@
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/storage/hive_bootstrap.dart';
 import 'package:base_flutter_proj/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -27,5 +28,7 @@ abstract final class AppBootstrap {
     CustomLogger.init(
       enableCrashlytics: isFirebaseInitialized && config.enableFirebase,
     );
+
+    await HiveBootstrap.ensureInitialized();
   }
 }
