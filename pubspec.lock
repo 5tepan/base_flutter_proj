@@ -145,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.4"
+  clear_all_notifications:
+    dependency: "direct main"
+    description:
+      name: clear_all_notifications
+      sha256: c2f4d119ee1d1f55a536b1875fdc0dfa214c86a83f60e63de94d1d391fd274d9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   cli_config:
     dependency: transitive
     description:
