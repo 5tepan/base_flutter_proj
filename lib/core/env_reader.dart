@@ -23,7 +23,6 @@ abstract final class EnvReader {
         defaultValue: '/api/',
       ),
       isHttpsApi: _apiUseHttps,
-      appMetricaApiKey: const String.fromEnvironment('APP_METRICA_API_KEY'),
       flavor: Flavor.dev,
       showDebugBanner: _showDebugBanner(defaultValue: true),
       enableFirebase: _enableFirebase,
@@ -35,7 +34,6 @@ abstract final class EnvReader {
           defaultValue: 'russianAndEnglish',
         ),
       ),
-      livekitUrl: _livekitUrl,
     );
   }
 
@@ -50,7 +48,6 @@ abstract final class EnvReader {
         defaultValue: '/api/',
       ),
       isHttpsApi: _apiUseHttps,
-      appMetricaApiKey: const String.fromEnvironment('APP_METRICA_API_KEY'),
       flavor: Flavor.prod,
       showDebugBanner: _showDebugBanner(),
       enableFirebase: _enableFirebase,
@@ -62,7 +59,6 @@ abstract final class EnvReader {
           defaultValue: 'russianOnly',
         ),
       ),
-      livekitUrl: _livekitUrl,
     );
   }
 
@@ -88,11 +84,6 @@ abstract final class EnvReader {
         const String.fromEnvironment('USE_MOCK_SHOP_API'),
         defaultValue: defaultValue,
       );
-
-  static String? get _livekitUrl {
-    const value = String.fromEnvironment('LIVEKIT_URL');
-    return value.isEmpty ? null : value;
-  }
 
   static bool _parseBool(String value, {bool defaultValue = false}) {
     if (value.isEmpty) {

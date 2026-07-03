@@ -1,5 +1,7 @@
 import 'package:base_flutter_proj/core/navigation/app_nav_bar.dart';
 import 'package:base_flutter_proj/core/navigation/nav_items_provider.dart';
+import 'package:base_flutter_proj/core/navigation/view/nav_item.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +13,18 @@ class BottomNavigationPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(navItemsProvider);
+    final l10n = S.of(context);
+    final configs = ref.watch(navBarItemsProvider);
+    final labels = [l10n.navHome, l10n.navShop, l10n.navProfile];
+
+    final items = List<NavItem>.generate(configs.length, (index) {
+      final config = configs[index];
+      return NavItem(
+        label: labels[index],
+        icon: config.icon,
+        badge: config.badge,
+      );
+    });
 
     return Scaffold(
       body: navigationShell,

@@ -10,13 +10,13 @@
 | **Навигация** | go_router, типобезопасные маршруты, bottom tabs (Home / Shop / Profile) |
 | **Сеть** | `PublicApi` / `CoreApi` + interceptors, Bearer token, retry при 401 |
 | **State** | Riverpod 3 (`Notifier`, `AsyncNotifier`) |
-| **UI** | Material 3, `ThemeBuilder`, формы, пагинация (`PaginatedNotifier`) |
+| **UI** | Material 3, `ThemeBuilder`, формы, пагинация (`PaginatedNotifier`), медиа/файлы, bottom sheet, search autocomplete |
 | **Локализация** | ru / en через `intl_utils` (`lib/l10n/`, `make intl`) |
 | **Отладка** | Talker, HTTP-логи, debug banner (dev), опциональный Firebase Crashlytics |
 | **Push** | FCM (`firebase_messaging`): типы в `PushType`, топики в `PushTopic`, обработчики в модулях фич |
 | **WebView** | Экран для политики конфиденциальности и документов |
 
-Заглушки: **Home/Profile** — `PlaceholderPage`. **Shop** — эталон: список/сетка, Repository, деталка товара.
+Заглушки: **Home** — `AuthenticatedPlaceholderPage`. **Profile** — хаб демо-компонентов (`/profile/media-demo`). **Shop** — эталон: список/сетка, Repository, деталка товара.
 
 ## Стек
 
@@ -27,6 +27,7 @@
 - firebase_core / firebase_crashlytics / firebase_messaging (опционально; ключи через env JSON)
 - bottom_picker, intl — выбор даты/времени в формах
 - modal_bottom_sheet, gap — bottom sheet панели
+- image_picker, file_picker, croppy, video_player, share_plus и др. — медиа и файлы (см. `pubspec.yaml`)
 
 ## Быстрый старт
 
@@ -105,8 +106,11 @@ make setup-secrets
 lib/
 ├── main.dart, runner.dart      # Точка входа (Config через EnvReader)
 ├── auth/                       # Эталон форм (см. шаблон фичи ниже)
-├── home/, shop/, profile/      # Табы (shop — эталон списка/деталки)
-├── web_view/                   # WebView
+├── home/                       # Таб: заглушка
+├── shop/                       # Эталон: список + деталка + push
+├── profile/                    # Таб: профиль + демо компонентов
+├── demo/                       # Демо-экраны (media_files_demo_page)
+├── web_view/                   # WebView (публичный роут)
 ├── l10n/                       # ARB-файлы (ru, en)
 ├── generated/                  # Сгенерированная локализация (S)
 ├── firebase_options.dart       # Firebase keys из --dart-define-from-file
@@ -116,7 +120,7 @@ lib/
     ├── config.dart, env_reader.dart
     ├── push/                   # FCM: PushType, PushTopic, dispatcher, service
     ├── helpers/                # phone_input_helper, formatters/
-    ├── providers/              # Riverpod (core, api, toast, theme)
+    ├── providers/              # Riverpod (core, api, toast, theme, localizations)
     ├── router/                 # GoRouter, shell, access policy
     ├── network/                # PublicApi, CoreApi
     ├── l10n/                   # ErrorLocalizer

@@ -23,10 +23,12 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(phone) =>
       "На телефон ${phone} отправлено\nСМС с кодом подтверждения";
 
-  static String m1(buttonText) =>
+  static String m1(path) => "Сохранено: ${path}";
+
+  static String m2(buttonText) =>
       "Нажимая на кнопку «${buttonText}», Вы\n соглашаетесь с ";
 
-  static String m2(time) => "Повторная отправка через ${time}";
+  static String m3(time) => "Повторная отправка через ${time}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -102,6 +104,55 @@ class MessageLookup extends MessageLookupByLibrary {
       "Код подтверждения",
     ),
     "continueButton": MessageLookupByLibrary.simpleMessage("Продолжить"),
+    "dateTimeSelect": MessageLookupByLibrary.simpleMessage("Выбрать"),
+    "dateTimeSelectTime": MessageLookupByLibrary.simpleMessage(
+      "Выберите время",
+    ),
+    "dateTimeSelectYear": MessageLookupByLibrary.simpleMessage("Выберите год"),
+    "demoAttachmentsLabel": MessageLookupByLibrary.simpleMessage("Вложения"),
+    "demoFilesSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "PDF, документы и другие типы через file_picker.",
+    ),
+    "demoFilesSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Загрузка файлов",
+    ),
+    "demoMediaFilesTitle": MessageLookupByLibrary.simpleMessage(
+      "Медиа и файлы",
+    ),
+    "demoMixedSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Смешанная лента. С камеры — выбор фото или видео, из галереи — любой тип.",
+    ),
+    "demoMixedSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Фото и видео (mixed)",
+    ),
+    "demoPhotoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Только изображения. При добавлении открывается croppy для обрезки.",
+    ),
+    "demoPhotoSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Фото (редактируемая лента)",
+    ),
+    "demoReadOnlySectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Те же элементы, что в mixed-ленте, но без кнопок добавления и удаления.",
+    ),
+    "demoReadOnlySectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Только просмотр",
+    ),
+    "demoShareFilesButton": MessageLookupByLibrary.simpleMessage(
+      "Поделиться файлами",
+    ),
+    "demoShareLinkText": MessageLookupByLibrary.simpleMessage(
+      "Демо ссылка из приложения",
+    ),
+    "demoShareSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "share_plus — ссылка, текст и выбранные файлы.",
+    ),
+    "demoShareSectionTitle": MessageLookupByLibrary.simpleMessage("Шаринг"),
+    "demoShareTextButton": MessageLookupByLibrary.simpleMessage(
+      "Поделиться текстом",
+    ),
+    "demoSyncMixedButton": MessageLookupByLibrary.simpleMessage(
+      "Скопировать mixed-ленту в режим просмотра",
+    ),
     "documentDefaultTitle": MessageLookupByLibrary.simpleMessage("Документ"),
     "enterCode": MessageLookupByLibrary.simpleMessage("Введите код"),
     "enterPhone": MessageLookupByLibrary.simpleMessage(
@@ -113,7 +164,31 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorLoadingTitle": MessageLookupByLibrary.simpleMessage(
       "Ошибка загрузки данных",
     ),
+    "fileAudioPause": MessageLookupByLibrary.simpleMessage("Пауза"),
+    "fileAudioPlay": MessageLookupByLibrary.simpleMessage("Воспроизвести"),
+    "fileListEmpty": MessageLookupByLibrary.simpleMessage("Файлы не выбраны"),
+    "filePickButton": MessageLookupByLibrary.simpleMessage("Выбрать файлы"),
+    "filePickError": MessageLookupByLibrary.simpleMessage(
+      "Не удалось выбрать файлы",
+    ),
+    "fileViewerLocalUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Локальный файл недоступен",
+    ),
+    "fileViewerMediaTitle": MessageLookupByLibrary.simpleMessage("Медиа"),
+    "fileViewerPreviewUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Предпросмотр недоступен",
+    ),
+    "fileViewerSaveFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось сохранить файл",
+    ),
+    "fileViewerSaved": m1,
+    "fileViewerTitle": MessageLookupByLibrary.simpleMessage("Файл"),
     "inDevelopment": MessageLookupByLibrary.simpleMessage("В разработке"),
+    "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Добавить медиа"),
+    "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Камера"),
+    "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Галерея"),
+    "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Фото"),
+    "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Видео"),
     "navHome": MessageLookupByLibrary.simpleMessage("Главная"),
     "navProfile": MessageLookupByLibrary.simpleMessage("Профиль"),
     "navShop": MessageLookupByLibrary.simpleMessage("Магазин"),
@@ -125,17 +200,33 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Телефон"),
     "privacyAgreementAnd": MessageLookupByLibrary.simpleMessage("\nи c "),
-    "privacyAgreementPrefix": m1,
+    "privacyAgreementPrefix": m2,
     "privacyPolicy": MessageLookupByLibrary.simpleMessage(
       "Политикой конфиденциальности",
     ),
     "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage(
       "Политика конфиденциальности",
     ),
+    "profileDemoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Примеры виджетов из core/components",
+    ),
+    "profileDemoSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Демо компонентов",
+    ),
+    "profileMediaDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Лента фото/видео, загрузка файлов, просмотр, шаринг",
+    ),
+    "profileMediaDemoTitle": MessageLookupByLibrary.simpleMessage(
+      "Медиа и файлы",
+    ),
     "resendCodeButton": MessageLookupByLibrary.simpleMessage(
       "Отправить код повторно",
     ),
-    "resendCodeIn": m2,
+    "resendCodeIn": m3,
+    "shareButton": MessageLookupByLibrary.simpleMessage("Поделиться"),
+    "shareLinkButton": MessageLookupByLibrary.simpleMessage(
+      "Поделиться ссылкой",
+    ),
     "shopEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "Товары появятся здесь",
     ),
@@ -152,6 +243,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Условия использования",
     ),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Попробовать снова"),
+    "universalModalNo": MessageLookupByLibrary.simpleMessage("Нет"),
+    "universalModalOk": MessageLookupByLibrary.simpleMessage("Ок"),
+    "universalModalYes": MessageLookupByLibrary.simpleMessage("Да"),
     "validationDateOfBirth": MessageLookupByLibrary.simpleMessage(
       "Выберите дату рождения",
     ),

@@ -38,6 +38,7 @@ class EntityStateBuilder<T> extends StatelessWidget {
       EntityStateError(:final code, :final serverMessage) =>
         error?.call(code, serverMessage) ??
             BaseErrorWidget.fromError(
+              context: context,
               errorCode: code,
               serverMessage: serverMessage,
               onPressedButton: onRetry ?? () {},

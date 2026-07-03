@@ -49,6 +49,7 @@ class AppErrorPage extends StatelessWidget {
             child: Padding(
               padding: ScreenContentInsets.horizontal,
               child: BaseErrorWidget.fromError(
+                context: context,
                 errorCode: errorCode,
                 serverMessage: serverMessage,
                 onPressedButton: onRetry,

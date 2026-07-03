@@ -6,6 +6,7 @@ import 'package:base_flutter_proj/core/helpers/date_time_helper.dart';
 import 'package:base_flutter_proj/core/helpers/widget_extensions/simple_padding_extension.dart';
 import 'package:base_flutter_proj/core/providers/theme_provider.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/context_extension.dart';
 import 'package:flutter/cupertino.dart';
@@ -267,7 +268,7 @@ class DateTimeField extends ConsumerWidget {
                       pickerContext,
                     ).pop(selectable ?? initialDateTime),
                     child: Text(
-                      "Выбрать",
+                      S.of(context).dateTimeSelect,
                       style: Theme.of(context).textTheme.bodyMedium?.apply(
                         color: AppColors.primaryColor,
                         fontWeightDelta: 2,
@@ -305,7 +306,7 @@ class DateTimeField extends ConsumerWidget {
     return headerBuilder ??
         (pickerContext) {
           return BottomPickerHeader(
-            title: 'Выберите время',
+            title: S.of(pickerContext).dateTimeSelectTime,
             backgroundColor: AppColors.grey,
             closeIconColor: AppColors.white,
             titleStyle: AppTextStyle.body.copyWith(color: AppColors.white),
@@ -339,7 +340,10 @@ class DateTimeField extends ConsumerWidget {
 
     if (mode == DateTimeFieldPickerMode.time) {
       final picker = BottomPicker.time(
-        buttonContent: const Text('Выбрать', textAlign: TextAlign.center),
+        buttonContent: Text(
+          S.of(context).dateTimeSelect,
+          textAlign: TextAlign.center,
+        ),
         use24hFormat: use24hFormat,
         minuteInterval: minuteInterval,
         minTime: minTime,

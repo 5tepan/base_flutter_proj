@@ -48,6 +48,7 @@ class _AuthByPhoneFormPageState extends ConsumerState<AuthByPhoneFormPage> {
       inputFormatters: PhoneInputHelper.defaultPhoneInputFormatter,
       validator: (value) => FormValidator.validatePhone(
         value,
+        l10n: l10n,
         emptyError: l10n.enterPhone,
         invalidError: l10n.phoneInvalid,
       ),

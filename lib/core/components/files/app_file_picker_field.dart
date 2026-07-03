@@ -4,6 +4,7 @@ import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
 import 'package:base_flutter_proj/core/components/media/app_media_picker.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class AppFilePickerField extends StatelessWidget {
     this.allowedExtensions,
     this.maxFiles,
     this.allowMultiple = true,
-    this.pickButtonLabel = 'Выбрать файлы',
+    this.pickButtonLabel,
     this.style = const AppFileListStyle(),
     this.decoration,
     this.pickButtonBuilder,
@@ -40,7 +41,7 @@ class AppFilePickerField extends StatelessWidget {
   final List<String>? allowedExtensions;
   final int? maxFiles;
   final bool allowMultiple;
-  final String pickButtonLabel;
+  final String? pickButtonLabel;
   final AppFileListStyle style;
   final InputDecoration? decoration;
   final AppFilePickerButtonBuilder? pickButtonBuilder;
@@ -58,6 +59,7 @@ class AppFilePickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -85,7 +87,7 @@ class AppFilePickerField extends StatelessWidget {
               OutlinedButton.icon(
                 onPressed: () => _pickFiles(context),
                 icon: const Icon(Icons.attach_file),
-                label: Text(pickButtonLabel),
+                label: Text(pickButtonLabel ?? l10n.filePickButton),
               ),
         ],
       ],
@@ -141,7 +143,7 @@ class AppFilePickerField extends StatelessWidget {
       CustomLogger.verbose('$stackTrace');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Не удалось выбрать файлы')),
+          SnackBar(content: Text(S.of(context).filePickError)),
         );
       }
     }

@@ -8,6 +8,7 @@ import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/media/media_feed_strip.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share_button.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -28,15 +29,16 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
+
     return AppPageScaffold(
-      appBarConfig: const AppPageAppBarConfig(title: 'Медиа и файлы'),
+      appBarConfig: AppPageAppBarConfig(title: l10n.demoMediaFilesTitle),
       body: ListView(
         padding: const EdgeInsets.all(ThemeBuilder.defaultPadding),
         children: [
           _SectionCard(
-            title: 'Фото (редактируемая лента)',
-            subtitle:
-                'Только изображения. При добавлении открывается croppy для обрезки.',
+            title: l10n.demoPhotoSectionTitle,
+            subtitle: l10n.demoPhotoSectionSubtitle,
             child: MediaFeedStrip(
               items: _photoItems,
               editable: true,
@@ -48,9 +50,8 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
           ),
           const Gap(ThemeBuilder.defaultPadding),
           _SectionCard(
-            title: 'Фото и видео (mixed)',
-            subtitle:
-                'Смешанная лента. С камеры — выбор фото или видео, из галереи — любой тип.',
+            title: l10n.demoMixedSectionTitle,
+            subtitle: l10n.demoMixedSectionSubtitle,
             child: MediaFeedStrip(
               items: _mixedItems,
               editable: true,
@@ -61,9 +62,8 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
           ),
           const Gap(ThemeBuilder.defaultPadding),
           _SectionCard(
-            title: 'Только просмотр',
-            subtitle:
-                'Те же элементы, что в mixed-ленте, но без кнопок добавления и удаления.',
+            title: l10n.demoReadOnlySectionTitle,
+            subtitle: l10n.demoReadOnlySectionSubtitle,
             child: MediaFeedStrip(
               items: _readOnlyItems,
               editable: false,
@@ -73,8 +73,8 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
           ),
           const Gap(ThemeBuilder.defaultPadding),
           _SectionCard(
-            title: 'Загрузка файлов',
-            subtitle: 'PDF, документы и другие типы через file_picker.',
+            title: l10n.demoFilesSectionTitle,
+            subtitle: l10n.demoFilesSectionSubtitle,
             child: AppFilePickerField(
               files: _files,
               editable: true,
@@ -82,30 +82,31 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
               allowedExtensions: const ['pdf', 'doc', 'docx', 'txt', 'zip'],
               maxFiles: 5,
               onChanged: (files) => setState(() => _files = files),
-              decoration: const InputDecoration(
-                labelText: 'Вложения',
+              decoration: InputDecoration(
+                labelText: l10n.demoAttachmentsLabel,
               ),
             ),
           ),
           const Gap(ThemeBuilder.defaultPadding),
           _SectionCard(
-            title: 'Шаринг',
-            subtitle: 'share_plus — ссылка, текст и выбранные файлы.',
+            title: l10n.demoShareSectionTitle,
+            subtitle: l10n.demoShareSectionSubtitle,
             child: Wrap(
               spacing: 8,
               runSpacing: 8,
               children: [
                 AppShareLinkButton(
                   url: 'https://example.com/demo',
-                  text: 'Демо ссылка из приложения',
+                  text: l10n.demoShareLinkText,
+                  label: l10n.shareLinkButton,
                 ),
                 AppShareButton(
-                  text: 'Текст для шаринга из base_flutter_proj',
-                  label: 'Текст',
+                  text: 'base_flutter_proj',
+                  label: l10n.shareButton,
                   builder: (context, onPressed) => OutlinedButton.icon(
                     onPressed: onPressed,
                     icon: const Icon(Icons.text_fields),
-                    label: const Text('Поделиться текстом'),
+                    label: Text(l10n.demoShareTextButton),
                   ),
                 ),
                 if (_files.isNotEmpty)
@@ -114,12 +115,12 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
                         .map((file) => file.resolvedPath)
                         .whereType<String>()
                         .toList(),
-                    text: 'Файлы из демо-экрана',
-                    label: 'Файлы',
+                    text: l10n.demoMediaFilesTitle,
+                    label: l10n.shareButton,
                     builder: (context, onPressed) => FilledButton.icon(
                       onPressed: onPressed,
                       icon: const Icon(Icons.ios_share),
-                      label: const Text('Поделиться файлами'),
+                      label: Text(l10n.demoShareFilesButton),
                     ),
                   ),
               ],
@@ -131,7 +132,7 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
                 ? null
                 : () => setState(() => _readOnlyItems = List.of(_mixedItems)),
             icon: const Icon(Icons.sync),
-            label: const Text('Скопировать mixed-ленту в режим просмотра'),
+            label: Text(l10n.demoSyncMixedButton),
           ),
         ],
       ),

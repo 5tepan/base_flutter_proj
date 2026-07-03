@@ -9,6 +9,7 @@ import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:open_filex/open_filex.dart';
@@ -21,7 +22,6 @@ abstract final class AppFileViewer {
     required AppFileItem item,
     bool allowShare = true,
     bool allowSaveToDownloads = true,
-    String title = 'Файл',
   }) {
     return Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -29,7 +29,6 @@ abstract final class AppFileViewer {
           item: item,
           allowShare: allowShare,
           allowSaveToDownloads: allowSaveToDownloads,
-          title: title,
         ),
       ),
     );
@@ -39,7 +38,6 @@ abstract final class AppFileViewer {
     BuildContext context, {
     required MediaFeedItem item,
     bool allowShare = true,
-    String title = 'Медиа',
   }) {
     final path = item.localFile?.path;
     final fileItem = AppFileItem(
@@ -58,18 +56,20 @@ abstract final class AppFileViewer {
       item: fileItem,
       allowShare: allowShare,
       allowSaveToDownloads: false,
-      title: title,
     );
   }
 
-  static Future<OpenResult> openExternally(AppFileItem item) async {
+  static Future<OpenResult> openExternally(
+    AppFileItem item, {
+    String? unavailableMessage,
+  }) async {
     final path = item.resolvedPath;
     if (path != null && path.isNotEmpty) {
       return OpenFilex.open(path);
     }
     return OpenResult(
       type: ResultType.error,
-      message: 'Локальный файл недоступен',
+      message: unavailableMessage ?? 'Local file unavailable',
     );
   }
 }
@@ -79,13 +79,11 @@ class _AppFileViewerPage extends StatefulWidget {
     required this.item,
     required this.allowShare,
     required this.allowSaveToDownloads,
-    required this.title,
   });
 
   final AppFileItem item;
   final bool allowShare;
   final bool allowSaveToDownloads;
-  final String title;
 
   @override
   State<_AppFileViewerPage> createState() => _AppFileViewerPageState();
@@ -119,11 +117,16 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
           ),
         ],
       ),
-      body: _buildBody(path: path, mime: mime),
+      body: _buildBody(context, path: path, mime: mime),
     );
   }
 
-  Widget _buildBody({required String? path, required String? mime}) {
+  Widget _buildBody(
+    BuildContext context, {
+    required String? path,
+    required String? mime,
+  }) {
+    final l10n = S.of(context);
     if (path != null) {
       if (AppFileUtils.isImageMime(mime) || AppFileUtils.isImagePath(path)) {
         return InteractiveViewer(child: Image.file(File(path), fit: BoxFit.contain));
@@ -148,11 +151,15 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
       );
     }
 
-    return const Center(child: Text('Предпросмотр недоступен'));
+    return Center(child: Text(l10n.fileViewerPreviewUnavailable));
   }
 
   Future<void> _openExternally() async {
-    final result = await AppFileViewer.openExternally(widget.item);
+    final l10n = S.of(context);
+    final result = await AppFileViewer.openExternally(
+      widget.item,
+      unavailableMessage: l10n.fileViewerLocalUnavailable,
+    );
     if (!mounted) {
       return;
     }
@@ -164,6 +171,7 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
   }
 
   Future<void> _saveToDownloads(String path) async {
+    final l10n = S.of(context);
     final savedPath = await AppFileStorage.copyToDownloads(
       sourcePath: path,
       fileName: widget.item.name,
@@ -175,8 +183,8 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
       SnackBar(
         content: Text(
           savedPath == null
-              ? 'Не удалось сохранить файл'
-              : 'Сохранено: $savedPath',
+              ? l10n.fileViewerSaveFailed
+              : l10n.fileViewerSaved(savedPath),
         ),
       ),
     );
@@ -299,6 +307,7 @@ class _AudioPreviewState extends State<_AudioPreview> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -327,7 +336,7 @@ class _AudioPreviewState extends State<_AudioPreview> {
             FilledButton.icon(
               onPressed: _togglePlayback,
               icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-              label: Text(_isPlaying ? 'Пауза' : 'Воспроизвести'),
+              label: Text(_isPlaying ? l10n.fileAudioPause : l10n.fileAudioPlay),
             ),
           ],
         ),

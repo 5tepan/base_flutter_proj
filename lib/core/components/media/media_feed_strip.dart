@@ -7,6 +7,7 @@ import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/media/media_feed_style.dart';
 import 'package:base_flutter_proj/core/components/media/media_feed_tile.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -35,13 +36,13 @@ class MediaFeedStrip extends StatelessWidget {
     this.addButtonBuilder,
     this.itemBuilder,
     this.emptyPlaceholder,
-    this.addSheetTitle = 'Добавить медиа',
-    this.cameraOptionLabel = 'Камера',
-    this.galleryOptionLabel = 'Галерея',
+    this.addSheetTitle,
+    this.cameraOptionLabel,
+    this.galleryOptionLabel,
     this.showCameraOption = true,
     this.showGalleryOption = true,
-    this.cameraPhotoOptionLabel = 'Фото',
-    this.cameraVideoOptionLabel = 'Видео',
+    this.cameraPhotoOptionLabel,
+    this.cameraVideoOptionLabel,
   });
 
   final List<MediaFeedItem> items;
@@ -60,13 +61,13 @@ class MediaFeedStrip extends StatelessWidget {
   final MediaFeedAddButtonBuilder? addButtonBuilder;
   final MediaFeedTileBuilder? itemBuilder;
   final Widget? emptyPlaceholder;
-  final String addSheetTitle;
-  final String cameraOptionLabel;
-  final String galleryOptionLabel;
+  final String? addSheetTitle;
+  final String? cameraOptionLabel;
+  final String? galleryOptionLabel;
   final bool showCameraOption;
   final bool showGalleryOption;
-  final String cameraPhotoOptionLabel;
-  final String cameraVideoOptionLabel;
+  final String? cameraPhotoOptionLabel;
+  final String? cameraVideoOptionLabel;
 
   bool get _canAddMore =>
       !editable || maxItems == null || items.length < maxItems!;
@@ -176,6 +177,7 @@ class MediaFeedStrip extends StatelessWidget {
   }
 
   Future<_MediaAddSelection?> _pickAddSelection(BuildContext context) async {
+    final l10n = S.of(context);
     final source = await _pickSource(context);
     if (source == null) {
       return null;
@@ -192,21 +194,21 @@ class MediaFeedStrip extends StatelessWidget {
 
     final preferredType = await AppBottomSheet.show<MediaFeedItemType>(
       context: context,
-      title: addSheetTitle,
+      title: addSheetTitle ?? l10n.mediaFeedAddTitle,
       builder: (sheetContext) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               leading: const Icon(Icons.photo_outlined),
-              title: Text(cameraPhotoOptionLabel),
+              title: Text(cameraPhotoOptionLabel ?? l10n.mediaFeedPhoto),
               onTap: () => Navigator.of(sheetContext).pop(
                 MediaFeedItemType.photo,
               ),
             ),
             ListTile(
               leading: const Icon(Icons.videocam_outlined),
-              title: Text(cameraVideoOptionLabel),
+              title: Text(cameraVideoOptionLabel ?? l10n.mediaFeedVideo),
               onTap: () => Navigator.of(sheetContext).pop(
                 MediaFeedItemType.video,
               ),
@@ -227,6 +229,7 @@ class MediaFeedStrip extends StatelessWidget {
   }
 
   Future<AppMediaPickerSource?> _pickSource(BuildContext context) async {
+    final l10n = S.of(context);
     if (showCameraOption && !showGalleryOption) {
       return AppMediaPickerSource.camera;
     }
@@ -236,7 +239,7 @@ class MediaFeedStrip extends StatelessWidget {
 
     return AppBottomSheet.show<AppMediaPickerSource>(
       context: context,
-      title: addSheetTitle,
+      title: addSheetTitle ?? l10n.mediaFeedAddTitle,
       builder: (sheetContext) {
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -244,7 +247,7 @@ class MediaFeedStrip extends StatelessWidget {
             if (showCameraOption)
               ListTile(
                 leading: const Icon(Icons.photo_camera_outlined),
-                title: Text(cameraOptionLabel),
+                title: Text(cameraOptionLabel ?? l10n.mediaFeedCamera),
                 onTap: () => Navigator.of(sheetContext).pop(
                   AppMediaPickerSource.camera,
                 ),
@@ -252,7 +255,7 @@ class MediaFeedStrip extends StatelessWidget {
             if (showGalleryOption)
               ListTile(
                 leading: const Icon(Icons.photo_library_outlined),
-                title: Text(galleryOptionLabel),
+                title: Text(galleryOptionLabel ?? l10n.mediaFeedGallery),
                 onTap: () => Navigator.of(sheetContext).pop(
                   AppMediaPickerSource.gallery,
                 ),

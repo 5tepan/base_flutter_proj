@@ -6,9 +6,9 @@ import 'package:base_flutter_proj/core/base/model/notifiers/form_notifier.dart';
 import 'package:base_flutter_proj/core/base/model/states/form_state.dart';
 import 'package:base_flutter_proj/core/errors/app_exception.dart';
 import 'package:base_flutter_proj/core/l10n/error_localizer.dart';
+import 'package:base_flutter_proj/core/providers/localizations_provider.dart';
 import 'package:base_flutter_proj/core/providers/toast_service_provider.dart';
 import 'package:base_flutter_proj/core/services/toast_service.dart';
-import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authByPhoneFormProvider =
@@ -44,14 +44,15 @@ class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
   }
 
   Future<void> submitPhone() async {
+    final l10n = ref.read(appLocalizationsProvider);
     try {
       await runSubmit((model) async {
         await _repository.requestConfirmationCode(model.phoneNumber);
       });
     } on AppException catch (error) {
-      _toast.showError(ErrorLocalizer.fromAppException(error));
+      _toast.showError(ErrorLocalizer.fromAppException(error, l10n));
     } catch (error) {
-      _toast.showError(S.current.authSendCodeError);
+      _toast.showError(l10n.authSendCodeError);
     }
   }
 }
@@ -81,6 +82,7 @@ class PhoneConfirmationFormNotifier
   }
 
   Future<bool> submitConfirmation() async {
+    final l10n = ref.read(appLocalizationsProvider);
     try {
       await runSubmit((model) async {
         final session = await _repository.verifyCode(
@@ -91,23 +93,24 @@ class PhoneConfirmationFormNotifier
       });
       return true;
     } on AppException catch (error) {
-      _toast.showError(ErrorLocalizer.fromAppException(error));
+      _toast.showError(ErrorLocalizer.fromAppException(error, l10n));
       return false;
     } catch (error) {
-      _toast.showError(S.current.authConfirmCodeError);
+      _toast.showError(l10n.authConfirmCodeError);
       return false;
     }
   }
 
   Future<void> resendCode() async {
+    final l10n = ref.read(appLocalizationsProvider);
     try {
       await runSubmit((model) async {
         await _repository.resendCode(model.phoneNumber);
       });
     } on AppException catch (error) {
-      _toast.showError(ErrorLocalizer.fromAppException(error));
+      _toast.showError(ErrorLocalizer.fromAppException(error, l10n));
     } catch (error) {
-      _toast.showError(S.current.authResendCodeError);
+      _toast.showError(l10n.authResendCodeError);
     }
   }
 }

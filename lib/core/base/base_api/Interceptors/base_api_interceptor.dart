@@ -3,18 +3,18 @@ import 'package:http_interceptor/http_interceptor.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class BaseApiInterceptor extends InterceptorContract {
-  final PackageInfo packageInfo;
-  final AuthTokenHolder? tokenHolder;
-
   BaseApiInterceptor({
     required this.packageInfo,
     this.tokenHolder,
   });
 
+  final PackageInfo packageInfo;
+  final AuthTokenHolder? tokenHolder;
+
   Map<String, String> get headers => {
-    'X-Client-Version': '${packageInfo.version}+${packageInfo.buildNumber}',
-    'accept': 'application/json',
-  };
+        'X-Client-Version': '${packageInfo.version}+${packageInfo.buildNumber}',
+        'accept': 'application/json',
+      };
 
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
@@ -32,5 +32,6 @@ class BaseApiInterceptor extends InterceptorContract {
   @override
   Future<BaseResponse> interceptResponse({
     required BaseResponse response,
-  }) async => response;
+  }) async =>
+      response;
 }

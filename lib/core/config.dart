@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
 
-enum AppNavigationMode {
-  side,
-  bottom;
-
-  bool get isSide => this == side;
-
-  bool get isBottom => this == bottom;
-}
-
 enum Flavor { dev, prod }
 
 /// Режим локализации приложения.
@@ -30,32 +21,25 @@ class Config {
   final bool isHttpsApi;
   final double? imagePickerMaxImageSize;
   final int? imagePickerImageQuality;
-  final String appMetricaApiKey;
 
   final bool showDebugBanner;
   final bool enableFirebase;
   final bool useMockAuthApi;
   final bool useMockShopApi;
-  final AppNavigationMode defaultNavigationMode;
   final AppLocaleMode localeMode;
   final Flavor flavor;
-
-  final String? livekitUrl;
 
   const Config({
     required this.apiUrlDomain,
     required this.apiUrlRelativePath,
-    required this.appMetricaApiKey,
     this.isHttpsApi = false,
     this.flavor = Flavor.dev,
-    this.livekitUrl,
     this.imagePickerMaxImageSize = 1536.0,
     this.imagePickerImageQuality = 95,
     this.showDebugBanner = true,
     this.enableFirebase = false,
     this.useMockAuthApi = true,
     this.useMockShopApi = true,
-    this.defaultNavigationMode = AppNavigationMode.bottom,
     this.localeMode = AppLocaleMode.russianAndEnglish,
   });
 

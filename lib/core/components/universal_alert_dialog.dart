@@ -1,4 +1,5 @@
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 typedef UniversalModalPressed = void Function(BuildContext modalContext);
@@ -143,16 +144,17 @@ class UniversalModal extends StatelessWidget {
     required BuildContext context,
     required String body,
     String? title,
-    String primaryLabel = 'Да',
-    String secondaryLabel = 'Нет',
+    String? primaryLabel,
+    String? secondaryLabel,
     bool barrierDismissible = true,
   }) async {
+    final l10n = S.of(context);
     final result = await showText<bool>(
       context: context,
       title: title,
       body: body,
-      primaryLabel: primaryLabel,
-      secondaryLabel: secondaryLabel,
+      primaryLabel: primaryLabel ?? l10n.universalModalYes,
+      secondaryLabel: secondaryLabel ?? l10n.universalModalNo,
       barrierDismissible: barrierDismissible,
       onPrimaryPressed: (modalContext) => Navigator.of(modalContext).pop(true),
       onSecondaryPressed: (modalContext) =>
@@ -166,14 +168,15 @@ class UniversalModal extends StatelessWidget {
     required BuildContext context,
     required String body,
     String? title,
-    String primaryLabel = 'Ок',
+    String? primaryLabel,
     bool barrierDismissible = true,
   }) {
+    final l10n = S.of(context);
     return showText<void>(
       context: context,
       title: title,
       body: body,
-      primaryLabel: primaryLabel,
+      primaryLabel: primaryLabel ?? l10n.universalModalOk,
       barrierDismissible: barrierDismissible,
     );
   }

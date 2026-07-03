@@ -82,6 +82,7 @@ class _PhoneConfirmationFormPageState
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
       validator: (value) => FormValidator.validateCode(
         value,
+        l10n: l10n,
         error: l10n.enterCode,
       ),
       onChanged: notifier.updateCode,

@@ -22,6 +22,7 @@ class BaseErrorWidget extends StatefulWidget {
   });
 
   factory BaseErrorWidget.fromError({
+    required BuildContext context,
     required AppErrorCode errorCode,
     required VoidCallback onPressedButton,
     String? serverMessage,
@@ -30,8 +31,10 @@ class BaseErrorWidget extends StatefulWidget {
     String? titleError,
     String? textButton,
   }) {
+    final l10n = S.of(context);
     final message = ErrorLocalizer.message(
       errorCode,
+      l10n,
       serverMessage: serverMessage,
     );
     return BaseErrorWidget(

@@ -23,10 +23,12 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(phone) =>
       "An SMS with a confirmation code\nwas sent to ${phone}";
 
-  static String m1(buttonText) =>
+  static String m1(path) => "Saved: ${path}";
+
+  static String m2(buttonText) =>
       "By tapping «${buttonText}», you agree to the ";
 
-  static String m2(time) => "Resend in ${time}";
+  static String m3(time) => "Resend in ${time}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -100,6 +102,49 @@ class MessageLookup extends MessageLookupByLibrary {
       "Confirmation code",
     ),
     "continueButton": MessageLookupByLibrary.simpleMessage("Continue"),
+    "dateTimeSelect": MessageLookupByLibrary.simpleMessage("Select"),
+    "dateTimeSelectTime": MessageLookupByLibrary.simpleMessage("Select time"),
+    "dateTimeSelectYear": MessageLookupByLibrary.simpleMessage("Select year"),
+    "demoAttachmentsLabel": MessageLookupByLibrary.simpleMessage("Attachments"),
+    "demoFilesSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "PDF, documents and other types via file_picker.",
+    ),
+    "demoFilesSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "File upload",
+    ),
+    "demoMediaFilesTitle": MessageLookupByLibrary.simpleMessage(
+      "Media and files",
+    ),
+    "demoMixedSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Mixed feed. Camera: photo or video; gallery: any type.",
+    ),
+    "demoMixedSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Photos and videos (mixed)",
+    ),
+    "demoPhotoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Images only. Croppy opens when adding a photo.",
+    ),
+    "demoPhotoSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Photos (editable feed)",
+    ),
+    "demoReadOnlySectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Same items as the mixed feed, without add or remove.",
+    ),
+    "demoReadOnlySectionTitle": MessageLookupByLibrary.simpleMessage(
+      "View only",
+    ),
+    "demoShareFilesButton": MessageLookupByLibrary.simpleMessage("Share files"),
+    "demoShareLinkText": MessageLookupByLibrary.simpleMessage(
+      "Demo link from the app",
+    ),
+    "demoShareSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "share_plus — link, text and selected files.",
+    ),
+    "demoShareSectionTitle": MessageLookupByLibrary.simpleMessage("Sharing"),
+    "demoShareTextButton": MessageLookupByLibrary.simpleMessage("Share text"),
+    "demoSyncMixedButton": MessageLookupByLibrary.simpleMessage(
+      "Copy mixed feed to view-only mode",
+    ),
     "documentDefaultTitle": MessageLookupByLibrary.simpleMessage("Document"),
     "enterCode": MessageLookupByLibrary.simpleMessage("Enter the code"),
     "enterPhone": MessageLookupByLibrary.simpleMessage("Enter phone number"),
@@ -109,7 +154,31 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorLoadingTitle": MessageLookupByLibrary.simpleMessage(
       "Failed to load data",
     ),
+    "fileAudioPause": MessageLookupByLibrary.simpleMessage("Pause"),
+    "fileAudioPlay": MessageLookupByLibrary.simpleMessage("Play"),
+    "fileListEmpty": MessageLookupByLibrary.simpleMessage("No files selected"),
+    "filePickButton": MessageLookupByLibrary.simpleMessage("Choose files"),
+    "filePickError": MessageLookupByLibrary.simpleMessage(
+      "Failed to choose files",
+    ),
+    "fileViewerLocalUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Local file unavailable",
+    ),
+    "fileViewerMediaTitle": MessageLookupByLibrary.simpleMessage("Media"),
+    "fileViewerPreviewUnavailable": MessageLookupByLibrary.simpleMessage(
+      "Preview unavailable",
+    ),
+    "fileViewerSaveFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to save file",
+    ),
+    "fileViewerSaved": m1,
+    "fileViewerTitle": MessageLookupByLibrary.simpleMessage("File"),
     "inDevelopment": MessageLookupByLibrary.simpleMessage("In development"),
+    "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Add media"),
+    "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Camera"),
+    "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Gallery"),
+    "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Photo"),
+    "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Video"),
     "navHome": MessageLookupByLibrary.simpleMessage("Home"),
     "navProfile": MessageLookupByLibrary.simpleMessage("Profile"),
     "navShop": MessageLookupByLibrary.simpleMessage("Shop"),
@@ -121,13 +190,27 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone"),
     "privacyAgreementAnd": MessageLookupByLibrary.simpleMessage("\nand "),
-    "privacyAgreementPrefix": m1,
+    "privacyAgreementPrefix": m2,
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage(
       "Privacy Policy",
     ),
+    "profileDemoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Examples from core/components",
+    ),
+    "profileDemoSectionTitle": MessageLookupByLibrary.simpleMessage(
+      "Component demos",
+    ),
+    "profileMediaDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Photo/video feed, file upload, preview, sharing",
+    ),
+    "profileMediaDemoTitle": MessageLookupByLibrary.simpleMessage(
+      "Media and files",
+    ),
     "resendCodeButton": MessageLookupByLibrary.simpleMessage("Resend code"),
-    "resendCodeIn": m2,
+    "resendCodeIn": m3,
+    "shareButton": MessageLookupByLibrary.simpleMessage("Share"),
+    "shareLinkButton": MessageLookupByLibrary.simpleMessage("Share link"),
     "shopEmptySubtitle": MessageLookupByLibrary.simpleMessage(
       "Products will appear here",
     ),
@@ -142,6 +225,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "termsOfUse": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "termsOfUseTitle": MessageLookupByLibrary.simpleMessage("Terms of Use"),
     "tryAgain": MessageLookupByLibrary.simpleMessage("Try again"),
+    "universalModalNo": MessageLookupByLibrary.simpleMessage("No"),
+    "universalModalOk": MessageLookupByLibrary.simpleMessage("OK"),
+    "universalModalYes": MessageLookupByLibrary.simpleMessage("Yes"),
     "validationDateOfBirth": MessageLookupByLibrary.simpleMessage(
       "Select date of birth",
     ),

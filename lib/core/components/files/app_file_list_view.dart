@@ -3,6 +3,7 @@ import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_viewer.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 typedef AppFileListTileBuilder =
@@ -62,7 +63,7 @@ class AppFileListView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (files.isEmpty) {
       return emptyBuilder?.call(context) ??
-          const Center(child: Text('Файлы не выбраны'));
+          Center(child: Text(S.of(context).fileListEmpty));
     }
 
     return ListView.separated(

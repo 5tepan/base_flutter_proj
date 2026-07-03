@@ -648,6 +648,396 @@ class S {
   String get navProfile {
     return Intl.message('Профиль', name: 'navProfile', desc: '', args: []);
   }
+
+  /// `Демо компонентов`
+  String get profileDemoSectionTitle {
+    return Intl.message(
+      'Демо компонентов',
+      name: 'profileDemoSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Примеры виджетов из core/components`
+  String get profileDemoSectionSubtitle {
+    return Intl.message(
+      'Примеры виджетов из core/components',
+      name: 'profileDemoSectionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Медиа и файлы`
+  String get profileMediaDemoTitle {
+    return Intl.message(
+      'Медиа и файлы',
+      name: 'profileMediaDemoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Лента фото/видео, загрузка файлов, просмотр, шаринг`
+  String get profileMediaDemoSubtitle {
+    return Intl.message(
+      'Лента фото/видео, загрузка файлов, просмотр, шаринг',
+      name: 'profileMediaDemoSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Медиа и файлы`
+  String get demoMediaFilesTitle {
+    return Intl.message(
+      'Медиа и файлы',
+      name: 'demoMediaFilesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Фото (редактируемая лента)`
+  String get demoPhotoSectionTitle {
+    return Intl.message(
+      'Фото (редактируемая лента)',
+      name: 'demoPhotoSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Только изображения. При добавлении открывается croppy для обрезки.`
+  String get demoPhotoSectionSubtitle {
+    return Intl.message(
+      'Только изображения. При добавлении открывается croppy для обрезки.',
+      name: 'demoPhotoSectionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Фото и видео (mixed)`
+  String get demoMixedSectionTitle {
+    return Intl.message(
+      'Фото и видео (mixed)',
+      name: 'demoMixedSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Смешанная лента. С камеры — выбор фото или видео, из галереи — любой тип.`
+  String get demoMixedSectionSubtitle {
+    return Intl.message(
+      'Смешанная лента. С камеры — выбор фото или видео, из галереи — любой тип.',
+      name: 'demoMixedSectionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Только просмотр`
+  String get demoReadOnlySectionTitle {
+    return Intl.message(
+      'Только просмотр',
+      name: 'demoReadOnlySectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Те же элементы, что в mixed-ленте, но без кнопок добавления и удаления.`
+  String get demoReadOnlySectionSubtitle {
+    return Intl.message(
+      'Те же элементы, что в mixed-ленте, но без кнопок добавления и удаления.',
+      name: 'demoReadOnlySectionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Загрузка файлов`
+  String get demoFilesSectionTitle {
+    return Intl.message(
+      'Загрузка файлов',
+      name: 'demoFilesSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PDF, документы и другие типы через file_picker.`
+  String get demoFilesSectionSubtitle {
+    return Intl.message(
+      'PDF, документы и другие типы через file_picker.',
+      name: 'demoFilesSectionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Шаринг`
+  String get demoShareSectionTitle {
+    return Intl.message(
+      'Шаринг',
+      name: 'demoShareSectionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `share_plus — ссылка, текст и выбранные файлы.`
+  String get demoShareSectionSubtitle {
+    return Intl.message(
+      'share_plus — ссылка, текст и выбранные файлы.',
+      name: 'demoShareSectionSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Демо ссылка из приложения`
+  String get demoShareLinkText {
+    return Intl.message(
+      'Демо ссылка из приложения',
+      name: 'demoShareLinkText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Поделиться текстом`
+  String get demoShareTextButton {
+    return Intl.message(
+      'Поделиться текстом',
+      name: 'demoShareTextButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Поделиться файлами`
+  String get demoShareFilesButton {
+    return Intl.message(
+      'Поделиться файлами',
+      name: 'demoShareFilesButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Скопировать mixed-ленту в режим просмотра`
+  String get demoSyncMixedButton {
+    return Intl.message(
+      'Скопировать mixed-ленту в режим просмотра',
+      name: 'demoSyncMixedButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Вложения`
+  String get demoAttachmentsLabel {
+    return Intl.message(
+      'Вложения',
+      name: 'demoAttachmentsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Добавить медиа`
+  String get mediaFeedAddTitle {
+    return Intl.message(
+      'Добавить медиа',
+      name: 'mediaFeedAddTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Камера`
+  String get mediaFeedCamera {
+    return Intl.message('Камера', name: 'mediaFeedCamera', desc: '', args: []);
+  }
+
+  /// `Галерея`
+  String get mediaFeedGallery {
+    return Intl.message(
+      'Галерея',
+      name: 'mediaFeedGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Фото`
+  String get mediaFeedPhoto {
+    return Intl.message('Фото', name: 'mediaFeedPhoto', desc: '', args: []);
+  }
+
+  /// `Видео`
+  String get mediaFeedVideo {
+    return Intl.message('Видео', name: 'mediaFeedVideo', desc: '', args: []);
+  }
+
+  /// `Файлы не выбраны`
+  String get fileListEmpty {
+    return Intl.message(
+      'Файлы не выбраны',
+      name: 'fileListEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выбрать файлы`
+  String get filePickButton {
+    return Intl.message(
+      'Выбрать файлы',
+      name: 'filePickButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось выбрать файлы`
+  String get filePickError {
+    return Intl.message(
+      'Не удалось выбрать файлы',
+      name: 'filePickError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Файл`
+  String get fileViewerTitle {
+    return Intl.message('Файл', name: 'fileViewerTitle', desc: '', args: []);
+  }
+
+  /// `Медиа`
+  String get fileViewerMediaTitle {
+    return Intl.message(
+      'Медиа',
+      name: 'fileViewerMediaTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Предпросмотр недоступен`
+  String get fileViewerPreviewUnavailable {
+    return Intl.message(
+      'Предпросмотр недоступен',
+      name: 'fileViewerPreviewUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Локальный файл недоступен`
+  String get fileViewerLocalUnavailable {
+    return Intl.message(
+      'Локальный файл недоступен',
+      name: 'fileViewerLocalUnavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось сохранить файл`
+  String get fileViewerSaveFailed {
+    return Intl.message(
+      'Не удалось сохранить файл',
+      name: 'fileViewerSaveFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сохранено: {path}`
+  String fileViewerSaved(String path) {
+    return Intl.message(
+      'Сохранено: $path',
+      name: 'fileViewerSaved',
+      desc: '',
+      args: [path],
+    );
+  }
+
+  /// `Пауза`
+  String get fileAudioPause {
+    return Intl.message('Пауза', name: 'fileAudioPause', desc: '', args: []);
+  }
+
+  /// `Воспроизвести`
+  String get fileAudioPlay {
+    return Intl.message(
+      'Воспроизвести',
+      name: 'fileAudioPlay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Поделиться`
+  String get shareButton {
+    return Intl.message('Поделиться', name: 'shareButton', desc: '', args: []);
+  }
+
+  /// `Поделиться ссылкой`
+  String get shareLinkButton {
+    return Intl.message(
+      'Поделиться ссылкой',
+      name: 'shareLinkButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выбрать`
+  String get dateTimeSelect {
+    return Intl.message('Выбрать', name: 'dateTimeSelect', desc: '', args: []);
+  }
+
+  /// `Выберите время`
+  String get dateTimeSelectTime {
+    return Intl.message(
+      'Выберите время',
+      name: 'dateTimeSelectTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выберите год`
+  String get dateTimeSelectYear {
+    return Intl.message(
+      'Выберите год',
+      name: 'dateTimeSelectYear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Да`
+  String get universalModalYes {
+    return Intl.message('Да', name: 'universalModalYes', desc: '', args: []);
+  }
+
+  /// `Нет`
+  String get universalModalNo {
+    return Intl.message('Нет', name: 'universalModalNo', desc: '', args: []);
+  }
+
+  /// `Ок`
+  String get universalModalOk {
+    return Intl.message('Ок', name: 'universalModalOk', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

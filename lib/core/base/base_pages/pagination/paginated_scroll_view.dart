@@ -32,6 +32,7 @@ class PaginatedScrollView<T> extends StatelessWidget {
 
     if (state.hasError && state.items.isEmpty) {
       return BaseErrorWidget.fromError(
+        context: context,
         errorCode: state.errorCode!,
         serverMessage: state.serverMessage,
         onPressedButton: onRetry,

@@ -32,17 +32,15 @@ class ProfilePage extends ConsumerWidget {
       ),
       body: ListView(
         children: [
-          const ListTile(
-            leading: Icon(Icons.science_outlined),
-            title: Text('Демо компонентов'),
-            subtitle: Text('Примеры виджетов из core/components'),
+          ListTile(
+            leading: const Icon(Icons.science_outlined),
+            title: Text(l10n.profileDemoSectionTitle),
+            subtitle: Text(l10n.profileDemoSectionSubtitle),
           ),
           ListTile(
             leading: const Icon(Icons.perm_media_outlined),
-            title: const Text('Медиа и файлы'),
-            subtitle: const Text(
-              'Лента фото/видео, загрузка файлов, просмотр, шаринг',
-            ),
+            title: Text(l10n.profileMediaDemoTitle),
+            subtitle: Text(l10n.profileMediaDemoSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => const MediaFilesDemoRoute().push(context),
           ),

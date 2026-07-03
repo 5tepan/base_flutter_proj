@@ -13,6 +13,5 @@ class FormModel extends BaseModel {
 
   void reset() {
     fields.clear();
-    clearError();
   }
 }

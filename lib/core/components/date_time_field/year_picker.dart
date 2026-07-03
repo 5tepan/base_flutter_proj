@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _YearPickerDialogState extends State<YearPickerDialog> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0),
-            child: Text(widget.titleText ?? 'Выберите год'),
+            child: Text(widget.titleText ?? S.of(context).dateTimeSelectYear),
           ),
         ),
         CupertinoButton(
