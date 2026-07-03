@@ -26,6 +26,7 @@
 - hive / hive_flutter — локальный кеш и история поиска
 - firebase_core / firebase_crashlytics / firebase_messaging (опционально; ключи через env JSON)
 - bottom_picker, intl — выбор даты/времени в формах
+- modal_bottom_sheet, gap — bottom sheet панели
 
 ## Быстрый старт
 
@@ -241,6 +242,26 @@ SearchAutocompleteField<String>(
 ```
 
 Hive инициализируется в `AppBootstrap` (`lib/core/storage/hive_bootstrap.dart`).
+
+### Bottom sheet
+
+`AppBottomSheet` + `AppBottomSheetPanel` — `lib/core/components/bottom_sheet/` (на базе `modal_bottom_sheet`).
+
+- Drag-to-close, tap outside (`isDismissible`)
+- Заголовок, handle, close icon, кастомный header/footer
+- `AppBottomSheetStyle` — скругление, отступы, цвета, handle
+- `AppBottomSheet.show` / `.showCupertino` / `.showBar`
+
+```dart
+await AppBottomSheet.show<void>(
+  context: context,
+  title: 'Фильтры',
+  scrollable: true,
+  builder: (sheetContext) => FilterForm(
+    onApply: () => Navigator.pop(sheetContext),
+  ),
+);
+```
 
 ## Push-уведомления (опционально)
 
