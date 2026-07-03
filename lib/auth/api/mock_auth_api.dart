@@ -30,7 +30,6 @@ class MockAuthApi implements AuthApi {
       accessToken: 'mock_access_$phoneNumber',
       refreshToken: 'mock_refresh_$phoneNumber',
       phoneNumber: phoneNumber,
-      expiresAt: DateTime.now().add(const Duration(hours: 1)),
     );
   }
 
