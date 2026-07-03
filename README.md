@@ -263,6 +263,34 @@ await AppBottomSheet.show<void>(
 );
 ```
 
+### Медиа-лента и файлы
+
+`lib/core/components/media/`, `files/`, `sharing/` — лента фото/видео, загрузка файлов, просмотр, шаринг.
+
+```dart
+MediaFeedStrip(
+  items: mediaItems,
+  editable: true,
+  contentMode: MediaFeedContentMode.mixed, // photosOnly | videosOnly
+  maxItems: 10,
+  onChanged: (items) => setState(() => mediaItems = items),
+)
+
+AppFilePickerField(
+  files: attachments,
+  editable: true,
+  fileType: FileType.custom,
+  allowedExtensions: ['pdf', 'doc'],
+  onChanged: (files) => setState(() => attachments = files),
+)
+
+AppShareLinkButton(url: 'https://example.com/item/42')
+```
+
+Фото при добавлении обрезаются через `croppy` (`cropConfig: AppImageCropConfig(...)`). Просмотр: `AppFileViewer.open(context, item: file)`.
+
+**Демо:** вкладка «Профиль» → «Медиа и файлы» (`/profile/media-demo`).
+
 ## Push-уведомления (опционально)
 
 Требует `"enableFirebase": true` в `env/*.env.json` и настроенных Firebase-файлах.
