@@ -14,7 +14,7 @@
 | **Локализация** | ru / en через `intl_utils` (`lib/l10n/`, `make intl`) |
 | **Отладка** | Talker, HTTP-логи, debug banner (dev), опциональный Firebase Crashlytics |
 | **Push** | FCM (`firebase_messaging`): типы в `PushType`, топики в `PushTopic`, обработчики в модулях фич |
-| **WebView** | Экран для политики конфиденциальности и документов |
+| **WebView** | Экран для открытия ссылок внутри приложения |
 
 Заглушки: **Home** — `AuthenticatedPlaceholderPage`. **Profile** — хаб демо-компонентов (`/profile/media-demo`). **Shop** — эталон: список/сетка, Repository, деталка товара.
 
@@ -93,8 +93,6 @@ make setup-secrets
 | `ios/Flutter/Secrets.xcconfig` | `DEVELOPMENT_TEAM` для Xcode |
 
 Шаблоны: `.env.example`, `env/*.env.json.example`, `secrets/*.example`.
-
-> Если секреты уже попали в git — **ротируйте ключи** в Firebase Console.
 
 ### Только русский язык
 
@@ -362,5 +360,3 @@ Package/bundle ID dev должны совпадать с Firebase Console (`com.
 | `make intl` | intl_utils:generate |
 | `make createSplash` | нативный splash screen |
 | `make toAssets` | генерация каталога ассетов |
-
-Подробная карта проекта: [`docs/PROJECT_MAP.md`](docs/PROJECT_MAP.md).
