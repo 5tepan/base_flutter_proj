@@ -99,6 +99,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "authVerifyCodeFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to verify code",
     ),
+    "chatEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Send the first message",
+    ),
+    "chatEmptyTitle": MessageLookupByLibrary.simpleMessage("No messages"),
+    "chatListEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Your conversations will appear here",
+    ),
+    "chatListEmptyTitle": MessageLookupByLibrary.simpleMessage("No chats"),
+    "chatListTitle": MessageLookupByLibrary.simpleMessage("Chats"),
+    "chatMessageInputHint": MessageLookupByLibrary.simpleMessage("Message"),
     "codeSentToPhone": m0,
     "confirmationCodeLabel": MessageLookupByLibrary.simpleMessage(
       "Confirmation code",
@@ -211,6 +221,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileCalendarDemoTitle": MessageLookupByLibrary.simpleMessage(
       "Calendar",
     ),
+    "profileChatDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Room list, messages, real-time WebSocket updates",
+    ),
+    "profileChatDemoTitle": MessageLookupByLibrary.simpleMessage("Chats"),
+    "profileChatDirectDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Open the single chat directly, without the room list",
+    ),
+    "profileChatDirectDemoTitle": MessageLookupByLibrary.simpleMessage("Chat"),
     "profileDemoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
       "Examples from core/components",
     ),

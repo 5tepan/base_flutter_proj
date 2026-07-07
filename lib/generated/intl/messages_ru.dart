@@ -101,6 +101,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "authVerifyCodeFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось подтвердить код",
     ),
+    "chatEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Напишите первое сообщение",
+    ),
+    "chatEmptyTitle": MessageLookupByLibrary.simpleMessage("Нет сообщений"),
+    "chatListEmptySubtitle": MessageLookupByLibrary.simpleMessage(
+      "Здесь появятся ваши переписки",
+    ),
+    "chatListEmptyTitle": MessageLookupByLibrary.simpleMessage("Нет чатов"),
+    "chatListTitle": MessageLookupByLibrary.simpleMessage("Чаты"),
+    "chatMessageInputHint": MessageLookupByLibrary.simpleMessage("Сообщение"),
     "codeSentToPhone": m0,
     "confirmationCodeLabel": MessageLookupByLibrary.simpleMessage(
       "Код подтверждения",
@@ -225,6 +235,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileCalendarDemoTitle": MessageLookupByLibrary.simpleMessage(
       "Календарь",
     ),
+    "profileChatDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Список комнат, сообщения, WebSocket в реальном времени",
+    ),
+    "profileChatDemoTitle": MessageLookupByLibrary.simpleMessage("Чаты"),
+    "profileChatDirectDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Прямой вход в единственный чат без списка комнат",
+    ),
+    "profileChatDirectDemoTitle": MessageLookupByLibrary.simpleMessage("Чат"),
     "profileDemoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
       "Примеры виджетов из core/components",
     ),

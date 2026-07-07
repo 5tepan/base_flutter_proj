@@ -145,6 +145,31 @@ abstract final class AppShadows {
   ];
 }
 
+/// Визуальные токены чата: цвета пузырей, отступы, бейдж непрочитанных.
+class AppChatStyle {
+  const AppChatStyle({
+    this.incomingBubbleColor = AppColors.lightGrey,
+    this.outgoingBubbleColor = AppColors.primaryColor,
+    this.incomingTextColor = AppColors.black,
+    this.outgoingTextColor = AppColors.white,
+    this.bubbleBorderRadius = const BorderRadius.all(Radius.circular(16)),
+    this.messageSpacing = 8,
+    this.roomPadding = const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    this.inputBackgroundColor = AppColors.white,
+    this.unreadBadgeColor = AppColors.errorColor,
+  });
+
+  final Color incomingBubbleColor;
+  final Color outgoingBubbleColor;
+  final Color incomingTextColor;
+  final Color outgoingTextColor;
+  final BorderRadius bubbleBorderRadius;
+  final double messageSpacing;
+  final EdgeInsets roomPadding;
+  final Color inputBackgroundColor;
+  final Color unreadBadgeColor;
+}
+
 /// Общие стили для табов таб бара
 class FulfillmentSegmentTabsStyle {
   final double pillBorderRadius;
@@ -207,6 +232,7 @@ class ThemeBuilder {
   static const double cardBorderRadius = 12.0;
   static const double defaultPadding = 12.0;
   static const double defaultSmallPadding = 6.0;
+  static const AppChatStyle chatStyle = AppChatStyle();
 
   static SystemUiOverlayStyle get systemUiOverlayStyle =>
       const SystemUiOverlayStyle(

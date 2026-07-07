@@ -1,3 +1,6 @@
+import 'package:base_flutter_proj/chat/chat_list_page.dart';
+import 'package:base_flutter_proj/chat/chat_room_page.dart';
+import 'package:base_flutter_proj/chat/config/chat_defaults.dart';
 import 'package:base_flutter_proj/demo/calendar_demo_page.dart';
 import 'package:base_flutter_proj/demo/media_files_demo_page.dart';
 import 'package:base_flutter_proj/profile/profile_page.dart';
@@ -9,12 +12,22 @@ part 'profile_route.g.dart';
 const String _profilePath = '/profile';
 const String _mediaFilesDemoPath = 'media-demo';
 const String _calendarDemoPath = 'calendar-demo';
+const String _chatListPath = 'chats';
+const String _chatDirectPath = 'chat';
+const String _chatRoomPath = ':roomId';
 
 @TypedGoRoute<ProfileRoute>(
   path: _profilePath,
   routes: [
     TypedGoRoute<MediaFilesDemoRoute>(path: _mediaFilesDemoPath),
     TypedGoRoute<CalendarDemoRoute>(path: _calendarDemoPath),
+    TypedGoRoute<ChatDirectRoute>(path: _chatDirectPath),
+    TypedGoRoute<ChatListRoute>(
+      path: _chatListPath,
+      routes: [
+        TypedGoRoute<ChatRoomRoute>(path: _chatRoomPath),
+      ],
+    ),
   ],
 )
 class ProfileRoute extends GoRouteData with $ProfileRoute {
@@ -41,5 +54,41 @@ class CalendarDemoRoute extends GoRouteData with $CalendarDemoRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const CalendarDemoPage();
+  }
+}
+
+class ChatDirectRoute extends GoRouteData with $ChatDirectRoute {
+  const ChatDirectRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ChatRoomPage(
+      roomId: ChatDefaults.singleRoomId,
+      title: ChatDefaults.singleRoomTitle,
+    );
+  }
+}
+
+class ChatListRoute extends GoRouteData with $ChatListRoute {
+  const ChatListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const ChatListPage();
+  }
+}
+
+class ChatRoomRoute extends GoRouteData with $ChatRoomRoute {
+  const ChatRoomRoute({
+    required this.roomId,
+    this.title,
+  });
+
+  final String roomId;
+  final String? title;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ChatRoomPage(roomId: roomId, title: title);
   }
 }

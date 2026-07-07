@@ -51,6 +51,20 @@ class ProfilePage extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => const CalendarDemoRoute().push(context),
           ),
+          ListTile(
+            leading: const Icon(Icons.chat_outlined),
+            title: Text(l10n.profileChatDirectDemoTitle),
+            subtitle: Text(l10n.profileChatDirectDemoSubtitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => const ChatDirectRoute().push(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.forum_outlined),
+            title: Text(l10n.profileChatDemoTitle),
+            subtitle: Text(l10n.profileChatDemoSubtitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => const ChatListRoute().push(context),
+          ),
         ],
       ),
     );

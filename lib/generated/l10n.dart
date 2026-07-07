@@ -709,6 +709,101 @@ class S {
     );
   }
 
+  /// `Чаты`
+  String get profileChatDemoTitle {
+    return Intl.message(
+      'Чаты',
+      name: 'profileChatDemoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Список комнат, сообщения, WebSocket в реальном времени`
+  String get profileChatDemoSubtitle {
+    return Intl.message(
+      'Список комнат, сообщения, WebSocket в реальном времени',
+      name: 'profileChatDemoSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Чат`
+  String get profileChatDirectDemoTitle {
+    return Intl.message(
+      'Чат',
+      name: 'profileChatDirectDemoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Прямой вход в единственный чат без списка комнат`
+  String get profileChatDirectDemoSubtitle {
+    return Intl.message(
+      'Прямой вход в единственный чат без списка комнат',
+      name: 'profileChatDirectDemoSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Чаты`
+  String get chatListTitle {
+    return Intl.message('Чаты', name: 'chatListTitle', desc: '', args: []);
+  }
+
+  /// `Нет чатов`
+  String get chatListEmptyTitle {
+    return Intl.message(
+      'Нет чатов',
+      name: 'chatListEmptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Здесь появятся ваши переписки`
+  String get chatListEmptySubtitle {
+    return Intl.message(
+      'Здесь появятся ваши переписки',
+      name: 'chatListEmptySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Нет сообщений`
+  String get chatEmptyTitle {
+    return Intl.message(
+      'Нет сообщений',
+      name: 'chatEmptyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Напишите первое сообщение`
+  String get chatEmptySubtitle {
+    return Intl.message(
+      'Напишите первое сообщение',
+      name: 'chatEmptySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Сообщение`
+  String get chatMessageInputHint {
+    return Intl.message(
+      'Сообщение',
+      name: 'chatMessageInputHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Медиа и файлы`
   String get demoMediaFilesTitle {
     return Intl.message(
