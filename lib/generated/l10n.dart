@@ -884,6 +884,16 @@ class S {
     return Intl.message('Видео', name: 'mediaFeedVideo', desc: '', args: []);
   }
 
+  /// `{current} / {total}`
+  String mediaFeedGalleryCounter(int current, int total) {
+    return Intl.message(
+      '$current / $total',
+      name: 'mediaFeedGalleryCounter',
+      desc: '',
+      args: [current, total],
+    );
+  }
+
   /// `Файлы не выбраны`
   String get fileListEmpty {
     return Intl.message(

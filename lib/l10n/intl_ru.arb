@@ -110,6 +110,17 @@
   "mediaFeedGallery": "Галерея",
   "mediaFeedPhoto": "Фото",
   "mediaFeedVideo": "Видео",
+  "mediaFeedGalleryCounter": "{current} / {total}",
+  "@mediaFeedGalleryCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "fileListEmpty": "Файлы не выбраны",
   "filePickButton": "Выбрать файлы",
   "filePickError": "Не удалось выбрать файлы",

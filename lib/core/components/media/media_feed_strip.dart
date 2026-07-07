@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:base_flutter_proj/core/components/bottom_sheet/app_bottom_sheet.dart';
-import 'package:base_flutter_proj/core/components/files/app_file_viewer.dart';
 import 'package:base_flutter_proj/core/components/media/app_image_cropper.dart';
 import 'package:base_flutter_proj/core/components/media/app_media_picker.dart';
+import 'package:base_flutter_proj/core/components/media/gallery/media_feed_gallery_viewer.dart';
 import 'package:base_flutter_proj/core/components/media/media_feed_content_mode.dart';
 import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/media/media_feed_style.dart';
@@ -102,9 +104,13 @@ class MediaFeedStrip extends StatelessWidget {
               onItemTap!(context, item, index);
               return;
             }
-            if (item.isVideo) {
-              AppFileViewer.openMedia(context, item: item);
-            }
+            unawaited(
+              MediaFeedGalleryViewer.open(
+                context,
+                items: items,
+                initialIndex: index,
+              ),
+            );
           },
         ),
       );

@@ -25,10 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(path) => "Saved: ${path}";
 
-  static String m2(buttonText) =>
+  static String m2(current, total) => "${current} / ${total}";
+
+  static String m3(buttonText) =>
       "By tapping «${buttonText}», you agree to the ";
 
-  static String m3(time) => "Resend in ${time}";
+  static String m4(time) => "Resend in ${time}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -177,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Add media"),
     "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Camera"),
     "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Gallery"),
+    "mediaFeedGalleryCounter": m2,
     "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Photo"),
     "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Video"),
     "navHome": MessageLookupByLibrary.simpleMessage("Home"),
@@ -190,7 +193,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone"),
     "privacyAgreementAnd": MessageLookupByLibrary.simpleMessage("\nand "),
-    "privacyAgreementPrefix": m2,
+    "privacyAgreementPrefix": m3,
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage(
       "Privacy Policy",
@@ -208,7 +211,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Media and files",
     ),
     "resendCodeButton": MessageLookupByLibrary.simpleMessage("Resend code"),
-    "resendCodeIn": m3,
+    "resendCodeIn": m4,
     "shareButton": MessageLookupByLibrary.simpleMessage("Share"),
     "shareLinkButton": MessageLookupByLibrary.simpleMessage("Share link"),
     "shopEmptySubtitle": MessageLookupByLibrary.simpleMessage(

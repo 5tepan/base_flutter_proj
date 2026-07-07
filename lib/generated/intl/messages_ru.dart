@@ -25,10 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(path) => "Сохранено: ${path}";
 
-  static String m2(buttonText) =>
+  static String m2(current, total) => "${current} / ${total}";
+
+  static String m3(buttonText) =>
       "Нажимая на кнопку «${buttonText}», Вы\n соглашаетесь с ";
 
-  static String m3(time) => "Повторная отправка через ${time}";
+  static String m4(time) => "Повторная отправка через ${time}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -187,6 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Добавить медиа"),
     "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Камера"),
     "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Галерея"),
+    "mediaFeedGalleryCounter": m2,
     "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Фото"),
     "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Видео"),
     "navHome": MessageLookupByLibrary.simpleMessage("Главная"),
@@ -200,7 +203,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Телефон"),
     "privacyAgreementAnd": MessageLookupByLibrary.simpleMessage("\nи c "),
-    "privacyAgreementPrefix": m2,
+    "privacyAgreementPrefix": m3,
     "privacyPolicy": MessageLookupByLibrary.simpleMessage(
       "Политикой конфиденциальности",
     ),
@@ -222,7 +225,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "resendCodeButton": MessageLookupByLibrary.simpleMessage(
       "Отправить код повторно",
     ),
-    "resendCodeIn": m3,
+    "resendCodeIn": m4,
     "shareButton": MessageLookupByLibrary.simpleMessage("Поделиться"),
     "shareLinkButton": MessageLookupByLibrary.simpleMessage(
       "Поделиться ссылкой",

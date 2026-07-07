@@ -110,6 +110,17 @@
   "mediaFeedGallery": "Gallery",
   "mediaFeedPhoto": "Photo",
   "mediaFeedVideo": "Video",
+  "mediaFeedGalleryCounter": "{current} / {total}",
+  "@mediaFeedGalleryCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "fileListEmpty": "No files selected",
   "filePickButton": "Choose files",
   "filePickError": "Failed to choose files",
