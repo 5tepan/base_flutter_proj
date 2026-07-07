@@ -6,6 +6,7 @@ import 'package:base_flutter_proj/core/base/base_auth/providers/auth_infra_provi
 import 'package:base_flutter_proj/core/base/base_auth/services/sms_autofill_service.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/helpers/form_validator.dart';
+import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:base_flutter_proj/home/route/home_route.dart';
@@ -49,7 +50,8 @@ class _PhoneConfirmationFormPageState
   }
 
   Future<void> _listenForSmsCode() async {
-    final code = await _smsAutofill.listenForCode();
+    final codeLength = ref.read(codeLengthProvider);
+    final code = await _smsAutofill.listenForCode(codeLength: codeLength);
     if (!mounted || code == null || code.isEmpty) {
       return;
     }
@@ -63,6 +65,7 @@ class _PhoneConfirmationFormPageState
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
+    final codeLength = ref.watch(codeLengthProvider);
     final formProvider = phoneConfirmationFormProvider(widget.phoneNumber);
     final isSubmitting = ref.watch(
       formProvider.select((state) => state.isSubmitting),
@@ -79,11 +82,15 @@ class _PhoneConfirmationFormPageState
       fieldController: _codeController,
       fieldLabel: l10n.confirmationCodeLabel,
       keyboardType: TextInputType.number,
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(codeLength),
+      ],
       validator: (value) => FormValidator.validateCode(
         value,
         l10n: l10n,
         error: l10n.enterCode,
+        codeLength: codeLength,
       ),
       onChanged: notifier.updateCode,
       onContinue: _onContinuePressed,

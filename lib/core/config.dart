@@ -26,6 +26,7 @@ class Config {
   final bool enableFirebase;
   final bool useMockAuthApi;
   final bool useMockShopApi;
+  final bool useMockAppSettingsApi;
   final AppLocaleMode localeMode;
   final Flavor flavor;
 
@@ -40,6 +41,7 @@ class Config {
     this.enableFirebase = false,
     this.useMockAuthApi = true,
     this.useMockShopApi = true,
+    this.useMockAppSettingsApi = true,
     this.localeMode = AppLocaleMode.russianAndEnglish,
   });
 

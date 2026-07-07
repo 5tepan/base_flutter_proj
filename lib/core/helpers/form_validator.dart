@@ -40,12 +40,22 @@ abstract class FormValidator {
     String? value, {
     required S l10n,
     String? error,
+    int codeLength = 4,
   }) {
-    return validateRequiredField(
+    final requiredError = validateRequiredField(
       value,
       l10n: l10n,
       error: error ?? ErrorLocalizer.message(AppErrorCode.codeRequired, l10n),
     );
+    if (requiredError != null) {
+      return requiredError;
+    }
+
+    if (value!.length != codeLength) {
+      return ErrorLocalizer.message(AppErrorCode.invalidConfirmationCode, l10n);
+    }
+
+    return null;
   }
 
   static String? validateRequiredField<T>(

@@ -10,12 +10,14 @@ class SmsAutofillService {
   final SmartAuth _smartAuth;
 
   Future<String?> listenForCode({
-    String matcher = r'\d{4,8}',
+    int codeLength = 4,
     String? senderPhoneNumber,
   }) async {
     if (!AppPlatform.isAndroid) {
       return null;
     }
+
+    final matcher = '\\d{$codeLength}';
 
     try {
       final result = await _smartAuth.getSmsWithUserConsentApi(
