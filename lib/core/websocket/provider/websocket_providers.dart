@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/chat/socket/chat_socket_module.dart';
 import 'package:base_flutter_proj/core/providers/app_event_provider.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/websocket/client/mock_websocket_client.dart';
@@ -12,7 +13,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 /// Модули WebSocket-подписок от фич. Добавляйте сюда новые фичи (например, chat).
 final webSocketHandlerModulesProvider =
     Provider<List<WebSocketHandlerModule>>((ref) {
-  return const [];
+  final modules = <WebSocketHandlerModule>[
+    ref.watch(chatSocketModuleProvider),
+  ];
+  return modules.where((module) => !module.isEmpty).toList(growable: false);
 });
 
 final webSocketRegistryProvider = Provider<WebSocketRegistry>((ref) {
