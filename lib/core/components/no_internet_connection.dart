@@ -12,28 +12,31 @@ class NoInternetConnection extends ConsumerWidget {
     final isConnected = ref.watch(internetMonitorProvider).value;
     final show = isConnected == false;
 
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 100),
-        child: show
-            ? Container(
-                color: AppColors.lightBlack.withValues(alpha: 0.85),
-                margin: const EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 8,
-                ),
-                child: Text(
-                  S.of(context).noInternet,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.apply(color: AppColors.white),
-                ),
-              )
-            : const SizedBox.shrink(),
+    return IgnorePointer(
+      ignoring: !show,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: AnimatedSize(
+          duration: const Duration(milliseconds: 100),
+          child: show
+              ? Container(
+                  width: double.infinity,
+                  color: AppColors.lightBlack.withValues(alpha: 0.85),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16,
+                    horizontal: 8,
+                  ),
+                  child: Text(
+                    S.of(context).noInternet,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.apply(color: AppColors.white),
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ),
       ),
     );
   }

@@ -37,10 +37,11 @@ class BottomNavigationPage extends ConsumerWidget {
             items: items,
             currentIndex: navigationShell.currentIndex,
             onTap: (index) {
-              navigationShell.goBranch(
-                index,
-                initialLocation: index == navigationShell.currentIndex,
-              );
+              if (index == navigationShell.currentIndex) {
+                navigationShell.goBranch(index, initialLocation: true);
+                return;
+              }
+              navigationShell.goBranch(index);
             },
           ),
         ),

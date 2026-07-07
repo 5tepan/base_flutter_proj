@@ -1,5 +1,6 @@
 import 'package:base_flutter_proj/auth/providers/auth_providers.dart';
 import 'package:base_flutter_proj/auth/route/auth_route.dart';
+import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/router/route_access_policy.dart';
 import 'package:base_flutter_proj/core/router/router_shell.dart';
 import 'package:base_flutter_proj/home/route/home_route.dart';
@@ -12,11 +13,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   final routerRefresh = ValueNotifier<int>(0);
   ref.onDispose(routerRefresh.dispose);
 
-  ref.listen<AsyncValue>(authSessionProvider, (_, __) {
-    routerRefresh.value++;
-  });
+  ref.listen<AsyncValue<AuthSession?>>(
+    authSessionProvider,
+    (_, __) => routerRefresh.value++,
+  );
 
-  final sessionAsync = ref.watch(authSessionProvider);
   final publicRouteMatchers = ref.watch(publicRouteMatchersProvider);
   final guestOnlyRouteMatchers = ref.watch(guestOnlyRouteMatchersProvider);
   final authRequiredRouteMatchers = ref.watch(
@@ -31,6 +32,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: routerRefresh,
     routes: [...otherRoutes, navigationShell],
     redirect: (context, state) {
+      final sessionAsync = ref.read(authSessionProvider);
       if (sessionAsync.isLoading) {
         return null;
       }
