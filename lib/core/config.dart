@@ -27,6 +27,12 @@ class Config {
   final bool useMockAuthApi;
   final bool useMockShopApi;
   final bool useMockAppSettingsApi;
+  final bool enableWebSocket;
+  final bool useMockWebSocket;
+  final String? webSocketAppKey;
+  final String? webSocketHost;
+  final int? webSocketPort;
+  final String webSocketAuthRelativePath;
   final AppLocaleMode localeMode;
   final Flavor flavor;
 
@@ -42,6 +48,12 @@ class Config {
     this.useMockAuthApi = true,
     this.useMockShopApi = true,
     this.useMockAppSettingsApi = true,
+    this.enableWebSocket = true,
+    this.useMockWebSocket = true,
+    this.webSocketAppKey,
+    this.webSocketHost,
+    this.webSocketPort,
+    this.webSocketAuthRelativePath = '/api/broadcasting/auth',
     this.localeMode = AppLocaleMode.russianAndEnglish,
   });
 

@@ -1,4 +1,5 @@
 import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/websocket/model/websocket_channel_event.dart';
 
 /// События приложения. Эмит через [appEventProvider], подписка через `ref.listen`.
 sealed class AppEvent {
@@ -36,4 +37,11 @@ final class PushReceived extends AppEvent {
   const PushReceived(this.message);
 
   final PushMessage message;
+}
+
+/// WebSocket-событие получено и распарсено.
+final class WebSocketEventReceived extends AppEvent {
+  const WebSocketEventReceived(this.event);
+
+  final WebSocketChannelEvent event;
 }

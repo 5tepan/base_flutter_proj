@@ -29,6 +29,11 @@ abstract final class EnvReader {
       useMockAuthApi: _useMockAuthApi(defaultValue: true),
       useMockShopApi: _useMockShopApi(defaultValue: true),
       useMockAppSettingsApi: _useMockAppSettingsApi(defaultValue: true),
+      enableWebSocket: _enableWebSocket(defaultValue: true),
+      useMockWebSocket: _useMockWebSocket(defaultValue: true),
+      webSocketAppKey: _webSocketAppKey,
+      webSocketHost: _webSocketHost,
+      webSocketPort: _webSocketPort,
       localeMode: _localeMode(
         const String.fromEnvironment(
           'LOCALE_MODE',
@@ -55,6 +60,11 @@ abstract final class EnvReader {
       useMockAuthApi: _useMockAuthApi(),
       useMockShopApi: _useMockShopApi(),
       useMockAppSettingsApi: _useMockAppSettingsApi(),
+      enableWebSocket: _enableWebSocket(),
+      useMockWebSocket: _useMockWebSocket(),
+      webSocketAppKey: _webSocketAppKey,
+      webSocketHost: _webSocketHost,
+      webSocketPort: _webSocketPort,
       localeMode: _localeMode(
         const String.fromEnvironment(
           'LOCALE_MODE',
@@ -91,6 +101,34 @@ abstract final class EnvReader {
         const String.fromEnvironment('USE_MOCK_APP_SETTINGS_API'),
         defaultValue: defaultValue,
       );
+
+  static bool _enableWebSocket({bool defaultValue = false}) => _parseBool(
+        const String.fromEnvironment('ENABLE_WEBSOCKET'),
+        defaultValue: defaultValue,
+      );
+
+  static bool _useMockWebSocket({bool defaultValue = false}) => _parseBool(
+        const String.fromEnvironment('USE_MOCK_WEBSOCKET'),
+        defaultValue: defaultValue,
+      );
+
+  static String? get _webSocketAppKey {
+    const value = String.fromEnvironment('WS_APP_KEY');
+    return value.isEmpty ? null : value;
+  }
+
+  static String? get _webSocketHost {
+    const value = String.fromEnvironment('WS_HOST');
+    return value.isEmpty ? null : value;
+  }
+
+  static int? get _webSocketPort {
+    const value = String.fromEnvironment('WS_PORT');
+    if (value.isEmpty) {
+      return null;
+    }
+    return int.tryParse(value);
+  }
 
   static bool _parseBool(String value, {bool defaultValue = false}) {
     if (value.isEmpty) {
