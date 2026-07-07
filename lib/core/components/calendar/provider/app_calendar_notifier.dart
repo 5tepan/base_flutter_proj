@@ -1,8 +1,8 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_config.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_day_marker.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_helper.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_state.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_weeks_data.dart';
+import 'package:base_flutter_proj/core/components/calendar/config/app_calendar_config.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_day_marker.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_state.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_weeks_data.dart';
+import 'package:base_flutter_proj/core/components/calendar/utils/app_calendar_helper.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appCalendarNotifierProvider = NotifierProvider.family<
@@ -30,7 +30,11 @@ class AppCalendarNotifier extends Notifier<AppCalendarState> {
   }
 
   void select(DateTime date) {
-    state = state.copyWith(selection: state.selection.select(date));
+    state = state.copyWith(
+      selection: state.selection.select(
+        AppCalendarHelper.dateOnly(date),
+      ),
+    );
   }
 
   void clearSelection() {

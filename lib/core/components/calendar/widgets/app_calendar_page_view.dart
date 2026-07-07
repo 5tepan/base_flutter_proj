@@ -1,7 +1,7 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_cell_args.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_config.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_month.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_notifier.dart';
+import 'package:base_flutter_proj/core/components/calendar/config/app_calendar_config.dart';
+import 'package:base_flutter_proj/core/components/calendar/provider/app_calendar_notifier.dart';
+import 'package:base_flutter_proj/core/components/calendar/widgets/app_calendar_cell_args.dart';
+import 'package:base_flutter_proj/core/components/calendar/widgets/app_calendar_month.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_day_marker.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_day_marker.dart';
 import 'package:flutter/material.dart';
 
 class AppCalendarCellArgs {

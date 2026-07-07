@@ -1,6 +1,7 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_config.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_selection.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_weeks_data.dart';
+import 'package:base_flutter_proj/core/components/calendar/config/app_calendar_config.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_selection.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_weeks_data.dart';
+import 'package:base_flutter_proj/core/components/calendar/utils/app_calendar_helper.dart';
 import 'package:flutter/material.dart';
 
 class AppCalendarRangeBackground extends StatelessWidget {
@@ -96,13 +97,13 @@ class _AppCalendarRangeBackgroundPainter extends CustomPainter {
     final rect = Rect.fromLTRB(left, 0, right, sizeCell);
     final isWeekStart =
         firstIndex == 0 ||
-        !_sameDay(
+        !AppCalendarHelper.isSameDay(
           weekData.startDate.add(Duration(days: firstIndex - 1)),
           start,
         );
     final isWeekEnd =
         lastIndex == AppCalendarRangeBackground._daysInWeek - 1 ||
-        !_sameDay(
+        !AppCalendarHelper.isSameDay(
           weekData.startDate.add(Duration(days: lastIndex + 1)),
           end,
         );
@@ -121,10 +122,6 @@ class _AppCalendarRangeBackgroundPainter extends CustomPainter {
       ),
       Paint()..color = config.selectionColor,
     );
-  }
-
-  bool _sameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
   }
 
   @override

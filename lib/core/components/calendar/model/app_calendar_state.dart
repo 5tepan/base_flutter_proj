@@ -1,5 +1,5 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_day_marker.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_selection.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_day_marker.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_selection.dart';
 import 'package:flutter/foundation.dart';
 
 @immutable

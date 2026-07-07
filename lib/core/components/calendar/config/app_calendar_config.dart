@@ -1,5 +1,5 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_helper.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_selection.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_selection.dart';
+import 'package:base_flutter_proj/core/components/calendar/utils/app_calendar_helper.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 

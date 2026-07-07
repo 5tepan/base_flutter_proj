@@ -1,8 +1,8 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_cell_args.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_config.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_helper.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_line_month.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_notifier.dart';
+import 'package:base_flutter_proj/core/components/calendar/config/app_calendar_config.dart';
+import 'package:base_flutter_proj/core/components/calendar/provider/app_calendar_notifier.dart';
+import 'package:base_flutter_proj/core/components/calendar/utils/app_calendar_helper.dart';
+import 'package:base_flutter_proj/core/components/calendar/widgets/app_calendar_cell_args.dart';
+import 'package:base_flutter_proj/core/components/calendar/widgets/app_calendar_line_month.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

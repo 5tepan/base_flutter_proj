@@ -1,11 +1,11 @@
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_cell_args.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_config.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_day_marker.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_helper.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_notifier.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_range_background.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_selection.dart';
-import 'package:base_flutter_proj/core/components/calendar/app_calendar_weeks_data.dart';
+import 'package:base_flutter_proj/core/components/calendar/config/app_calendar_config.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_day_marker.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_selection.dart';
+import 'package:base_flutter_proj/core/components/calendar/model/app_calendar_weeks_data.dart';
+import 'package:base_flutter_proj/core/components/calendar/provider/app_calendar_notifier.dart';
+import 'package:base_flutter_proj/core/components/calendar/utils/app_calendar_helper.dart';
+import 'package:base_flutter_proj/core/components/calendar/widgets/app_calendar_cell_args.dart';
+import 'package:base_flutter_proj/core/components/calendar/widgets/app_calendar_range_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
