@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
-import 'package:base_flutter_proj/core/components/media/app_image_cropper.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_content_mode.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_content_mode.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
+import 'package:base_flutter_proj/core/components/media/picker/app_image_cropper.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

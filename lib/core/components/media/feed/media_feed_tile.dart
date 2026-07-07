@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_style.dart';
+import 'package:base_flutter_proj/core/components/media/config/media_feed_style.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/safe_network_image.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';

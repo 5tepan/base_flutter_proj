@@ -197,6 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Добавить медиа"),
     "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Камера"),
     "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Галерея"),
+    "mediaFeedGalleryClose": MessageLookupByLibrary.simpleMessage("Закрыть"),
     "mediaFeedGalleryCounter": m2,
     "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Фото"),
     "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Видео"),

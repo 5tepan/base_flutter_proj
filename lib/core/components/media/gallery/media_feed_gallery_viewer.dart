@@ -1,5 +1,5 @@
-import 'package:base_flutter_proj/core/components/media/gallery/media_feed_gallery_page.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
+import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_page.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 

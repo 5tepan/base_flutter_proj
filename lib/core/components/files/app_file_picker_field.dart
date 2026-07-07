@@ -1,7 +1,7 @@
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_list_view.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
-import 'package:base_flutter_proj/core/components/media/app_media_picker.dart';
+import 'package:base_flutter_proj/core/components/media/picker/app_media_picker.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';

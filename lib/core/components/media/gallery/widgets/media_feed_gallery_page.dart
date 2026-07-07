@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:base_flutter_proj/core/components/media/gallery/media_feed_gallery_photo_page.dart';
-import 'package:base_flutter_proj/core/components/media/gallery/media_feed_gallery_video_page.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
+import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_dismissible.dart';
+import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_icon_button.dart';
+import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_photo_page.dart';
+import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_video_page.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
@@ -56,6 +58,8 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
+    final topPadding = MediaQuery.paddingOf(context).top;
+    final bottomPadding = MediaQuery.paddingOf(context).bottom;
     final currentItem = widget.items[_currentIndex];
     final sharePath = _sharePathFor(currentItem);
 
@@ -64,55 +68,66 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          PageView.builder(
-            controller: _pageController,
-            itemCount: widget.items.length,
-            onPageChanged: _onPageChanged,
-            itemBuilder: (context, index) {
-              final item = widget.items[index];
-              if (item.isVideo) {
-                return MediaFeedGalleryVideoPage(
-                  isActive: index == _currentIndex,
-                  controller: index == _currentIndex ? _videoController : null,
-                  isInitialized: index == _currentIndex && _videoInitialized,
-                );
-              }
-              return MediaFeedGalleryPhotoPage(item: item);
-            },
+          MediaFeedGalleryDismissible(
+            onDismiss: _closeGallery,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: widget.items.length,
+              onPageChanged: _onPageChanged,
+              itemBuilder: (context, index) {
+                final item = widget.items[index];
+                if (item.isVideo) {
+                  return MediaFeedGalleryVideoPage(
+                    isActive: index == _currentIndex,
+                    controller: index == _currentIndex ? _videoController : null,
+                    isInitialized: index == _currentIndex && _videoInitialized,
+                  );
+                }
+                return MediaFeedGalleryPhotoPage(item: item);
+              },
+            ),
           ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const Icon(Icons.close, color: AppColors.white),
-                  ),
-                  Expanded(
-                    child: Text(
-                      l10n.mediaFeedGalleryCounter(
-                        _currentIndex + 1,
-                        widget.items.length,
-                      ),
-                      textAlign: TextAlign.center,
-                      style: AppTextStyle.body.copyWith(color: AppColors.white),
-                    ),
-                  ),
-                  if (widget.allowShare && sharePath != null)
-                    IconButton(
-                      onPressed: () => AppShare.shareFiles(paths: [sharePath]),
-                      icon: const Icon(Icons.share_outlined, color: AppColors.white),
-                    )
-                  else
-                    const SizedBox(width: 48),
-                ],
+          Positioned(
+            top: topPadding + 8,
+            left: 8,
+            child: MediaFeedGalleryIconButton(
+              icon: Icons.close,
+              tooltip: l10n.mediaFeedGalleryClose,
+              onPressed: _closeGallery,
+            ),
+          ),
+          Positioned(
+            top: topPadding + 16,
+            left: 0,
+            right: 0,
+            child: IgnorePointer(
+              child: Text(
+                l10n.mediaFeedGalleryCounter(
+                  _currentIndex + 1,
+                  widget.items.length,
+                ),
+                textAlign: TextAlign.center,
+                style: AppTextStyle.body.copyWith(color: AppColors.white),
               ),
             ),
           ),
+          if (widget.allowShare && sharePath != null)
+            Positioned(
+              right: 16,
+              bottom: bottomPadding + 16,
+              child: MediaFeedGalleryIconButton(
+                icon: Icons.ios_share,
+                tooltip: l10n.shareButton,
+                onPressed: () => AppShare.shareFiles(paths: [sharePath]),
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  void _closeGallery() {
+    Navigator.of(context).pop();
   }
 
   void _onPageChanged(int index) {

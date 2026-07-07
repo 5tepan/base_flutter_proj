@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:base_flutter_proj/core/components/bottom_sheet/app_bottom_sheet.dart';
-import 'package:base_flutter_proj/core/components/media/app_image_cropper.dart';
-import 'package:base_flutter_proj/core/components/media/app_media_picker.dart';
+import 'package:base_flutter_proj/core/components/media/config/media_feed_style.dart';
+import 'package:base_flutter_proj/core/components/media/feed/media_feed_tile.dart';
 import 'package:base_flutter_proj/core/components/media/gallery/media_feed_gallery_viewer.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_content_mode.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_style.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_tile.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_content_mode.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
+import 'package:base_flutter_proj/core/components/media/picker/app_image_cropper.dart';
+import 'package:base_flutter_proj/core/components/media/picker/app_media_picker.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';

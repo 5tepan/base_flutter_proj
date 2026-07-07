@@ -185,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Add media"),
     "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Camera"),
     "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Gallery"),
+    "mediaFeedGalleryClose": MessageLookupByLibrary.simpleMessage("Close"),
     "mediaFeedGalleryCounter": m2,
     "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Photo"),
     "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Video"),

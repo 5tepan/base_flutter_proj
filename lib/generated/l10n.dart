@@ -954,6 +954,16 @@ class S {
     );
   }
 
+  /// `Закрыть`
+  String get mediaFeedGalleryClose {
+    return Intl.message(
+      'Закрыть',
+      name: 'mediaFeedGalleryClose',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Файлы не выбраны`
   String get fileListEmpty {
     return Intl.message(

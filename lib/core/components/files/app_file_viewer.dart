@@ -5,7 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_storage.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
-import 'package:base_flutter_proj/core/components/media/media_feed_item.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';

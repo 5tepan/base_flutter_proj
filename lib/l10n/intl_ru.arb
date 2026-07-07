@@ -127,6 +127,7 @@
       }
     }
   },
+  "mediaFeedGalleryClose": "Закрыть",
   "fileListEmpty": "Файлы не выбраны",
   "filePickButton": "Выбрать файлы",
   "filePickError": "Не удалось выбрать файлы",
