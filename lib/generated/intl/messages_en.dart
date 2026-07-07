@@ -108,6 +108,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "dateTimeSelectTime": MessageLookupByLibrary.simpleMessage("Select time"),
     "dateTimeSelectYear": MessageLookupByLibrary.simpleMessage("Select year"),
     "demoAttachmentsLabel": MessageLookupByLibrary.simpleMessage("Attachments"),
+    "demoCalendarListMode": MessageLookupByLibrary.simpleMessage("Month list"),
+    "demoCalendarPageMode": MessageLookupByLibrary.simpleMessage("PageView"),
+    "demoCalendarSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Swipe between months and pick a date range. Switch mode from the AppBar menu.",
+    ),
+    "demoCalendarTitle": MessageLookupByLibrary.simpleMessage("Calendar"),
     "demoFilesSectionSubtitle": MessageLookupByLibrary.simpleMessage(
       "PDF, documents and other types via file_picker.",
     ),
@@ -197,6 +203,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage(
       "Privacy Policy",
+    ),
+    "profileCalendarDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Custom calendar: range selection, markers, list/page modes",
+    ),
+    "profileCalendarDemoTitle": MessageLookupByLibrary.simpleMessage(
+      "Calendar",
     ),
     "profileDemoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
       "Examples from core/components",

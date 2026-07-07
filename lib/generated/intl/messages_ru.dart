@@ -112,6 +112,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dateTimeSelectYear": MessageLookupByLibrary.simpleMessage("Выберите год"),
     "demoAttachmentsLabel": MessageLookupByLibrary.simpleMessage("Вложения"),
+    "demoCalendarListMode": MessageLookupByLibrary.simpleMessage(
+      "Список месяцев",
+    ),
+    "demoCalendarPageMode": MessageLookupByLibrary.simpleMessage("PageView"),
+    "demoCalendarSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Свайп между месяцами, выбор диапазона дат. Переключите режим в меню AppBar.",
+    ),
+    "demoCalendarTitle": MessageLookupByLibrary.simpleMessage("Календарь"),
     "demoFilesSectionSubtitle": MessageLookupByLibrary.simpleMessage(
       "PDF, документы и другие типы через file_picker.",
     ),
@@ -209,6 +217,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage(
       "Политика конфиденциальности",
+    ),
+    "profileCalendarDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Кастомный календарь: диапазон дат, маркеры, list/page",
+    ),
+    "profileCalendarDemoTitle": MessageLookupByLibrary.simpleMessage(
+      "Календарь",
     ),
     "profileDemoSectionSubtitle": MessageLookupByLibrary.simpleMessage(
       "Примеры виджетов из core/components",

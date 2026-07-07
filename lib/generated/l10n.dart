@@ -689,6 +689,26 @@ class S {
     );
   }
 
+  /// `Календарь`
+  String get profileCalendarDemoTitle {
+    return Intl.message(
+      'Календарь',
+      name: 'profileCalendarDemoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Кастомный календарь: диапазон дат, маркеры, list/page`
+  String get profileCalendarDemoSubtitle {
+    return Intl.message(
+      'Кастомный календарь: диапазон дат, маркеры, list/page',
+      name: 'profileCalendarDemoSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Медиа и файлы`
   String get demoMediaFilesTitle {
     return Intl.message(
@@ -844,6 +864,46 @@ class S {
     return Intl.message(
       'Вложения',
       name: 'demoAttachmentsLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Календарь`
+  String get demoCalendarTitle {
+    return Intl.message(
+      'Календарь',
+      name: 'demoCalendarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Свайп между месяцами, выбор диапазона дат. Переключите режим в меню AppBar.`
+  String get demoCalendarSubtitle {
+    return Intl.message(
+      'Свайп между месяцами, выбор диапазона дат. Переключите режим в меню AppBar.',
+      name: 'demoCalendarSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Список месяцев`
+  String get demoCalendarListMode {
+    return Intl.message(
+      'Список месяцев',
+      name: 'demoCalendarListMode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `PageView`
+  String get demoCalendarPageMode {
+    return Intl.message(
+      'PageView',
+      name: 'demoCalendarPageMode',
       desc: '',
       args: [],
     );

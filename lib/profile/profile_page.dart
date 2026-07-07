@@ -44,6 +44,13 @@ class ProfilePage extends ConsumerWidget {
             trailing: const Icon(Icons.chevron_right),
             onTap: () => const MediaFilesDemoRoute().push(context),
           ),
+          ListTile(
+            leading: const Icon(Icons.calendar_month_outlined),
+            title: Text(l10n.profileCalendarDemoTitle),
+            subtitle: Text(l10n.profileCalendarDemoSubtitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => const CalendarDemoRoute().push(context),
+          ),
         ],
       ),
     );

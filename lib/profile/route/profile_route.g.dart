@@ -16,6 +16,10 @@ RouteBase get $profileRoute => GoRouteData.$route(
       path: 'media-demo',
       factory: $MediaFilesDemoRoute._fromState,
     ),
+    GoRouteData.$route(
+      path: 'calendar-demo',
+      factory: $CalendarDemoRoute._fromState,
+    ),
   ],
 );
 
@@ -45,6 +49,27 @@ mixin $MediaFilesDemoRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/profile/media-demo');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $CalendarDemoRoute on GoRouteData {
+  static CalendarDemoRoute _fromState(GoRouterState state) =>
+      const CalendarDemoRoute();
+
+  @override
+  String get location => GoRouteData.$location('/profile/calendar-demo');
 
   @override
   void go(BuildContext context) => context.go(location);
