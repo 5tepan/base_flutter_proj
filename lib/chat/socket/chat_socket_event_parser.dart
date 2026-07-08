@@ -38,4 +38,30 @@ abstract final class ChatSocketEventParser {
 
     return null;
   }
+
+  static String? parseUserId(Map<String, dynamic>? data) {
+    if (data == null) {
+      return null;
+    }
+
+    final userId = data['user_id'] ?? data['userId'];
+    if (userId is String && userId.isNotEmpty) {
+      return userId;
+    }
+
+    return null;
+  }
+
+  static String? parseUserName(Map<String, dynamic>? data) {
+    if (data == null) {
+      return null;
+    }
+
+    final userName = data['user_name'] ?? data['userName'];
+    if (userName is String && userName.isNotEmpty) {
+      return userName;
+    }
+
+    return null;
+  }
 }

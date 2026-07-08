@@ -56,4 +56,5 @@ const _$AppErrorCodeEnumMap = {
   AppErrorCode.emailRequired: 'emailRequired',
   AppErrorCode.emailInvalid: 'emailInvalid',
   AppErrorCode.passwordMismatch: 'passwordMismatch',
+  AppErrorCode.sendMessageFailed: 'sendMessageFailed',
 };

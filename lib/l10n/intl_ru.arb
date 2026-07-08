@@ -101,6 +101,16 @@
   "chatEmptyTitle": "Нет сообщений",
   "chatEmptySubtitle": "Напишите первое сообщение",
   "chatMessageInputHint": "Сообщение",
+  "chatTypingSingle": "{userName} печатает...",
+  "@chatTypingSingle": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "chatTypingMultiple": "Печатают...",
+  "chatSendMessageFailed": "Не удалось отправить сообщение",
   "demoMediaFilesTitle": "Медиа и файлы",
   "demoPhotoSectionTitle": "Фото (редактируемая лента)",
   "demoPhotoSectionSubtitle": "Только изображения. При добавлении открывается croppy для обрезки.",

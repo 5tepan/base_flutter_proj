@@ -20,17 +20,19 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(phone) =>
+  static String m0(userName) => "${userName} is typing...";
+
+  static String m1(phone) =>
       "An SMS with a confirmation code\nwas sent to ${phone}";
 
-  static String m1(path) => "Saved: ${path}";
+  static String m2(path) => "Saved: ${path}";
 
-  static String m2(current, total) => "${current} / ${total}";
+  static String m3(current, total) => "${current} / ${total}";
 
-  static String m3(buttonText) =>
+  static String m4(buttonText) =>
       "By tapping «${buttonText}», you agree to the ";
 
-  static String m4(time) => "Resend in ${time}";
+  static String m5(time) => "Resend in ${time}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -109,7 +111,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatListEmptyTitle": MessageLookupByLibrary.simpleMessage("No chats"),
     "chatListTitle": MessageLookupByLibrary.simpleMessage("Chats"),
     "chatMessageInputHint": MessageLookupByLibrary.simpleMessage("Message"),
-    "codeSentToPhone": m0,
+    "chatSendMessageFailed": MessageLookupByLibrary.simpleMessage(
+      "Failed to send message",
+    ),
+    "chatTypingMultiple": MessageLookupByLibrary.simpleMessage(
+      "Several people are typing...",
+    ),
+    "chatTypingSingle": m0,
+    "codeSentToPhone": m1,
     "confirmationCodeLabel": MessageLookupByLibrary.simpleMessage(
       "Confirmation code",
     ),
@@ -189,14 +198,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fileViewerSaveFailed": MessageLookupByLibrary.simpleMessage(
       "Failed to save file",
     ),
-    "fileViewerSaved": m1,
+    "fileViewerSaved": m2,
     "fileViewerTitle": MessageLookupByLibrary.simpleMessage("File"),
     "inDevelopment": MessageLookupByLibrary.simpleMessage("In development"),
     "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Add media"),
     "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Camera"),
     "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Gallery"),
     "mediaFeedGalleryClose": MessageLookupByLibrary.simpleMessage("Close"),
-    "mediaFeedGalleryCounter": m2,
+    "mediaFeedGalleryCounter": m3,
     "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Photo"),
     "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Video"),
     "navHome": MessageLookupByLibrary.simpleMessage("Home"),
@@ -210,7 +219,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone"),
     "privacyAgreementAnd": MessageLookupByLibrary.simpleMessage("\nand "),
-    "privacyAgreementPrefix": m3,
+    "privacyAgreementPrefix": m4,
     "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "privacyPolicyTitle": MessageLookupByLibrary.simpleMessage(
       "Privacy Policy",
@@ -242,7 +251,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Media and files",
     ),
     "resendCodeButton": MessageLookupByLibrary.simpleMessage("Resend code"),
-    "resendCodeIn": m4,
+    "resendCodeIn": m5,
     "shareButton": MessageLookupByLibrary.simpleMessage("Share"),
     "shareLinkButton": MessageLookupByLibrary.simpleMessage("Share link"),
     "shopEmptySubtitle": MessageLookupByLibrary.simpleMessage(

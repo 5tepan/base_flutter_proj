@@ -9,4 +9,6 @@ abstract final class ChatSocketChannels {
 abstract final class ChatSocketEvents {
   static const messageSent = 'message.sent';
   static const messageRead = 'message.read';
+  static const typingStart = 'typing.start';
+  static const typingStop = 'typing.stop';
 }

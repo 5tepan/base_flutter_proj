@@ -40,7 +40,7 @@ class ChatListNotifier extends PaginatedNotifier<ChatRoom>
       updatedRoom = ChatRoom(
         id: room.id,
         title: room.title,
-        lastMessageText: message.text,
+        lastMessageText: _previewText(message),
         lastMessageAt: message.createdAt ?? DateTime.now(),
         unreadCount: message.isOutgoing
             ? room.unreadCount
@@ -51,7 +51,7 @@ class ChatListNotifier extends PaginatedNotifier<ChatRoom>
       updatedRoom = ChatRoom(
         id: message.roomId,
         title: message.senderName ?? message.roomId,
-        lastMessageText: message.text,
+        lastMessageText: _previewText(message),
         lastMessageAt: message.createdAt ?? DateTime.now(),
         unreadCount: message.isOutgoing ? 0 : 1,
       );
@@ -84,3 +84,13 @@ final chatListProvider =
     NotifierProvider<ChatListNotifier, PaginatedState<ChatRoom>>(
   ChatListNotifier.new,
 );
+
+String _previewText(ChatMessage message) {
+  if (message.text.isNotEmpty) {
+    return message.text;
+  }
+  if (message.attachments.isNotEmpty) {
+    return '📎';
+  }
+  return '';
+}

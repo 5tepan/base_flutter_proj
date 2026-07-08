@@ -101,6 +101,16 @@
   "chatEmptyTitle": "No messages",
   "chatEmptySubtitle": "Send the first message",
   "chatMessageInputHint": "Message",
+  "chatTypingSingle": "{userName} is typing...",
+  "@chatTypingSingle": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "chatTypingMultiple": "Several people are typing...",
+  "chatSendMessageFailed": "Failed to send message",
   "demoMediaFilesTitle": "Media and files",
   "demoPhotoSectionTitle": "Photos (editable feed)",
   "demoPhotoSectionSubtitle": "Images only. Croppy opens when adding a photo.",

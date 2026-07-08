@@ -44,6 +44,7 @@ abstract final class ErrorLocalizer {
       AppErrorCode.emailRequired => l10n.validationEmailRequired,
       AppErrorCode.emailInvalid => l10n.validationEmailInvalid,
       AppErrorCode.passwordMismatch => l10n.validationPasswordMismatch,
+      AppErrorCode.sendMessageFailed => l10n.chatSendMessageFailed,
     };
   }
 

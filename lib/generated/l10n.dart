@@ -804,6 +804,36 @@ class S {
     );
   }
 
+  /// `{userName} печатает...`
+  String chatTypingSingle(String userName) {
+    return Intl.message(
+      '$userName печатает...',
+      name: 'chatTypingSingle',
+      desc: '',
+      args: [userName],
+    );
+  }
+
+  /// `Печатают...`
+  String get chatTypingMultiple {
+    return Intl.message(
+      'Печатают...',
+      name: 'chatTypingMultiple',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Не удалось отправить сообщение`
+  String get chatSendMessageFailed {
+    return Intl.message(
+      'Не удалось отправить сообщение',
+      name: 'chatSendMessageFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Медиа и файлы`
   String get demoMediaFilesTitle {
     return Intl.message(

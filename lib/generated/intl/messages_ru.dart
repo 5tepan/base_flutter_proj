@@ -20,17 +20,19 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ru';
 
-  static String m0(phone) =>
+  static String m0(userName) => "${userName} печатает...";
+
+  static String m1(phone) =>
       "На телефон ${phone} отправлено\nСМС с кодом подтверждения";
 
-  static String m1(path) => "Сохранено: ${path}";
+  static String m2(path) => "Сохранено: ${path}";
 
-  static String m2(current, total) => "${current} / ${total}";
+  static String m3(current, total) => "${current} / ${total}";
 
-  static String m3(buttonText) =>
+  static String m4(buttonText) =>
       "Нажимая на кнопку «${buttonText}», Вы\n соглашаетесь с ";
 
-  static String m4(time) => "Повторная отправка через ${time}";
+  static String m5(time) => "Повторная отправка через ${time}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -111,7 +113,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "chatListEmptyTitle": MessageLookupByLibrary.simpleMessage("Нет чатов"),
     "chatListTitle": MessageLookupByLibrary.simpleMessage("Чаты"),
     "chatMessageInputHint": MessageLookupByLibrary.simpleMessage("Сообщение"),
-    "codeSentToPhone": m0,
+    "chatSendMessageFailed": MessageLookupByLibrary.simpleMessage(
+      "Не удалось отправить сообщение",
+    ),
+    "chatTypingMultiple": MessageLookupByLibrary.simpleMessage("Печатают..."),
+    "chatTypingSingle": m0,
+    "codeSentToPhone": m1,
     "confirmationCodeLabel": MessageLookupByLibrary.simpleMessage(
       "Код подтверждения",
     ),
@@ -201,14 +208,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "fileViewerSaveFailed": MessageLookupByLibrary.simpleMessage(
       "Не удалось сохранить файл",
     ),
-    "fileViewerSaved": m1,
+    "fileViewerSaved": m2,
     "fileViewerTitle": MessageLookupByLibrary.simpleMessage("Файл"),
     "inDevelopment": MessageLookupByLibrary.simpleMessage("В разработке"),
     "mediaFeedAddTitle": MessageLookupByLibrary.simpleMessage("Добавить медиа"),
     "mediaFeedCamera": MessageLookupByLibrary.simpleMessage("Камера"),
     "mediaFeedGallery": MessageLookupByLibrary.simpleMessage("Галерея"),
     "mediaFeedGalleryClose": MessageLookupByLibrary.simpleMessage("Закрыть"),
-    "mediaFeedGalleryCounter": m2,
+    "mediaFeedGalleryCounter": m3,
     "mediaFeedPhoto": MessageLookupByLibrary.simpleMessage("Фото"),
     "mediaFeedVideo": MessageLookupByLibrary.simpleMessage("Видео"),
     "navHome": MessageLookupByLibrary.simpleMessage("Главная"),
@@ -222,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "phoneLabel": MessageLookupByLibrary.simpleMessage("Телефон"),
     "privacyAgreementAnd": MessageLookupByLibrary.simpleMessage("\nи c "),
-    "privacyAgreementPrefix": m3,
+    "privacyAgreementPrefix": m4,
     "privacyPolicy": MessageLookupByLibrary.simpleMessage(
       "Политикой конфиденциальности",
     ),
@@ -258,7 +265,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "resendCodeButton": MessageLookupByLibrary.simpleMessage(
       "Отправить код повторно",
     ),
-    "resendCodeIn": m4,
+    "resendCodeIn": m5,
     "shareButton": MessageLookupByLibrary.simpleMessage("Поделиться"),
     "shareLinkButton": MessageLookupByLibrary.simpleMessage(
       "Поделиться ссылкой",

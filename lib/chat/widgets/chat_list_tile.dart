@@ -6,11 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatListTile extends ConsumerWidget {
-  const ChatListTile({
-    required this.room,
-    required this.onTap,
-    super.key,
-  });
+  const ChatListTile({required this.room, required this.onTap, super.key});
 
   final ChatRoom room;
   final VoidCallback onTap;
@@ -45,16 +41,18 @@ class ChatListTile extends ConsumerWidget {
       trailing: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
+        spacing: 4,
         children: [
           if (room.lastMessageAt != null)
             Text(
               room.lastMessageAt!.formatSmartDayTime(),
               style: AppTextStyle.small.copyWith(color: AppColors.darkGrey),
             ),
-          if (room.unreadCount > 0) ...[
-            const SizedBox(height: 4),
-            _UnreadBadge(count: room.unreadCount, color: style.unreadBadgeColor),
-          ],
+          if (room.unreadCount > 0)
+            _UnreadBadge(
+              count: room.unreadCount,
+              color: style.unreadBadgeColor,
+            ),
         ],
       ),
       onTap: onTap,
@@ -63,10 +61,7 @@ class ChatListTile extends ConsumerWidget {
 }
 
 class _UnreadBadge extends StatelessWidget {
-  const _UnreadBadge({
-    required this.count,
-    required this.color,
-  });
+  const _UnreadBadge({required this.count, required this.color});
 
   final int count;
   final Color color;

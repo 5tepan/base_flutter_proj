@@ -36,4 +36,7 @@ enum AppErrorCode {
   emailRequired,
   emailInvalid,
   passwordMismatch,
+
+  // Chat
+  sendMessageFailed,
 }

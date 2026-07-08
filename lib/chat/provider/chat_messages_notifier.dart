@@ -41,11 +41,30 @@ class ChatMessagesNotifier extends PaginatedNotifier<ChatMessage>
     if (message.roomId != roomId) {
       return;
     }
-    if (state.items.any((item) => item.id == message.id)) {
+
+    final items = List<ChatMessage>.from(state.items);
+    final clientMessageId = message.clientMessageId;
+    if (clientMessageId != null) {
+      final optimisticIndex = items.indexWhere((item) => item.id == clientMessageId);
+      if (optimisticIndex >= 0) {
+        items[optimisticIndex] = message;
+        state = state.copyWith(items: items);
+        return;
+      }
+    }
+
+    if (items.any((item) => item.id == message.id)) {
       return;
     }
 
-    state = state.copyWith(items: [...state.items, message]);
+    items.add(message);
+    state = state.copyWith(items: items);
+  }
+
+  void removeMessage(String messageId) {
+    state = state.copyWith(
+      items: state.items.where((item) => item.id != messageId).toList(),
+    );
   }
 }
 

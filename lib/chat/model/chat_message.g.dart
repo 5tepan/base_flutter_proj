@@ -14,6 +14,14 @@ ChatMessage _$ChatMessageFromJson(Map<String, dynamic> json) => ChatMessage(
   createdAt: const DateTimeJsonConverter().fromJson(json['created_at']),
   senderName: json['sender_name'] as String?,
   isOutgoing: json['is_outgoing'] as bool? ?? false,
+  clientMessageId: json['client_message_id'] as String?,
+  attachments:
+      (json['attachments'] as List<dynamic>?)
+          ?.map(
+            (e) => ChatMessageAttachment.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      const [],
 );
 
 Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) =>
@@ -25,4 +33,6 @@ Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) =>
       'sender_name': instance.senderName,
       'created_at': const DateTimeJsonConverter().toJson(instance.createdAt),
       'is_outgoing': instance.isOutgoing,
+      'client_message_id': instance.clientMessageId,
+      'attachments': instance.attachments,
     };

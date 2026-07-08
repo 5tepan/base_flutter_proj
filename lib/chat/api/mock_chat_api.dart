@@ -1,12 +1,29 @@
+import 'dart:async';
+
 import 'package:base_flutter_proj/chat/api/chat_api.dart';
 import 'package:base_flutter_proj/chat/model/chat_message.dart';
+import 'package:base_flutter_proj/chat/model/chat_message_attachment.dart';
 import 'package:base_flutter_proj/chat/model/chat_room.dart';
+import 'package:base_flutter_proj/chat/socket/chat_socket_constants.dart';
+import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 
 /// Mock API для dev без бэкенда.
 class MockChatApi implements ChatApi {
+  MockChatApi({this.emitSocketEvent});
+
+  final void Function(String eventName, Map<String, dynamic> data)?
+  emitSocketEvent;
+
   static const Duration _latency = Duration(milliseconds: 350);
   static const int totalRooms = 12;
   static const int messagesPerRoom = 48;
+
+  var _messageCounter = 1000;
+  final _typingStartTimers = <String, Timer>{};
+  final _typingStopTimers = <String, Timer>{};
+  final _activeMockTypingRooms = <String>{};
+
+  static const _mockTypingUserId = 'user_support';
 
   @override
   Future<List<ChatRoom>> fetchRooms({
@@ -57,6 +74,86 @@ class MockChatApi implements ChatApi {
         messageIndex: start + index,
       ),
     );
+  }
+
+  @override
+  Future<ChatMessage> sendMessage({
+    required String roomId,
+    required String text,
+    required String clientMessageId,
+    List<MediaFeedItem> attachments = const [],
+  }) async {
+    await Future<void>.delayed(_latency);
+
+    final serverAttachments = ChatMessageAttachment.fromMediaItems(attachments)
+        .map(
+          (attachment) => ChatMessageAttachment(
+            id: attachment.id,
+            url: attachment.url.startsWith('http')
+                ? attachment.url
+                : 'https://picsum.photos/seed/${attachment.id}/400/300',
+            type: attachment.type,
+            thumbnailUrl: attachment.thumbnailUrl,
+          ),
+        )
+        .toList();
+
+    return ChatMessage(
+      id: '${roomId}_message_${_messageCounter++}',
+      roomId: roomId,
+      text: text,
+      senderId: 'me',
+      senderName: 'Вы',
+      createdAt: DateTime.now(),
+      isOutgoing: true,
+      clientMessageId: clientMessageId,
+      attachments: serverAttachments,
+    );
+  }
+
+  @override
+  Future<void> sendTypingIndicator({
+    required String roomId,
+    required bool isTyping,
+  }) async {
+    final emit = emitSocketEvent;
+    if (emit == null) {
+      return;
+    }
+
+    if (!isTyping) {
+      _typingStartTimers.remove(roomId)?.cancel();
+      _typingStopTimers.remove(roomId)?.cancel();
+      if (_activeMockTypingRooms.remove(roomId)) {
+        emit(ChatSocketEvents.typingStop, {
+          'room_id': roomId,
+          'user_id': _mockTypingUserId,
+        });
+      }
+      return;
+    }
+
+    _typingStartTimers.remove(roomId)?.cancel();
+    _typingStartTimers[roomId] = Timer(const Duration(milliseconds: 800), () {
+      _typingStartTimers.remove(roomId);
+      _activeMockTypingRooms.add(roomId);
+      emit(ChatSocketEvents.typingStart, {
+        'room_id': roomId,
+        'user_id': _mockTypingUserId,
+        'user_name': _roomTitles[1],
+      });
+
+      _typingStopTimers.remove(roomId)?.cancel();
+      _typingStopTimers[roomId] = Timer(const Duration(seconds: 3), () {
+        _typingStopTimers.remove(roomId);
+        if (_activeMockTypingRooms.remove(roomId)) {
+          emit(ChatSocketEvents.typingStop, {
+            'room_id': roomId,
+            'user_id': _mockTypingUserId,
+          });
+        }
+      });
+    });
   }
 
   static ChatRoom _roomAt(int index) {

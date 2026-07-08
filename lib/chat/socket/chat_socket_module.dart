@@ -1,5 +1,6 @@
 import 'package:base_flutter_proj/chat/provider/chat_list_notifier.dart';
 import 'package:base_flutter_proj/chat/provider/chat_messages_notifier.dart';
+import 'package:base_flutter_proj/chat/provider/chat_typing_notifier.dart';
 import 'package:base_flutter_proj/chat/socket/chat_socket_constants.dart';
 import 'package:base_flutter_proj/chat/socket/chat_socket_event_parser.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
@@ -19,6 +20,12 @@ final chatSocketModuleProvider = Provider<WebSocketHandlerModule>((ref) {
           },
           ChatSocketEvents.messageRead: (event) {
             _handleMessageRead(ref, event);
+          },
+          ChatSocketEvents.typingStart: (event) {
+            _handleTyping(ref, event, isTyping: true);
+          },
+          ChatSocketEvents.typingStop: (event) {
+            _handleTyping(ref, event, isTyping: false);
           },
         },
       ),
@@ -50,4 +57,27 @@ void _handleMessageRead(Ref ref, WebSocketChannelEvent event) {
   }
 
   ref.read(chatListProvider.notifier).applyMessageRead(roomId);
+}
+
+void _handleTyping(
+  Ref ref,
+  WebSocketChannelEvent event, {
+  required bool isTyping,
+}) {
+  final roomId = ChatSocketEventParser.parseRoomId(event.data);
+  final userId = ChatSocketEventParser.parseUserId(event.data);
+  if (roomId == null || userId == null) {
+    CustomLogger.warning('Chat socket: failed to parse typing event: ${event.data}');
+    return;
+  }
+
+  if (!ref.exists(chatTypingProvider(roomId))) {
+    return;
+  }
+
+  ref.read(chatTypingProvider(roomId).notifier).setTyping(
+        userId: userId,
+        userName: ChatSocketEventParser.parseUserName(event.data),
+        isTyping: isTyping,
+      );
 }
