@@ -1,362 +1,86 @@
 # base_flutter_proj
 
-Базовый Flutter-шаблон для мобильных приложений. Содержит готовую инфраструктуру: навигацию, авторизацию, сетевой слой, тему, локализацию и отладочные инструменты. На его основе можно быстро стартовать новый продукт, не собирая boilerplate с нуля.
+Базовый Flutter-шаблон для мобильных приложений: навигация, авторизация, сеть, тема, локализация, пагинация, медиа, WebSocket, чаты и отладочные инструменты. На его основе можно быстро стартовать новый продукт без сборки boilerplate с нуля.
 
 ## Что уже есть
 
-| Модуль | Описание |
-|--------|----------|
-| **Auth** | Вход по телефону + SMS-код, маска RU (`PhoneInputHelper`), secure storage, refresh token, mock/real API |
-| **Навигация** | go_router, типобезопасные маршруты, bottom tabs (Home / Shop / Profile) |
-| **Сеть** | `PublicApi` / `CoreApi` + interceptors, Bearer token, retry при 401 |
-| **State** | Riverpod 3 (`Notifier`, `AsyncNotifier`) |
-| **UI** | Material 3, `ThemeBuilder`, формы, пагинация (`PaginatedNotifier`), медиа/файлы, bottom sheet, search autocomplete |
-| **Локализация** | ru / en через `intl_utils` (`lib/l10n/`, `make intl`) |
-| **Отладка** | Talker, HTTP-логи, debug banner (dev), опциональный Firebase Crashlytics |
-| **Push** | FCM (`firebase_messaging`): типы в `PushType`, топики в `PushTopic`, обработчики в модулях фич |
-| **WebView** | Экран для открытия ссылок внутри приложения |
+| Модуль | Кратко |
+|--------|--------|
+| **Auth** | Телефон + SMS, secure storage, refresh token, mock/real API |
+| **Shop** | Эталон списка/сетки + деталка, Repository, push-модуль |
+| **Chat** | Список комнат, переписка, REST + WebSocket, вложения, typing |
+| **Навигация** | go_router, typed routes, bottom tabs (Home / Shop / Profile) |
+| **Сеть** | `PublicApi` / `CoreApi`, interceptors, retry при 401 |
+| **WebSocket** | Модульная подписка на каналы, mock/real клиент |
+| **UI** | `AppPageScaffold`, пагинация, медиа/файлы, bottom sheet, календарь |
+| **Настройки** | Server-driven `AppSettings` на splash |
+| **Локализация** | ru / en (`make intl`) |
+| **Push / Firebase** | Опционально, выключены по умолчанию |
 
-Заглушки: **Home** — `AuthenticatedPlaceholderPage`. **Profile** — хаб демо-компонентов (`/profile/media-demo`). **Shop** — эталон: список/сетка, Repository, деталка товара.
+Заглушки: **Home** — placeholder. **Profile** — хаб демо (медиа, календарь, чаты).
 
 ## Стек
 
-- Flutter SDK ^3.11
-- Riverpod 3, go_router, http + http_interceptor
-- flutter_secure_storage, smart_auth (SMS autofill на Android)
-- hive / hive_flutter — локальный кеш и история поиска
-- firebase_core / firebase_crashlytics / firebase_messaging (опционально; ключи через env JSON)
-- bottom_picker, intl — выбор даты/времени в формах
-- modal_bottom_sheet, gap — bottom sheet панели
-- image_picker, file_picker, croppy, video_player, share_plus и др. — медиа и файлы (см. `pubspec.yaml`)
+Flutter ^3.11 · Riverpod 3 · go_router · http · flutter_secure_storage · hive · intl · image_picker / file_picker / share_plus и др. (полный список — `pubspec.yaml`).
 
 ## Быстрый старт
 
 ```bash
-# Зависимости
 flutter pub get
+make setup-secrets    # первый раз: .env и env/*.json из example
+make generate         # маршруты, JSON
+make intl             # после правок ARB
+make run-dev          # dev flavor, mock API
+```
 
-# Кодогенерация (маршруты, JSON)
-make generate
+Прямой запуск:
 
-# Локализация (после правок ARB)
-make intl
-
-# Запуск dev (mock auth, debug banner)
-make setup-secrets   # первый раз: создаёт .env и env/*.json из example
-make run-dev
-
-# Запуск prod
-make run-prod
-
-# Или напрямую:
+```bash
 flutter run --flavor dev --dart-define-from-file=env/dev.env.json
-flutter run --flavor prod --dart-define-from-file=env/prod.env.json
 ```
 
 ### Mock-авторизация (dev)
 
-При `useMockAuthApi: true` (по умолчанию в dev) бэкенд не нужен:
+При `USE_MOCK_AUTH_API=true` (по умолчанию в dev):
 
-- Введите любой номер телефона (валидатор требует ≥18 символов с маской)
-- Код подтверждения: **`1234`**
+- Любой валидный номер с маской RU
+- Код: **`1234`**
 
-### Flavors
+### Flavors и конфиг
 
-| Параметр | dev | prod |
-|----------|-----|------|
-| `apiUrlDomain` | localhost | api.myapp.com |
-| `useMockAuthApi` | `true` | `false` |
-| `useMockShopApi` | `true` | `false` |
-| `showDebugBanner` | `true` | `false` |
-| `enableFirebase` | `false` | `false` |
-| `localeMode` | `russianAndEnglish` | `russianOnly` |
-| Android `applicationId` | `com.base.base_flutter_proj` | `com.base.ru.baseflutterproj.prod` |
-| iOS bundle ID | `com.base.base-flutter-proj` | `com.example.baseFlutterProj.prod` |
+| | dev | prod |
+|---|-----|------|
+| Mock API | вкл. | выкл. |
+| Debug banner | да | нет |
+| Локали | ru + en | ru (по умолчанию) |
 
-Конфиг: `lib/core/config.dart` + `lib/core/env_reader.dart`, значения — в `env/<flavor>.env.json`.
+Конфиг читается из `env/<flavor>.env.json` через `lib/core/env_reader.dart` → `lib/core/config.dart`.
 
-### Секреты и окружение
+Перед первым запуском: `make setup-secrets` (создаёт `.env`, `env/*.json` из example). Секреты и Firebase-файлы в репозиторий не коммитятся — шаблоны: `.env.example`, `env/*.env.json.example`, `secrets/*.example`.
 
-Секреты **не хранятся в репозитории**. Перед первым запуском:
-
-```bash
-make setup-secrets
-```
-
-| Файл | Назначение |
-|------|------------|
-| `.env` | Shell/CI: Team ID, Firebase App IDs |
-| `env/dev.env.json` | Dart `--dart-define-from-file` для dev |
-| `env/prod.env.json` | То же для prod |
-| `secrets/google-services.json` | Firebase Android |
-| `secrets/GoogleService-Info.plist` | Firebase iOS |
-| `ios/Flutter/Secrets.xcconfig` | `DEVELOPMENT_TEAM` для Xcode |
-
-Шаблоны: `.env.example`, `env/*.env.json.example`, `secrets/*.example`.
-
-### Только русский язык
-
-В `env/<flavor>.env.json` установите `"localeMode": "russianOnly"` — приложение всегда на русском. В prod-шаблоне это значение по умолчанию.
-
-## Структура `lib/`
+## Структура `lib/` (кратко)
 
 ```
 lib/
-├── main.dart, runner.dart      # Точка входа (Config через EnvReader)
-├── auth/                       # Эталон форм (см. шаблон фичи ниже)
-├── home/                       # Таб: заглушка
-├── shop/                       # Эталон: список + деталка + push
-├── profile/                    # Таб: профиль + демо компонентов
-├── demo/                       # Демо-экраны (media_files_demo_page)
-├── web_view/                   # WebView (публичный роут)
-├── l10n/                       # ARB-файлы (ru, en)
-├── generated/                  # Сгенерированная локализация (S)
-├── firebase_options.dart       # Firebase keys из --dart-define-from-file
-└── core/                       # Инфраструктура
-    ├── application.dart        # MaterialApp.router
-    ├── app_bootstrap.dart      # Firebase + логгер
-    ├── config.dart, env_reader.dart
-    ├── push/                   # FCM: PushType, PushTopic, dispatcher, service
-    ├── helpers/                # phone_input_helper, formatters/
-    ├── providers/              # Riverpod (core, api, toast, theme, localizations)
-    ├── router/                 # GoRouter, shell, access policy
-    ├── network/                # PublicApi, CoreApi
-    ├── l10n/                   # ErrorLocalizer
-    └── base/
-        ├── base_api/           # BaseApi, ApiResponseParser, entities/
-        ├── base_auth/          # AuthSession, storage, token, infra providers
-        ├── base_pages/         # AppPageScaffold, пагинация, формы
-        └── model/              # EntityState, FormState, базовые notifier'ы
+├── auth/          # эталон форм
+├── shop/          # эталон списка + деталки
+├── chat/          # чаты (REST + WebSocket)
+├── home/          # таб-заглушка
+├── profile/       # профиль + вложенные demo/chat routes
+├── demo/          # демо-экраны компонентов
+├── web_view/
+└── core/          # инфраструктура (router, network, websocket, UI kit…)
 ```
 
-### Шаблон фичи (`lib/<feature>/`)
-
-| Папка / файл | Назначение |
-|--------------|------------|
-| `entities/` | Доменные сущности с API (`json_serializable`): `Product`, `Order`… |
-| `model/` | Модели UI-данных: `FormModel` для форм (поля ввода до submit) |
-| `api/` | Контракт + `*Impl` + `mock_*` |
-| `repository/` | Бизнес-слой между Api и UI |
-| `providers/` | Riverpod: DI (`*_providers.dart`) + notifier'ы |
-| `route/` | TypedGoRoute, пути — в `const` в начале файла |
-| `view/` | Переиспользуемые виджеты фичи |
-| `push/` | Опционально: `PushHandlerModule` |
-| `*_page.dart` | Экраны (в корне фичи) |
-
-**Эталоны:**
-
-- `auth/` — форма: `model/` (FormModel) + `providers/auth_form_providers.dart` (FormNotifier)
-- `shop/` — список/деталка: `entities/` (Product) + `PaginatedNotifier` / `ItemNotifier`
-
-Инфраструктурные сущности auth (`AuthSession`) — в `core/base/base_auth/entities/`, т.к. используются роутером, storage и interceptors.
-
-### Паттерны экранов
-
-| Тип экрана | Базовый notifier | State | UI |
-|------------|------------------|-------|-----|
-| Форма | `FormNotifier` | `FormState` | `AppForm` + `BaseAuthFormPage` |
-| Список с пагинацией | `PaginatedNotifier` | `PaginatedState` | `PaginatedListView` / `PaginatedGridView` |
-| Деталка | `ItemNotifier` | `EntityState` | `EntityStateBuilder` + `AppErrorPage` |
-
-Сущность (`Product`) — в `entities/`. Notifier'ы — в `providers/` (как в auth и shop).
-
-## Каркас страницы (`AppPageScaffold`)
-
-Композиция из модулей в `lib/core/base/base_pages/`:
-
-| Виджет | Назначение |
-|--------|------------|
-| `AppPageScaffold` | Scaffold + PopScope + system UI |
-| `AppDefaultAppBar` | Стандартный AppBar |
-| `AppPageBody` | SafeArea, padding, dismiss keyboard |
-| `AppLoadingOverlay` | Блокирующий loading |
-
-**Когда использовать `AppPageScaffold`:** обычная страница со стандартным AppBar и простым body (список, форма, WebView).
-
-**Приоритет AppBar:**
-
-1. `appBarConfig.needBuildAppBar: false` — без AppBar
-2. `appBar:` — готовый виджет
-3. `appBarBuilder:` — кастомная сборка с `AppPageAppBarLayout` (back, canPop)
-4. По умолчанию — `AppDefaultAppBar` из `appBarConfig`
-
-**Сложные экраны** (SliverAppBar, карта, nested scroll): чистый `Scaffold` + при необходимости только `AppPageBody` / `AppLoadingOverlay`.
-
-**Слоты Scaffold:** `floatingActionButton`, `bottomNavigationBar`, `bottomSheet`, `drawer`, `extendBody`, `extendBodyBehindAppBar` и др.
-
-```dart
-// Кастомный AppBar без раздувания конфига
-AppPageScaffold(
-  appBarBuilder: (context, layout) => AppBar(
-    title: const Text('Заказ'),
-    leading: layout.showBackButton
-        ? BackButton(onPressed: layout.onBackPressed)
-        : null,
-  ),
-  floatingActionButton: FloatingActionButton(...),
-  body: ...,
-)
-```
-
-## Добавление feature API
-
-1. `entities/` — доменные сущности (`@JsonSerializable`, `fromJson` / `fromApiJson`)
-2. `api/` — контракт + `*Impl` + `mock_*` (через `publicApiProvider` или `coreApiProvider`)
-3. `repository/` — бизнес-логика, маппинг ошибок
-4. `providers/<feature>_providers.dart` — DI + переключение mock/real (эталон: `shop/providers/shop_providers.dart`)
-5. Notifier в `providers/` по типу экрана (см. таблицу паттернов выше)
-6. UI → `Notifier` → `Repository` → `Api`
-
-Для списков с подгрузкой — `PaginatedNotifier<T>` + `PaginatedListView` (эталон: `lib/shop/`).
-
-Scroll header/footer — `PaginatedListView.header` / `.footer`. Fixed — `PaginatedListFrame`.
-
-Отступы контента — `AppPageBodyConfig.padding` на `AppPageScaffold` (по умолчанию `ScreenContentInsets.defaultInsets`). Переопределение: `AppPageBodyConfig(padding: EdgeInsets.all(20))`. Full-bleed: `ScreenContentInsets.zero`. Разделители списка — `PaginatedListLayout`.
-
-Для сетки — `PaginatedGridView` + тот же notifier.
-
-Для детального экрана — `ItemNotifier<T>` + `EntityStateBuilder` + `AppErrorPage` (`product_detail_page.dart` + `view/product_detail_body.dart`).
-
-Формы: loading через `isSubmitting` на странице (`AppPageScaffold.isLoading`).
-
-Полноэкранные ошибки — `AppErrorPage` (`AppErrorCode`).
-
-### Поиск с автокомплитом
-
-`SearchAutocompleteField<T>` — `lib/core/components/search_autocomplete/`.
-
-- Обычное поле ввода с `prefix` / `suffix`, debounce, лимит подсказок
-- `autocompleteEnabled` — вкл/выкл подсказок
-- `historyEnabled` — история поиска (по умолчанию persistent через `HiveSearchAutocompleteHistoryStorage`)
-- Кастомизация: `suggestionBuilder`, `optionsViewBuilder`, `SearchAutocompleteOptionsStyle`
-
-```dart
-SearchAutocompleteField<String>(
-  hintText: 'Поиск',
-  prefix: const Icon(Icons.search),
-  showClearButton: true,
-  historyEnabled: true,
-  historyStorageKey: 'shop_search',
-  maxSuggestions: 8,
-  onSuggestionsRequested: (query) => repository.searchSuggestions(query),
-  onSubmitted: (query) => _search(query),
-)
-```
-
-Hive инициализируется в `AppBootstrap` (`lib/core/storage/hive_bootstrap.dart`).
-
-### Bottom sheet
-
-`AppBottomSheet` + `AppBottomSheetPanel` — `lib/core/components/bottom_sheet/` (на базе `modal_bottom_sheet`).
-
-- Drag-to-close, tap outside (`isDismissible`)
-- Заголовок, handle, close icon, кастомный header/footer
-- `AppBottomSheetStyle` — скругление, отступы, цвета, handle
-- `AppBottomSheet.show` / `.showCupertino` / `.showBar`
-
-```dart
-await AppBottomSheet.show<void>(
-  context: context,
-  title: 'Фильтры',
-  scrollable: true,
-  builder: (sheetContext) => FilterForm(
-    onApply: () => Navigator.pop(sheetContext),
-  ),
-);
-```
-
-### Медиа-лента и файлы
-
-`lib/core/components/media/`, `files/`, `sharing/` — лента фото/видео, загрузка файлов, просмотр, шаринг.
-
-```dart
-MediaFeedStrip(
-  items: mediaItems,
-  editable: true,
-  contentMode: MediaFeedContentMode.mixed, // photosOnly | videosOnly
-  maxItems: 10,
-  onChanged: (items) => setState(() => mediaItems = items),
-)
-
-AppFilePickerField(
-  files: attachments,
-  editable: true,
-  fileType: FileType.custom,
-  allowedExtensions: ['pdf', 'doc'],
-  onChanged: (files) => setState(() => attachments = files),
-)
-
-AppShareLinkButton(url: 'https://example.com/item/42')
-```
-
-Фото при добавлении обрезаются через `croppy` (`cropConfig: AppImageCropConfig(...)`). Просмотр: `AppFileViewer.open(context, item: file)`.
-
-**Демо:** вкладка «Профиль» → «Медиа и файлы» (`/profile/media-demo`).
-
-## Push-уведомления (опционально)
-
-Требует `"enableFirebase": true` в `env/*.env.json` и настроенных Firebase-файлах.
-
-**Каталог (единое место для всех фич):**
-
-- `lib/core/push/push_types.dart` — числовые типы (`PushType.shopOrderUpdate = 1`)
-- `lib/core/push/push_topics.dart` — FCM topics (`PushTopic.shopPromotions`)
-
-**Обработчики в фиче** — `lib/<feature>/push/<feature>_push_module.dart`:
-
-```dart
-PushHandlerModule(
-  typeHandlers: {
-    PushType.shopOrderUpdate: (message, delivery) { ... },
-  },
-  topicHandlers: {
-    PushTopic.shopPromotions: (message, delivery) { ... },
-  },
-)
-```
-
-Подключение модуля — в `pushHandlerModulesProvider` (`lib/core/push/push_providers.dart`).
-
-Подписка на topic: `ref.read(pushTopicManagerProvider).subscribe(PushTopic.shopPromotions)`.
-
-Парсер поддерживает `type` как `int` или `'1'`, на корне или внутри `data`.  
-Эталон: `lib/shop/push/shop_push_module.dart`.
-
-## Firebase (опционально)
-
-1. Скопировать шаблоны: `make setup-secrets`
-2. Положить `secrets/google-services.json` и `secrets/GoogleService-Info.plist` из Firebase Console
-3. Заполнить Firebase keys в `env/dev.env.json` (см. `env/dev.env.json.example`)
-4. В `.env` — `FIREBASE_ANDROID_APP_ID`, `FIREBASE_IOS_APP_ID` для CI distribution
-5. Установить `"enableFirebase": true` в env JSON
-
-По умолчанию Firebase выключен — шаблон работает без настройки. Push и Crashlytics активируются вместе с Firebase.
-
-**App Distribution (dev):**
-
-```bash
-sh scripts/ci_android_dev_distribution.sh   # APK
-sh scripts/ci_ios_dev_distribution.sh     # IPA (нужен paid Apple Developer + ad-hoc signing)
-```
-
-Package/bundle ID dev должны совпадать с Firebase Console (`com.base.base_flutter_proj` / `com.base.base-flutter-proj`).
-
-## Локализация
-
-- Исходники: `lib/l10n/intl_ru.arb`, `intl_en.arb`
-- Генерация: `make intl` → `lib/generated/l10n.dart`
-- В UI: `S.of(context).someKey`
-- Ошибки API/auth: `AppErrorCode` + `ErrorLocalizer.message(code)` (`lib/core/l10n/error_localizer.dart`)
-- Режим языков: `Config.localeMode` — `russianOnly` или `russianAndEnglish`
+Шаблон фичи: `api/` → `repository/` → `providers/` → `route/` → `*_page.dart`.
 
 ## Make-команды
 
 | Команда | Действие |
 |---------|----------|
-| `make setup-secrets` | secrets → платформы, env/json, Secrets.xcconfig |
-| `make run-dev` | flutter run dev flavor |
-| `make run-prod` | flutter run prod flavor |
-| `make generate` | build_runner (маршруты, JSON) |
-| `make intl` | intl_utils:generate |
-| `make createSplash` | нативный splash screen |
-| `make toAssets` | генерация каталога ассетов |
+| `make setup-secrets` | env, secrets, xcconfig |
+| `make run-dev` / `make run-prod` | запуск flavor |
+| `make generate` | build_runner |
+| `make intl` | локализация |
+| `make createSplash` | нативный splash |
+| `make toAssets` | каталог ассетов |
