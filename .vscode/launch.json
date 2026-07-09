@@ -13,6 +13,17 @@
             ]
         },
         {
+            "name": "Dev Backend Flavor",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "devbackend",
+                "--dart-define-from-file=env/dev-backend.env.json"
+            ]
+        },
+        {
             "name": "Prod Flavor",
             "type": "dart",
             "request": "launch",

@@ -17,7 +17,7 @@ abstract final class EnvReader {
     return Config(
       apiUrlDomain: const String.fromEnvironment(
         'API_URL_DOMAIN',
-        defaultValue: 'localhost',
+        defaultValue: 'localhost:8000',
       ),
       apiUrlRelativePath: const String.fromEnvironment(
         'API_URL_RELATIVE_PATH',
@@ -81,7 +81,7 @@ abstract final class EnvReader {
     return Config(
       apiUrlDomain: const String.fromEnvironment(
         'API_URL_DOMAIN',
-        defaultValue: 'localhost',
+        defaultValue: 'localhost:8000',
       ),
       apiUrlRelativePath: const String.fromEnvironment(
         'API_URL_RELATIVE_PATH',
