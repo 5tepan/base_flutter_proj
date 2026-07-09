@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Flavor { dev, prod }
+enum Flavor { dev, devBackend, prod }
 
 /// Режим локализации приложения.
 enum AppLocaleMode {

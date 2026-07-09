@@ -1,8 +1,8 @@
 import 'package:base_flutter_proj/chat/socket/chat_socket_module.dart';
 import 'package:base_flutter_proj/core/providers/app_event_provider.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
+import 'package:base_flutter_proj/core/websocket/client/fastapi_websocket_client.dart';
 import 'package:base_flutter_proj/core/websocket/client/mock_websocket_client.dart';
-import 'package:base_flutter_proj/core/websocket/client/unimplemented_websocket_client.dart';
 import 'package:base_flutter_proj/core/websocket/client/websocket_client.dart';
 import 'package:base_flutter_proj/core/websocket/handler/websocket_dispatcher.dart';
 import 'package:base_flutter_proj/core/websocket/handler/websocket_registry.dart';
@@ -39,7 +39,9 @@ final webSocketClientProvider = Provider<WebSocketClient>((ref) {
     ref.onDispose(client.dispose);
     return client;
   }
-  return UnimplementedWebSocketClient();
+  final client = FastApiWebSocketClient(config: config);
+  ref.onDispose(client.dispose);
+  return client;
 });
 
 final webSocketServiceProvider = Provider<WebSocketService>((ref) {

@@ -14,6 +14,7 @@ copy_if_missing() {
 
 copy_if_missing "$ROOT/.env" "$ROOT/.env.example"
 copy_if_missing "$ROOT/env/dev.env.json" "$ROOT/env/dev.env.json.example"
+copy_if_missing "$ROOT/env/dev-backend.env.json" "$ROOT/env/dev-backend.env.json.example"
 copy_if_missing "$ROOT/env/prod.env.json" "$ROOT/env/prod.env.json.example"
 copy_if_missing "$ROOT/secrets/google-services.json" "$ROOT/secrets/google-services.json.example"
 copy_if_missing "$ROOT/secrets/GoogleService-Info.plist" "$ROOT/secrets/GoogleService-Info.plist.example"

@@ -47,6 +47,13 @@ android {
                 "app_name" to "Dev Base App",
             )
         }
+        create("devbackend") {
+            dimension = "app"
+            applicationIdSuffix = ".devbackend"
+            manifestPlaceholders += mapOf(
+                "app_name" to "Dev Backend Base App",
+            )
+        }
         create("prod") {
             dimension = "app"
             applicationId = "com.base.ru.baseflutterproj.prod"

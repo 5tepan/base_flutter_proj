@@ -7,6 +7,7 @@ abstract final class EnvReader {
 
     return switch (flavorName) {
       'prod' => _prodConfig(),
+      'devbackend' => _devBackendConfig(),
       'dev' => _devConfig(),
       _ => throw Exception('Unknown FLAVOR: $flavorName'),
     };
@@ -71,6 +72,38 @@ abstract final class EnvReader {
         const String.fromEnvironment(
           'LOCALE_MODE',
           defaultValue: 'russianOnly',
+        ),
+      ),
+    );
+  }
+
+  static Config _devBackendConfig() {
+    return Config(
+      apiUrlDomain: const String.fromEnvironment(
+        'API_URL_DOMAIN',
+        defaultValue: 'localhost',
+      ),
+      apiUrlRelativePath: const String.fromEnvironment(
+        'API_URL_RELATIVE_PATH',
+        defaultValue: '/api/',
+      ),
+      isHttpsApi: _apiUseHttps,
+      flavor: Flavor.devBackend,
+      showDebugBanner: _showDebugBanner(defaultValue: true),
+      enableFirebase: _enableFirebase,
+      useMockAuthApi: _useMockAuthApi(defaultValue: false),
+      useMockShopApi: _useMockShopApi(defaultValue: false),
+      useMockAppSettingsApi: _useMockAppSettingsApi(defaultValue: false),
+      useMockChatApi: _useMockChatApi(defaultValue: false),
+      enableWebSocket: _enableWebSocket(defaultValue: true),
+      useMockWebSocket: _useMockWebSocket(defaultValue: true),
+      webSocketAppKey: _webSocketAppKey,
+      webSocketHost: _webSocketHost,
+      webSocketPort: _webSocketPort,
+      localeMode: _localeMode(
+        const String.fromEnvironment(
+          'LOCALE_MODE',
+          defaultValue: 'russianAndEnglish',
         ),
       ),
     );

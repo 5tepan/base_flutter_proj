@@ -67,7 +67,11 @@ class Application extends ConsumerWidget with DebugBannerMixin {
   }
 
   bool _shouldShowDebugBanner(Config config) {
-    return config.showDebugBanner && config.flavor == Flavor.dev;
+    final isDebugFlavor = switch (config.flavor) {
+      Flavor.dev || Flavor.devBackend => true,
+      Flavor.prod => false,
+    };
+    return config.showDebugBanner && isDebugFlavor;
   }
 
   void _openTalkerScreen() {

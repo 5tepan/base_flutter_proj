@@ -21,6 +21,9 @@ setup-secrets:
 run-dev:
 	flutter run --flavor dev --dart-define-from-file=env/dev.env.json
 
+run-dev-backend:
+	flutter run --flavor devbackend --dart-define-from-file=env/dev-backend.env.json
+
 run-prod:
 	flutter run --flavor prod --dart-define-from-file=env/prod.env.json
 

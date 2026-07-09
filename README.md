@@ -31,12 +31,17 @@ make setup-secrets    # первый раз: .env и env/*.json из example
 make generate         # маршруты, JSON
 make intl             # после правок ARB
 make run-dev          # dev flavor, mock API
+make run-dev-backend  # dev flavor, real backend API
 ```
 
 Прямой запуск:
 
 ```bash
 flutter run --flavor dev --dart-define-from-file=env/dev.env.json
+```
+
+```bash
+flutter run --flavor devbackend --dart-define-from-file=env/dev-backend.env.json
 ```
 
 ### Mock-авторизация (dev)
@@ -48,11 +53,11 @@ flutter run --flavor dev --dart-define-from-file=env/dev.env.json
 
 ### Flavors и конфиг
 
-| | dev | prod |
-|---|-----|------|
-| Mock API | вкл. | выкл. |
-| Debug banner | да | нет |
-| Локали | ru + en | ru (по умолчанию) |
+| | dev (mock) | devbackend (real backend) | prod |
+|---|---|---|---|
+| Mock API | вкл. | выкл. | выкл. |
+| Debug banner | да | да | нет |
+| Локали | ru + en | ru + en | ru (по умолчанию) |
 
 Конфиг читается из `env/<flavor>.env.json` через `lib/core/env_reader.dart` → `lib/core/config.dart`.
 
@@ -79,7 +84,7 @@ lib/
 | Команда | Действие |
 |---------|----------|
 | `make setup-secrets` | env, secrets, xcconfig |
-| `make run-dev` / `make run-prod` | запуск flavor |
+| `make run-dev` / `make run-dev-backend` / `make run-prod` | запуск flavor |
 | `make generate` | build_runner |
 | `make intl` | локализация |
 | `make createSplash` | нативный splash |
