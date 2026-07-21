@@ -5,7 +5,7 @@ import 'package:base_flutter_proj/core/components/dynamic_form/dynamic_form_mode
 import 'package:base_flutter_proj/core/components/dynamic_form/dynamic_form_schema.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final dynamicFormProvider = NotifierProvider.family<
+final dynamicFormProvider = NotifierProvider.autoDispose.family<
     DynamicFormNotifier,
     FormState,
     DynamicFormSchema>(

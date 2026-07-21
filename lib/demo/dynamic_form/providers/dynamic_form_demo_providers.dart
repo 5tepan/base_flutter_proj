@@ -20,14 +20,16 @@ final dynamicFormRepositoryProvider = Provider<DynamicFormRepository>((ref) {
 });
 
 /// Загрузка schema демо-формы с сервера (mock или real API).
-final dynamicFormDemoSchemaProvider = FutureProvider<DynamicFormSchema>((ref) {
-  return ref
-      .watch(dynamicFormRepositoryProvider)
-      .fetchSchema(MockDynamicFormApi.demoFormId);
-});
+final dynamicFormDemoSchemaProvider =
+    FutureProvider.autoDispose<DynamicFormSchema>((ref) {
+      return ref
+          .watch(dynamicFormRepositoryProvider)
+          .fetchSchema(MockDynamicFormApi.demoFormId);
+    });
 
 /// Локальный fallback schema, если загрузка с сервера не удалась.
-final dynamicFormDemoFallbackSchemaProvider =
-    Provider<DynamicFormSchema>((ref) {
+final dynamicFormDemoFallbackSchemaProvider = Provider<DynamicFormSchema>((
+  ref,
+) {
   return MockDynamicFormApi.demoSchema;
 });
