@@ -104,6 +104,97 @@ abstract class FormValidator {
     return null;
   }
 
+  static String? validateMinLength(
+    String? value, {
+    required int minLength,
+    String? error,
+  }) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return null;
+    }
+    if (trimmed.length < minLength) {
+      return error ?? 'Минимум $minLength символа';
+    }
+    return null;
+  }
+
+  static String? validateMaxLength(
+    String? value, {
+    required int maxLength,
+    String? error,
+  }) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return null;
+    }
+    if (trimmed.length > maxLength) {
+      return error ?? 'Максимум $maxLength символов';
+    }
+    return null;
+  }
+
+  static String? validatePattern(
+    String? value, {
+    required Pattern pattern,
+    String? error,
+  }) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return null;
+    }
+
+    final regex = pattern is RegExp ? pattern : RegExp(pattern.toString());
+    if (!regex.hasMatch(trimmed)) {
+      return error ?? 'Некорректный формат';
+    }
+    return null;
+  }
+
+  static String? validateInteger(
+    String? value, {
+    String? requiredError,
+    String? invalidError,
+  }) {
+    final trimmed = value?.trim();
+    if (trimmed == null || trimmed.isEmpty) {
+      return requiredError;
+    }
+    return int.tryParse(trimmed) == null
+        ? (invalidError ?? 'Введите число')
+        : null;
+  }
+
+  static String? validateIntegerRange(
+    int? value, {
+    int? min,
+    int? max,
+    String? minError,
+    String? maxError,
+  }) {
+    if (value == null) {
+      return null;
+    }
+    if (min != null && value < min) {
+      return minError ?? 'Минимальное значение: $min';
+    }
+    if (max != null && value > max) {
+      return maxError ?? 'Максимальное значение: $max';
+    }
+    return null;
+  }
+
+  static String? validateRequiredTrue(
+    bool? value, {
+    required S l10n,
+    String? error,
+  }) {
+    if (value == true) {
+      return null;
+    }
+    return error ?? ErrorLocalizer.message(AppErrorCode.fieldRequired, l10n);
+  }
+
   static String? validateConfirmPassword(
     String? value, {
     required S l10n,

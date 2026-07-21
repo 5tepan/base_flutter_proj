@@ -20,6 +20,10 @@ RouteBase get $profileRoute => GoRouteData.$route(
       path: 'calendar-demo',
       factory: $CalendarDemoRoute._fromState,
     ),
+    GoRouteData.$route(
+      path: 'dynamic-form-demo',
+      factory: $DynamicFormDemoRoute._fromState,
+    ),
     GoRouteData.$route(path: 'chat', factory: $ChatDirectRoute._fromState),
     GoRouteData.$route(
       path: 'chats',
@@ -78,6 +82,27 @@ mixin $CalendarDemoRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/profile/calendar-demo');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $DynamicFormDemoRoute on GoRouteData {
+  static DynamicFormDemoRoute _fromState(GoRouterState state) =>
+      const DynamicFormDemoRoute();
+
+  @override
+  String get location => GoRouteData.$location('/profile/dynamic-form-demo');
 
   @override
   void go(BuildContext context) => context.go(location);

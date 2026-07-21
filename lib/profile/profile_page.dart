@@ -52,6 +52,15 @@ class ProfilePage extends ConsumerWidget {
             onTap: () => const CalendarDemoRoute().push(context),
           ),
           ListTile(
+            leading: const Icon(Icons.text_fields),
+            title: const Text('Dynamic form demo'),
+            subtitle: const Text(
+              'MVP динамических форм: schema-driven UI + валидация',
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => const DynamicFormDemoRoute().push(context),
+          ),
+          ListTile(
             leading: const Icon(Icons.chat_outlined),
             title: Text(l10n.profileChatDirectDemoTitle),
             subtitle: Text(l10n.profileChatDirectDemoSubtitle),
