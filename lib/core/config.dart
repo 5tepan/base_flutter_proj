@@ -28,6 +28,7 @@ class Config {
   final bool useMockShopApi;
   final bool useMockAppSettingsApi;
   final bool useMockChatApi;
+  final bool useMockDynamicFormApi;
   final bool enableWebSocket;
   final bool useMockWebSocket;
   final String? webSocketAppKey;
@@ -50,6 +51,7 @@ class Config {
     this.useMockShopApi = true,
     this.useMockAppSettingsApi = true,
     this.useMockChatApi = true,
+    this.useMockDynamicFormApi = true,
     this.enableWebSocket = true,
     this.useMockWebSocket = true,
     this.webSocketAppKey,

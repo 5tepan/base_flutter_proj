@@ -1,7 +1,4 @@
 /// Варианты полей для динамических форм (server-driven MVP).
-///
-/// Контракт schema пока не привязан к конкретному формату API,
-/// но его можно будет сериализовать/десериализовать позже.
 library dynamic_form_schema;
 
 enum DynamicFormFieldType {
@@ -22,6 +19,22 @@ class DynamicFormSelectOption {
 
   final String value;
   final String label;
+
+  factory DynamicFormSelectOption.fromJson(Map<String, dynamic> json) {
+    final value = json['value'];
+    final label = json['label'];
+    if (value is! String || label is! String) {
+      throw FormatException(
+        'Select option requires string value and label: $json',
+      );
+    }
+    return DynamicFormSelectOption(value: value, label: label);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'value': value,
+        'label': label,
+      };
 }
 
 class DynamicFormFieldSchema {
@@ -71,6 +84,81 @@ class DynamicFormFieldSchema {
 
   /// Стартовое значение (используется в демо/локально).
   final dynamic initialValue;
+
+  factory DynamicFormFieldSchema.fromJson(Map<String, dynamic> json) {
+    final name = json['name'];
+    final label = json['label'];
+    final typeRaw = json['type'];
+    if (name is! String || label is! String || typeRaw is! String) {
+      throw FormatException(
+        'Field requires string name, label and type: $json',
+      );
+    }
+
+    return DynamicFormFieldSchema(
+      name: name,
+      label: label,
+      type: DynamicFormFieldTypeParsing.fromString(typeRaw),
+      required: json['required'] == true,
+      minLength: _readInt(json['min_length']),
+      maxLength: _readInt(json['max_length']),
+      pattern: json['pattern'] as String?,
+      min: _readInt(json['min']),
+      max: _readInt(json['max']),
+      options: _readOptions(json['options']),
+      minLines: _readInt(json['min_lines']),
+      maxLines: _readInt(json['max_lines']),
+      obscureText: json['obscure_text'] == true,
+      helperText: json['helper_text'] as String?,
+      initialValue: json['initial_value'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'type': type.name,
+        'label': label,
+        if (required) 'required': required,
+        if (minLength != null) 'min_length': minLength,
+        if (maxLength != null) 'max_length': maxLength,
+        if (pattern != null) 'pattern': pattern,
+        if (min != null) 'min': min,
+        if (max != null) 'max': max,
+        if (options.isNotEmpty)
+          'options': options.map((option) => option.toJson()).toList(),
+        if (minLines != null) 'min_lines': minLines,
+        if (maxLines != null) 'max_lines': maxLines,
+        if (obscureText) 'obscure_text': obscureText,
+        if (helperText != null) 'helper_text': helperText,
+        if (initialValue != null) 'initial_value': initialValue,
+      };
+
+  static int? _readInt(Object? value) {
+    if (value == null) {
+      return null;
+    }
+    if (value is int) {
+      return value;
+    }
+    if (value is num) {
+      return value.toInt();
+    }
+    return int.tryParse('$value');
+  }
+
+  static List<DynamicFormSelectOption> _readOptions(Object? value) {
+    if (value is! List) {
+      return const [];
+    }
+
+    return value
+        .map(
+          (item) => DynamicFormSelectOption.fromJson(
+            item as Map<String, dynamic>,
+          ),
+        )
+        .toList();
+  }
 }
 
 class DynamicFormSchema {
@@ -81,5 +169,37 @@ class DynamicFormSchema {
 
   final int version;
   final List<DynamicFormFieldSchema> fields;
+
+  factory DynamicFormSchema.fromJson(Map<String, dynamic> json) {
+    final version = json['version'];
+    final fieldsRaw = json['fields'];
+    if (version is! num || fieldsRaw is! List) {
+      throw FormatException('Schema requires version and fields: $json');
+    }
+
+    return DynamicFormSchema(
+      version: version.toInt(),
+      fields: fieldsRaw
+          .map(
+            (field) => DynamicFormFieldSchema.fromJson(
+              field as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'version': version,
+        'fields': fields.map((field) => field.toJson()).toList(),
+      };
 }
 
+abstract final class DynamicFormFieldTypeParsing {
+  static DynamicFormFieldType fromString(String value) {
+    return DynamicFormFieldType.values.firstWhere(
+      (type) => type.name == value,
+      orElse: () => throw FormatException('Unknown field type: $value'),
+    );
+  }
+}

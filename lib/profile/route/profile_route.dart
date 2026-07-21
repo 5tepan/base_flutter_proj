@@ -2,7 +2,7 @@ import 'package:base_flutter_proj/chat/chat_list_page.dart';
 import 'package:base_flutter_proj/chat/chat_room_page.dart';
 import 'package:base_flutter_proj/chat/config/chat_defaults.dart';
 import 'package:base_flutter_proj/demo/calendar_demo_page.dart';
-import 'package:base_flutter_proj/demo/dynamic_form_demo_page.dart';
+import 'package:base_flutter_proj/demo/dynamic_form/dynamic_form_demo_page.dart';
 import 'package:base_flutter_proj/demo/media_files_demo_page.dart';
 import 'package:base_flutter_proj/profile/profile_page.dart';
 import 'package:flutter/material.dart';

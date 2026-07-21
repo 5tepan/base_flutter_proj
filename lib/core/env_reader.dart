@@ -31,6 +31,7 @@ abstract final class EnvReader {
       useMockShopApi: _useMockShopApi(defaultValue: true),
       useMockAppSettingsApi: _useMockAppSettingsApi(defaultValue: true),
       useMockChatApi: _useMockChatApi(defaultValue: true),
+      useMockDynamicFormApi: _useMockDynamicFormApi(defaultValue: true),
       enableWebSocket: _enableWebSocket(defaultValue: true),
       useMockWebSocket: _useMockWebSocket(defaultValue: true),
       webSocketAppKey: _webSocketAppKey,
@@ -63,6 +64,7 @@ abstract final class EnvReader {
       useMockShopApi: _useMockShopApi(),
       useMockAppSettingsApi: _useMockAppSettingsApi(),
       useMockChatApi: _useMockChatApi(),
+      useMockDynamicFormApi: _useMockDynamicFormApi(),
       enableWebSocket: _enableWebSocket(),
       useMockWebSocket: _useMockWebSocket(),
       webSocketAppKey: _webSocketAppKey,
@@ -95,6 +97,7 @@ abstract final class EnvReader {
       useMockShopApi: _useMockShopApi(defaultValue: false),
       useMockAppSettingsApi: _useMockAppSettingsApi(defaultValue: false),
       useMockChatApi: _useMockChatApi(defaultValue: false),
+      useMockDynamicFormApi: _useMockDynamicFormApi(defaultValue: false),
       enableWebSocket: _enableWebSocket(defaultValue: true),
       useMockWebSocket: _useMockWebSocket(defaultValue: true),
       webSocketAppKey: _webSocketAppKey,
@@ -139,6 +142,12 @@ abstract final class EnvReader {
 
   static bool _useMockChatApi({bool defaultValue = false}) => _parseBool(
         const String.fromEnvironment('USE_MOCK_CHAT_API'),
+        defaultValue: defaultValue,
+      );
+
+  static bool _useMockDynamicFormApi({bool defaultValue = false}) =>
+      _parseBool(
+        const String.fromEnvironment('USE_MOCK_DYNAMIC_FORM_API'),
         defaultValue: defaultValue,
       );
 
