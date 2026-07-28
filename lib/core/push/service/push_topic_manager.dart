@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/push/push_service.dart';
+import 'package:base_flutter_proj/core/push/service/push_service.dart';
 
 /// Удобная обёртка для подписки на FCM topics из фич.
 class PushTopicManager {

@@ -1,7 +1,7 @@
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/events/app_event.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
-import 'package:base_flutter_proj/core/push/push_registry.dart';
+import 'package:base_flutter_proj/core/push/handler/push_registry.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 
 typedef PushEventEmitter = void Function(AppEvent event);
 

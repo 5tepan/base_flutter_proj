@@ -1,9 +1,9 @@
 import 'package:base_flutter_proj/core/debug/logger.dart';
-import 'package:base_flutter_proj/core/push/push_delivery.dart';
-import 'package:base_flutter_proj/core/push/push_handler_module.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
-import 'package:base_flutter_proj/core/push/push_topics.dart';
-import 'package:base_flutter_proj/core/push/push_types.dart';
+import 'package:base_flutter_proj/core/push/model/push_delivery.dart';
+import 'package:base_flutter_proj/core/push/model/push_handler_module.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
+import 'package:base_flutter_proj/core/push/model/push_topics.dart';
+import 'package:base_flutter_proj/core/push/model/push_types.dart';
 import 'package:base_flutter_proj/shop/providers/shop_list_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

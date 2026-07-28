@@ -4,7 +4,7 @@ import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/events/app_event.dart';
 import 'package:base_flutter_proj/core/providers/app_event_provider.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
-import 'package:base_flutter_proj/core/push/notification_badge_cleaner.dart';
+import 'package:base_flutter_proj/core/push/badge/notification_badge_cleaner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

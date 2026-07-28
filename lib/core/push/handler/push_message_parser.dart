@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:base_flutter_proj/core/push/push_delivery.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/push/model/push_delivery.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 abstract final class PushMessageParser {

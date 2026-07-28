@@ -1,10 +1,10 @@
 import 'package:base_flutter_proj/core/providers/app_event_provider.dart';
-import 'package:base_flutter_proj/core/push/push_dispatcher.dart';
-import 'package:base_flutter_proj/core/push/push_handler_module.dart';
-import 'package:base_flutter_proj/core/push/push_pending_queue.dart';
-import 'package:base_flutter_proj/core/push/push_registry.dart';
-import 'package:base_flutter_proj/core/push/push_service.dart';
-import 'package:base_flutter_proj/core/push/push_topic_manager.dart';
+import 'package:base_flutter_proj/core/push/handler/push_dispatcher.dart';
+import 'package:base_flutter_proj/core/push/handler/push_registry.dart';
+import 'package:base_flutter_proj/core/push/model/push_handler_module.dart';
+import 'package:base_flutter_proj/core/push/service/push_pending_queue.dart';
+import 'package:base_flutter_proj/core/push/service/push_service.dart';
+import 'package:base_flutter_proj/core/push/service/push_topic_manager.dart';
 import 'package:base_flutter_proj/shop/push/shop_push_module.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

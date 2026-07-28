@@ -1,6 +1,6 @@
 import 'package:base_flutter_proj/core/debug/logger.dart';
-import 'package:base_flutter_proj/core/push/push_handler_module.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/push/model/push_handler_module.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 import 'package:flutter/foundation.dart';
 
 class PushRegistry {

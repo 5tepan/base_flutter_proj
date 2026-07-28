@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:base_flutter_proj/core/debug/logger.dart';
-import 'package:base_flutter_proj/core/push/push_delivery.dart';
-import 'package:base_flutter_proj/core/push/push_dispatcher.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/push/handler/push_dispatcher.dart';
+import 'package:base_flutter_proj/core/push/model/push_delivery.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushService {

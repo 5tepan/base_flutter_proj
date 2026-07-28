@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 
 /// Очередь пушей из background isolate для обработки после старта UI.
 abstract final class PushPendingQueue {

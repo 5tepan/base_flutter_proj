@@ -1,5 +1,5 @@
-import 'package:base_flutter_proj/core/push/push_delivery.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/push/model/push_delivery.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 
 typedef PushTypeHandler = void Function(
   PushMessage message,

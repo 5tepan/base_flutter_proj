@@ -1,5 +1,5 @@
-import 'package:base_flutter_proj/core/push/push_delivery.dart';
-import 'package:base_flutter_proj/core/push/push_message_parser.dart';
+import 'package:base_flutter_proj/core/push/handler/push_message_parser.dart';
+import 'package:base_flutter_proj/core/push/model/push_delivery.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 /// Нормализованный пуш для обработки в фичах.

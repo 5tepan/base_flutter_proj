@@ -6,7 +6,7 @@ import 'package:base_flutter_proj/core/providers/app_event_bindings.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/providers/localizations_provider.dart';
 import 'package:base_flutter_proj/core/providers/theme_provider.dart';
-import 'package:base_flutter_proj/core/push/push_bridge.dart';
+import 'package:base_flutter_proj/core/push/bridge/push_bridge.dart';
 import 'package:base_flutter_proj/core/router/router_provider.dart';
 import 'package:base_flutter_proj/core/websocket/bridge/websocket_bridge.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';

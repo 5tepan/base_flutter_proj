@@ -1,4 +1,4 @@
-import 'package:base_flutter_proj/core/push/push_message.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
 import 'package:base_flutter_proj/core/websocket/model/websocket_channel_event.dart';
 
 /// События приложения. Эмит через [appEventProvider], подписка через `ref.listen`.

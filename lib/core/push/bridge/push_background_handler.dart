@@ -1,7 +1,7 @@
 import 'package:base_flutter_proj/core/app_bootstrap.dart';
-import 'package:base_flutter_proj/core/push/push_delivery.dart';
-import 'package:base_flutter_proj/core/push/push_message.dart';
-import 'package:base_flutter_proj/core/push/push_pending_queue.dart';
+import 'package:base_flutter_proj/core/push/model/push_delivery.dart';
+import 'package:base_flutter_proj/core/push/model/push_message.dart';
+import 'package:base_flutter_proj/core/push/service/push_pending_queue.dart';
 import 'package:base_flutter_proj/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
