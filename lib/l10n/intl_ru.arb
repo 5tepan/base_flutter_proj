@@ -91,6 +91,8 @@
   "profileMediaDemoSubtitle": "Лента фото/видео, загрузка файлов, просмотр, шаринг",
   "profileCalendarDemoTitle": "Календарь",
   "profileCalendarDemoSubtitle": "Кастомный календарь: диапазон дат, маркеры, list/page",
+  "profileMapDemoTitle": "Карта",
+  "profileMapDemoSubtitle": "Yandex MapKit: preview, fullscreen, pick, cluster, polyline",
   "profileChatDemoTitle": "Чаты",
   "profileChatDemoSubtitle": "Список комнат, сообщения, WebSocket в реальном времени",
   "profileChatDirectDemoTitle": "Чат",
@@ -173,5 +175,18 @@
   "dateTimeSelectYear": "Выберите год",
   "universalModalYes": "Да",
   "universalModalNo": "Нет",
-  "universalModalOk": "Ок"
+  "universalModalOk": "Ок",
+  "demoMapTitle": "Карта",
+  "demoMapSubtitle": "Yandex MapKit Lite: preview, fullscreen, геолокация, cluster, polyline, snapshot. Поиск/геокодер не входят в модуль.",
+  "demoMapPreviewTitle": "Превью",
+  "demoMapFullscreenTitle": "Полноэкранная карта",
+  "demoMapFullscreenSubtitle": "Zoom, my location, compass, traffic, auto-locate",
+  "demoMapPickTitle": "Выбор точки",
+  "demoMapPickSubtitle": "Тап по карте → подтверждение",
+  "demoMapClusterTitle": "Кластеры",
+  "demoMapClusterSubtitle": "Группировка маркеров при отдалении",
+  "demoMapPolylineTitle": "Полилиния",
+  "demoMapPolylineSubtitle": "Линия по списку точек (без Directions API)",
+  "demoMapSnapshotTitle": "Снимок карты",
+  "demoMapSnapshotSubtitle": "Screenshot MapKit → шаринг PNG"
 }

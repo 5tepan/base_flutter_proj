@@ -3,6 +3,7 @@ import 'package:base_flutter_proj/chat/chat_room_page.dart';
 import 'package:base_flutter_proj/chat/config/chat_defaults.dart';
 import 'package:base_flutter_proj/demo/calendar_demo_page.dart';
 import 'package:base_flutter_proj/demo/dynamic_form/dynamic_form_demo_page.dart';
+import 'package:base_flutter_proj/demo/map/map_demo_page.dart';
 import 'package:base_flutter_proj/demo/media_files_demo_page.dart';
 import 'package:base_flutter_proj/profile/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ const String _profilePath = '/profile';
 const String _mediaFilesDemoPath = 'media-demo';
 const String _calendarDemoPath = 'calendar-demo';
 const String _dynamicFormDemoPath = 'dynamic-form-demo';
+const String _mapDemoPath = 'map-demo';
 const String _chatListPath = 'chats';
 const String _chatDirectPath = 'chat';
 const String _chatRoomPath = ':roomId';
@@ -24,6 +26,7 @@ const String _chatRoomPath = ':roomId';
     TypedGoRoute<MediaFilesDemoRoute>(path: _mediaFilesDemoPath),
     TypedGoRoute<CalendarDemoRoute>(path: _calendarDemoPath),
     TypedGoRoute<DynamicFormDemoRoute>(path: _dynamicFormDemoPath),
+    TypedGoRoute<MapDemoRoute>(path: _mapDemoPath),
     TypedGoRoute<ChatDirectRoute>(path: _chatDirectPath),
     TypedGoRoute<ChatListRoute>(
       path: _chatListPath,
@@ -66,6 +69,15 @@ class DynamicFormDemoRoute extends GoRouteData with $DynamicFormDemoRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const DynamicFormDemoPage();
+  }
+}
+
+class MapDemoRoute extends GoRouteData with $MapDemoRoute {
+  const MapDemoRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const MapDemoPage();
   }
 }
 

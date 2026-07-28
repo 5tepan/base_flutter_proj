@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:base_flutter_proj/core/app_bootstrap.dart';
 import 'package:base_flutter_proj/core/application.dart';
+import 'package:base_flutter_proj/core/components/map/app_map_bootstrap.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/model/entities/app_settings.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
@@ -22,6 +23,7 @@ Future<void> run(Config env) async {
     config: env,
     packageInfo: packageInfo,
   );
+  await AppMapBootstrap.initialize(apiKey: env.mapKitApiKey);
   await _prepareSystemChrome();
   _runApp(env, packageInfo, appSettings);
   FlutterNativeSplash.remove();

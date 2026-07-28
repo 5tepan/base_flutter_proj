@@ -91,6 +91,8 @@
   "profileMediaDemoSubtitle": "Photo/video feed, file upload, preview, sharing",
   "profileCalendarDemoTitle": "Calendar",
   "profileCalendarDemoSubtitle": "Custom calendar: range selection, markers, list/page modes",
+  "profileMapDemoTitle": "Map",
+  "profileMapDemoSubtitle": "Yandex MapKit: preview, fullscreen, pick, cluster, polyline",
   "profileChatDemoTitle": "Chats",
   "profileChatDemoSubtitle": "Room list, messages, real-time WebSocket updates",
   "profileChatDirectDemoTitle": "Chat",
@@ -173,5 +175,18 @@
   "dateTimeSelectYear": "Select year",
   "universalModalYes": "Yes",
   "universalModalNo": "No",
-  "universalModalOk": "OK"
+  "universalModalOk": "OK",
+  "demoMapTitle": "Map",
+  "demoMapSubtitle": "Yandex MapKit Lite: preview, fullscreen, location, cluster, polyline, snapshot. Search/geocoder are outside this module.",
+  "demoMapPreviewTitle": "Preview",
+  "demoMapFullscreenTitle": "Fullscreen map",
+  "demoMapFullscreenSubtitle": "Zoom, my location, compass, traffic, auto-locate",
+  "demoMapPickTitle": "Pick a point",
+  "demoMapPickSubtitle": "Tap the map → confirm",
+  "demoMapClusterTitle": "Clusters",
+  "demoMapClusterSubtitle": "Group markers when zoomed out",
+  "demoMapPolylineTitle": "Polyline",
+  "demoMapPolylineSubtitle": "Line from a list of points (no Directions API)",
+  "demoMapSnapshotTitle": "Map snapshot",
+  "demoMapSnapshotSubtitle": "MapKit screenshot → share PNG"
 }

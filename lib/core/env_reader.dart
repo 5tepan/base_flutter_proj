@@ -39,6 +39,8 @@ abstract final class EnvReader {
           defaultValue: 'russianAndEnglish',
         ),
       ),
+      mapKitApiKey: _mapKitApiKey,
+      yandexGeocoderApiKey: _yandexGeocoderApiKey,
     );
   }
 
@@ -68,6 +70,8 @@ abstract final class EnvReader {
           defaultValue: 'russianOnly',
         ),
       ),
+      mapKitApiKey: _mapKitApiKey,
+      yandexGeocoderApiKey: _yandexGeocoderApiKey,
     );
   }
 
@@ -97,6 +101,8 @@ abstract final class EnvReader {
           defaultValue: 'russianAndEnglish',
         ),
       ),
+      mapKitApiKey: _mapKitApiKey,
+      yandexGeocoderApiKey: _yandexGeocoderApiKey,
     );
   }
 
@@ -145,6 +151,12 @@ abstract final class EnvReader {
     }
     return int.tryParse(value);
   }
+
+  static String get _mapKitApiKey =>
+      const String.fromEnvironment('MAPKIT_API_KEY');
+
+  static String get _yandexGeocoderApiKey =>
+      const String.fromEnvironment('YANDEX_GEOCODER_API_KEY');
 
   static bool _parseBool(String value, {bool defaultValue = false}) {
     if (value.isEmpty) {

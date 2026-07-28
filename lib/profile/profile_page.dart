@@ -61,6 +61,13 @@ class ProfilePage extends ConsumerWidget {
             onTap: () => const DynamicFormDemoRoute().push(context),
           ),
           ListTile(
+            leading: const Icon(Icons.map_outlined),
+            title: Text(l10n.profileMapDemoTitle),
+            subtitle: Text(l10n.profileMapDemoSubtitle),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => const MapDemoRoute().push(context),
+          ),
+          ListTile(
             leading: const Icon(Icons.chat_outlined),
             title: Text(l10n.profileChatDirectDemoTitle),
             subtitle: Text(l10n.profileChatDirectDemoSubtitle),

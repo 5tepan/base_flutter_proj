@@ -143,6 +143,35 @@ class MessageLookup extends MessageLookupByLibrary {
     "demoFilesSectionTitle": MessageLookupByLibrary.simpleMessage(
       "Загрузка файлов",
     ),
+    "demoMapClusterSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Группировка маркеров при отдалении",
+    ),
+    "demoMapClusterTitle": MessageLookupByLibrary.simpleMessage("Кластеры"),
+    "demoMapFullscreenSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Zoom, my location, compass, traffic, auto-locate",
+    ),
+    "demoMapFullscreenTitle": MessageLookupByLibrary.simpleMessage(
+      "Полноэкранная карта",
+    ),
+    "demoMapPickSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Тап по карте → подтверждение",
+    ),
+    "demoMapPickTitle": MessageLookupByLibrary.simpleMessage("Выбор точки"),
+    "demoMapPolylineSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Линия по списку точек (без Directions API)",
+    ),
+    "demoMapPolylineTitle": MessageLookupByLibrary.simpleMessage("Полилиния"),
+    "demoMapPreviewTitle": MessageLookupByLibrary.simpleMessage("Превью"),
+    "demoMapSnapshotSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Screenshot MapKit → шаринг PNG",
+    ),
+    "demoMapSnapshotTitle": MessageLookupByLibrary.simpleMessage(
+      "Снимок карты",
+    ),
+    "demoMapSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Yandex MapKit Lite: preview, fullscreen, геолокация, cluster, polyline, snapshot. Поиск/геокодер не входят в модуль.",
+    ),
+    "demoMapTitle": MessageLookupByLibrary.simpleMessage("Карта"),
     "demoMediaFilesTitle": MessageLookupByLibrary.simpleMessage(
       "Медиа и файлы",
     ),
@@ -256,6 +285,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileDemoSectionTitle": MessageLookupByLibrary.simpleMessage(
       "Демо компонентов",
     ),
+    "profileMapDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Yandex MapKit: preview, fullscreen, pick, cluster, polyline",
+    ),
+    "profileMapDemoTitle": MessageLookupByLibrary.simpleMessage("Карта"),
     "profileMediaDemoSubtitle": MessageLookupByLibrary.simpleMessage(
       "Лента фото/видео, загрузка файлов, просмотр, шаринг",
     ),

@@ -12,12 +12,12 @@
 | **Навигация** | go_router, typed routes, bottom tabs (Home / Shop / Profile) |
 | **Сеть** | `PublicApi` / `CoreApi`, interceptors, retry при 401, Fake API |
 | **WebSocket** | Модульная подписка на каналы, mock/real клиент |
-| **UI** | `AppPageScaffold`, пагинация, медиа/файлы, bottom sheet, календарь |
+| **UI** | `AppPageScaffold`, пагинация, медиа/файлы, карты (MapKit Lite), bottom sheet, календарь |
 | **Настройки** | Server-driven `AppSettings` на splash |
 | **Локализация** | ru / en (`make intl`) |
 | **Push / Firebase** | Опционально, выключены по умолчанию |
 
-Заглушки: **Home** — placeholder. **Profile** — хаб демо (медиа, календарь, чаты).
+Заглушки: **Home** — placeholder. **Profile** — хаб демо (медиа, календарь, карта, чаты).
 
 ## Стек
 
@@ -27,6 +27,7 @@ Flutter ^3.11 · Riverpod 3 · go_router · http · flutter_secure_storage · hi
 
 ```bash
 flutter pub get
+make ios-spm-fix    # MapKit Lite → CocoaPods (сломанный SPM у пакета)
 make setup-secrets    # первый раз: .env и env/*.json из example
 make generate         # маршруты, JSON
 make intl             # после правок ARB

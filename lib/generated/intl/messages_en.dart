@@ -139,6 +139,35 @@ class MessageLookup extends MessageLookupByLibrary {
     "demoFilesSectionTitle": MessageLookupByLibrary.simpleMessage(
       "File upload",
     ),
+    "demoMapClusterSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Group markers when zoomed out",
+    ),
+    "demoMapClusterTitle": MessageLookupByLibrary.simpleMessage("Clusters"),
+    "demoMapFullscreenSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Zoom, my location, compass, traffic, auto-locate",
+    ),
+    "demoMapFullscreenTitle": MessageLookupByLibrary.simpleMessage(
+      "Fullscreen map",
+    ),
+    "demoMapPickSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Tap the map → confirm",
+    ),
+    "demoMapPickTitle": MessageLookupByLibrary.simpleMessage("Pick a point"),
+    "demoMapPolylineSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Line from a list of points (no Directions API)",
+    ),
+    "demoMapPolylineTitle": MessageLookupByLibrary.simpleMessage("Polyline"),
+    "demoMapPreviewTitle": MessageLookupByLibrary.simpleMessage("Preview"),
+    "demoMapSnapshotSubtitle": MessageLookupByLibrary.simpleMessage(
+      "MapKit screenshot → share PNG",
+    ),
+    "demoMapSnapshotTitle": MessageLookupByLibrary.simpleMessage(
+      "Map snapshot",
+    ),
+    "demoMapSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Yandex MapKit Lite: preview, fullscreen, location, cluster, polyline, snapshot. Search/geocoder are outside this module.",
+    ),
+    "demoMapTitle": MessageLookupByLibrary.simpleMessage("Map"),
     "demoMediaFilesTitle": MessageLookupByLibrary.simpleMessage(
       "Media and files",
     ),
@@ -244,6 +273,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "profileDemoSectionTitle": MessageLookupByLibrary.simpleMessage(
       "Component demos",
     ),
+    "profileMapDemoSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Yandex MapKit: preview, fullscreen, pick, cluster, polyline",
+    ),
+    "profileMapDemoTitle": MessageLookupByLibrary.simpleMessage("Map"),
     "profileMediaDemoSubtitle": MessageLookupByLibrary.simpleMessage(
       "Photo/video feed, file upload, preview, sharing",
     ),

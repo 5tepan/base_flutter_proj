@@ -38,6 +38,13 @@ class Config {
   final AppLocaleMode localeMode;
   final Flavor flavor;
 
+  /// API-ключ Yandex MapKit (init SDK). Пустой — карта не инициализируется.
+  final String mapKitApiKey;
+
+  /// API-ключ Yandex Geocoder HTTP API (для будущей фичи поиска).
+  /// Модуль `core/components/map` этот ключ не использует.
+  final String yandexGeocoderApiKey;
+
   const Config({
     required this.apiUrlDomain,
     required this.apiUrlRelativePath,
@@ -55,6 +62,8 @@ class Config {
     this.webSocketPort,
     this.webSocketAuthRelativePath = '/api/broadcasting/auth',
     this.localeMode = AppLocaleMode.russianAndEnglish,
+    this.mapKitApiKey = '',
+    this.yandexGeocoderApiKey = '',
   });
 
   /// Локали, доступные в приложении.

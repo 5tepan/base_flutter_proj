@@ -18,6 +18,10 @@ generate:
 setup-secrets:
 	sh $(SCD)/setup_secrets.sh
 
+# После pub get: MapKit Lite → CocoaPods (сломанный Package.swift), остальное → SPM
+ios-spm-fix:
+	sh $(SCD)/patch_yandex_mapkit_spm.sh
+
 run-dev:
 	flutter run --flavor dev --dart-define-from-file=env/dev.env.json
 

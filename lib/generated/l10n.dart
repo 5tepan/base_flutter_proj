@@ -709,6 +709,26 @@ class S {
     );
   }
 
+  /// `Карта`
+  String get profileMapDemoTitle {
+    return Intl.message(
+      'Карта',
+      name: 'profileMapDemoTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yandex MapKit: preview, fullscreen, pick, cluster, polyline`
+  String get profileMapDemoSubtitle {
+    return Intl.message(
+      'Yandex MapKit: preview, fullscreen, pick, cluster, polyline',
+      name: 'profileMapDemoSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Чаты`
   String get profileChatDemoTitle {
     return Intl.message(
@@ -1242,6 +1262,131 @@ class S {
   /// `Ок`
   String get universalModalOk {
     return Intl.message('Ок', name: 'universalModalOk', desc: '', args: []);
+  }
+
+  /// `Карта`
+  String get demoMapTitle {
+    return Intl.message('Карта', name: 'demoMapTitle', desc: '', args: []);
+  }
+
+  /// `Yandex MapKit Lite: preview, fullscreen, геолокация, cluster, polyline, snapshot. Поиск/геокодер не входят в модуль.`
+  String get demoMapSubtitle {
+    return Intl.message(
+      'Yandex MapKit Lite: preview, fullscreen, геолокация, cluster, polyline, snapshot. Поиск/геокодер не входят в модуль.',
+      name: 'demoMapSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Превью`
+  String get demoMapPreviewTitle {
+    return Intl.message(
+      'Превью',
+      name: 'demoMapPreviewTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Полноэкранная карта`
+  String get demoMapFullscreenTitle {
+    return Intl.message(
+      'Полноэкранная карта',
+      name: 'demoMapFullscreenTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Zoom, my location, compass, traffic, auto-locate`
+  String get demoMapFullscreenSubtitle {
+    return Intl.message(
+      'Zoom, my location, compass, traffic, auto-locate',
+      name: 'demoMapFullscreenSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Выбор точки`
+  String get demoMapPickTitle {
+    return Intl.message(
+      'Выбор точки',
+      name: 'demoMapPickTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Тап по карте → подтверждение`
+  String get demoMapPickSubtitle {
+    return Intl.message(
+      'Тап по карте → подтверждение',
+      name: 'demoMapPickSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Кластеры`
+  String get demoMapClusterTitle {
+    return Intl.message(
+      'Кластеры',
+      name: 'demoMapClusterTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Группировка маркеров при отдалении`
+  String get demoMapClusterSubtitle {
+    return Intl.message(
+      'Группировка маркеров при отдалении',
+      name: 'demoMapClusterSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Полилиния`
+  String get demoMapPolylineTitle {
+    return Intl.message(
+      'Полилиния',
+      name: 'demoMapPolylineTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Линия по списку точек (без Directions API)`
+  String get demoMapPolylineSubtitle {
+    return Intl.message(
+      'Линия по списку точек (без Directions API)',
+      name: 'demoMapPolylineSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Снимок карты`
+  String get demoMapSnapshotTitle {
+    return Intl.message(
+      'Снимок карты',
+      name: 'demoMapSnapshotTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Screenshot MapKit → шаринг PNG`
+  String get demoMapSnapshotSubtitle {
+    return Intl.message(
+      'Screenshot MapKit → шаринг PNG',
+      name: 'demoMapSnapshotSubtitle',
+      desc: '',
+      args: [],
+    );
   }
 }
 

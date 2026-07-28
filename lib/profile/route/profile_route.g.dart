@@ -24,6 +24,7 @@ RouteBase get $profileRoute => GoRouteData.$route(
       path: 'dynamic-form-demo',
       factory: $DynamicFormDemoRoute._fromState,
     ),
+    GoRouteData.$route(path: 'map-demo', factory: $MapDemoRoute._fromState),
     GoRouteData.$route(path: 'chat', factory: $ChatDirectRoute._fromState),
     GoRouteData.$route(
       path: 'chats',
@@ -103,6 +104,26 @@ mixin $DynamicFormDemoRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/profile/dynamic-form-demo');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin $MapDemoRoute on GoRouteData {
+  static MapDemoRoute _fromState(GoRouterState state) => const MapDemoRoute();
+
+  @override
+  String get location => GoRouteData.$location('/profile/map-demo');
 
   @override
   void go(BuildContext context) => context.go(location);
