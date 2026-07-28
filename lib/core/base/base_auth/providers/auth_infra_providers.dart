@@ -9,11 +9,7 @@ final authTokenHolderProvider = Provider<AuthTokenHolder>((ref) {
 });
 
 final authSessionStorageProvider = Provider<AuthSessionStorage>((ref) {
-  return const AuthSessionStorage(
-    FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    ),
-  );
+  return const AuthSessionStorage(FlutterSecureStorage());
 });
 
 final smsAutofillServiceProvider = Provider<SmsAutofillService>((ref) {

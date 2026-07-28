@@ -12,7 +12,7 @@ import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:open_file/open_file.dart';
 import 'package:video_player/video_player.dart';
 
 /// Просмотр файлов и медиа: PDF, изображения, видео, аудио, внешние приложения.
@@ -65,7 +65,7 @@ abstract final class AppFileViewer {
   }) async {
     final path = item.resolvedPath;
     if (path != null && path.isNotEmpty) {
-      return OpenFilex.open(path);
+      return OpenFile.open(path);
     }
     return OpenResult(
       type: ResultType.error,

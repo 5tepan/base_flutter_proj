@@ -1,24 +1,12 @@
 PODS:
-  - clear_all_notifications (0.0.1):
-    - Flutter
-  - downloadsfolder (0.0.1):
-    - Flutter
   - Flutter (1.0.0)
-  - flutter_secure_storage (6.0.0):
-    - Flutter
-  - open_filex (0.0.2):
-    - Flutter
   - yandex_maps_mapkit_lite (1.0.0):
     - Flutter
     - YandexMapsMobile (= 4.42.0-lite-flutter)
   - YandexMapsMobile (4.42.0-lite-flutter)
 
 DEPENDENCIES:
-  - clear_all_notifications (from `.symlinks/plugins/clear_all_notifications/ios`)
-  - downloadsfolder (from `.symlinks/plugins/downloadsfolder/ios`)
   - Flutter (from `Flutter`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - open_filex (from `.symlinks/plugins/open_filex/ios`)
   - yandex_maps_mapkit_lite (from `.symlinks/plugins/yandex_maps_mapkit_lite/ios`)
 
 SPEC REPOS:
@@ -26,25 +14,13 @@ SPEC REPOS:
     - YandexMapsMobile
 
 EXTERNAL SOURCES:
-  clear_all_notifications:
-    :path: ".symlinks/plugins/clear_all_notifications/ios"
-  downloadsfolder:
-    :path: ".symlinks/plugins/downloadsfolder/ios"
   Flutter:
     :path: Flutter
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  open_filex:
-    :path: ".symlinks/plugins/open_filex/ios"
   yandex_maps_mapkit_lite:
     :path: ".symlinks/plugins/yandex_maps_mapkit_lite/ios"
 
 SPEC CHECKSUMS:
-  clear_all_notifications: c33d52381f3160dfd5dffce44d355e3fc517a0b7
-  downloadsfolder: 7d5c7b5d23e3c4dded522ff2a2ef14a56846378a
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
-  open_filex: 432f3cd11432da3e39f47fcc0df2b1603854eff1
   yandex_maps_mapkit_lite: 3bda15f05658603842ee1a86662b3993dd143cef
   YandexMapsMobile: 07a19dffb4a425d925bf47cd85f9e5e35c06d5b7
 

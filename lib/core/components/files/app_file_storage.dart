@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
-import 'package:downloadsfolder/downloadsfolder.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -31,15 +31,19 @@ abstract final class AppFileStorage {
     }
 
     final resolvedName = fileName ?? p.basename(sourcePath);
+    final extension = p.extension(resolvedName).replaceFirst('.', '');
+    final name = p.basenameWithoutExtension(resolvedName);
+
     try {
-      final copied = await copyFileIntoDownloadFolder(
-        sourcePath,
-        resolvedName,
+      final savedPath = await FileSaver.instance.saveFile(
+        name: name,
+        filePath: sourcePath,
+        fileExtension: extension,
       );
-      if (copied == true) {
-        final downloads = await getDownloadDirectory();
-        return p.join(downloads.path, resolvedName);
+      if (savedPath.isEmpty) {
+        return null;
       }
+      return savedPath;
     } catch (error, stackTrace) {
       CustomLogger.warning('Не удалось сохранить в Downloads: $error');
       CustomLogger.verbose('$stackTrace');

@@ -30,8 +30,7 @@ dependencies:
   firebase_crashlytics: ^5.0.7
   firebase_messaging: ^16.4.1
 
-  # Push
-  clear_all_notifications: ^1.0.0
+  # Push — очистка badge/уведомлений через MethodChannel (без плагина)
 
   # UI
   webview_flutter: ^4.13.1
@@ -48,7 +47,7 @@ dependencies:
   gap: ^3.0.1
 
   # Auth
-  flutter_secure_storage: ^9.2.4
+  flutter_secure_storage: ^10.3.1
   smart_auth: ^3.2.0
 
   # Utils
@@ -65,10 +64,10 @@ dependencies:
   video_player: ^2.11.1
   audioplayers: ^6.8.1
   flutter_pdfview: ^1.4.4
-  open_filex: ^4.7.0
+  open_file: ^4.0.0
   croppy: ^1.4.1
   path_provider: ^2.1.6
-  downloadsfolder: ^1.2.0
+  file_saver: ^0.4.0
   mime: ^2.0.0
   path: ^1.9.1
   share_plus: ^12.0.2
