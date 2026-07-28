@@ -1,0 +1,88 @@
+{
+  "rooms": [
+    {
+      "id": "room_0",
+      "title": "Поддержка",
+      "last_message_text": "Добрый день! Чем могу помочь?",
+      "last_message_at": "2026-07-28T06:54:58.457092Z",
+      "unread_count": 0
+    },
+    {
+      "id": "room_1",
+      "title": "Менеджер Анна",
+      "last_message_text": "Заказ уже в пути",
+      "last_message_at": "2026-07-28T06:37:58.457092Z",
+      "unread_count": 2
+    },
+    {
+      "id": "room_2",
+      "title": "Доставка",
+      "last_message_text": "Спасибо, всё получилось",
+      "last_message_at": "2026-07-28T06:20:58.457092Z",
+      "unread_count": 0
+    },
+    {
+      "id": "room_3",
+      "title": "Василий Петров",
+      "last_message_text": "Можете уточнить адрес?",
+      "last_message_at": "2026-07-28T06:03:58.457092Z",
+      "unread_count": 4
+    },
+    {
+      "id": "room_4",
+      "title": "Мария К.",
+      "last_message_text": "Хорошо, жду звонка",
+      "last_message_at": "2026-07-28T05:46:58.457092Z",
+      "unread_count": 0
+    },
+    {
+      "id": "room_5",
+      "title": "Отдел продаж",
+      "last_message_text": "Отправили счёт на почту",
+      "last_message_at": "2026-07-28T05:29:58.457092Z",
+      "unread_count": 2
+    },
+    {
+      "id": "room_6",
+      "title": "Поддержка",
+      "last_message_text": "Добрый день! Чем могу помочь?",
+      "last_message_at": "2026-07-28T05:12:58.457092Z",
+      "unread_count": 0
+    },
+    {
+      "id": "room_7",
+      "title": "Менеджер Анна",
+      "last_message_text": "Заказ уже в пути",
+      "last_message_at": "2026-07-28T04:55:58.457092Z",
+      "unread_count": 4
+    },
+    {
+      "id": "room_8",
+      "title": "Доставка",
+      "last_message_text": "Спасибо, всё получилось",
+      "last_message_at": "2026-07-28T04:38:58.457092Z",
+      "unread_count": 0
+    },
+    {
+      "id": "room_9",
+      "title": "Василий Петров",
+      "last_message_text": "Можете уточнить адрес?",
+      "last_message_at": "2026-07-28T04:21:58.457092Z",
+      "unread_count": 2
+    },
+    {
+      "id": "room_10",
+      "title": "Мария К.",
+      "last_message_text": "Хорошо, жду звонка",
+      "last_message_at": "2026-07-28T04:04:58.457092Z",
+      "unread_count": 0
+    },
+    {
+      "id": "room_11",
+      "title": "Отдел продаж",
+      "last_message_text": "Отправили счёт на почту",
+      "last_message_at": "2026-07-28T03:47:58.457092Z",
+      "unread_count": 4
+    }
+  ]
+}

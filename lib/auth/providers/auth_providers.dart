@@ -1,18 +1,12 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
 import 'package:base_flutter_proj/auth/api/auth_api_impl.dart';
-import 'package:base_flutter_proj/auth/api/mock_auth_api.dart';
 import 'package:base_flutter_proj/auth/repository/auth_repository.dart';
 import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/base/base_auth/providers/auth_infra_providers.dart';
 import 'package:base_flutter_proj/core/providers/api_providers.dart';
-import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authApiProvider = Provider<AuthApi>((ref) {
-  final config = ref.watch(configProvider);
-  if (config.useMockAuthApi) {
-    return MockAuthApi();
-  }
   return AuthApiImpl(ref.watch(publicApiProvider));
 });
 

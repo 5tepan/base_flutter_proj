@@ -1,0 +1,12 @@
+{
+  "data": {
+    "session": {
+      "access_token": "mock_access_refreshed_placeholder",
+      "refresh_token": "mock_refresh_placeholder",
+      "phone_number": ""
+    }
+  },
+  "meta": {
+    "success": true
+  }
+}

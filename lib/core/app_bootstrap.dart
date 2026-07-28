@@ -48,7 +48,6 @@ abstract final class AppBootstrap {
     PackageInfo packageInfo,
   ) async {
     final api = SettingsApi(
-      useMock: config.useMockAppSettingsApi,
       publicApi: PublicApi(
         config: config,
         packageInfo: packageInfo,

@@ -27,11 +27,7 @@ abstract final class EnvReader {
       flavor: Flavor.dev,
       showDebugBanner: _showDebugBanner(defaultValue: true),
       enableFirebase: _enableFirebase,
-      useMockAuthApi: _useMockAuthApi(defaultValue: true),
-      useMockShopApi: _useMockShopApi(defaultValue: true),
-      useMockAppSettingsApi: _useMockAppSettingsApi(defaultValue: true),
-      useMockChatApi: _useMockChatApi(defaultValue: true),
-      useMockDynamicFormApi: _useMockDynamicFormApi(defaultValue: true),
+      useFakeApi: _useFakeApi(defaultValue: true),
       enableWebSocket: _enableWebSocket(defaultValue: true),
       useMockWebSocket: _useMockWebSocket(defaultValue: true),
       webSocketAppKey: _webSocketAppKey,
@@ -60,11 +56,7 @@ abstract final class EnvReader {
       flavor: Flavor.prod,
       showDebugBanner: _showDebugBanner(),
       enableFirebase: _enableFirebase,
-      useMockAuthApi: _useMockAuthApi(),
-      useMockShopApi: _useMockShopApi(),
-      useMockAppSettingsApi: _useMockAppSettingsApi(),
-      useMockChatApi: _useMockChatApi(),
-      useMockDynamicFormApi: _useMockDynamicFormApi(),
+      useFakeApi: _useFakeApi(),
       enableWebSocket: _enableWebSocket(),
       useMockWebSocket: _useMockWebSocket(),
       webSocketAppKey: _webSocketAppKey,
@@ -93,11 +85,7 @@ abstract final class EnvReader {
       flavor: Flavor.devBackend,
       showDebugBanner: _showDebugBanner(defaultValue: true),
       enableFirebase: _enableFirebase,
-      useMockAuthApi: _useMockAuthApi(defaultValue: false),
-      useMockShopApi: _useMockShopApi(defaultValue: false),
-      useMockAppSettingsApi: _useMockAppSettingsApi(defaultValue: false),
-      useMockChatApi: _useMockChatApi(defaultValue: false),
-      useMockDynamicFormApi: _useMockDynamicFormApi(defaultValue: false),
+      useFakeApi: _useFakeApi(defaultValue: false),
       enableWebSocket: _enableWebSocket(defaultValue: true),
       useMockWebSocket: _useMockWebSocket(defaultValue: true),
       webSocketAppKey: _webSocketAppKey,
@@ -125,29 +113,8 @@ abstract final class EnvReader {
         defaultValue: defaultValue,
       );
 
-  static bool _useMockAuthApi({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('USE_MOCK_AUTH_API'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _useMockShopApi({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('USE_MOCK_SHOP_API'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _useMockAppSettingsApi({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('USE_MOCK_APP_SETTINGS_API'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _useMockChatApi({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('USE_MOCK_CHAT_API'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _useMockDynamicFormApi({bool defaultValue = false}) =>
-      _parseBool(
-        const String.fromEnvironment('USE_MOCK_DYNAMIC_FORM_API'),
+  static bool _useFakeApi({bool defaultValue = false}) => _parseBool(
+        const String.fromEnvironment('USE_FAKE_API'),
         defaultValue: defaultValue,
       );
 

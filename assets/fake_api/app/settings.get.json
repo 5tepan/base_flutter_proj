@@ -1,0 +1,16 @@
+{
+  "data": {
+    "settings": {
+      "code_length": 4,
+      "pages": {
+        "privacy-policy": "https://example.com/privacy-policy",
+        "terms-of-use": "https://example.com/terms-of-use"
+      },
+      "app_store_url": "https://apps.apple.com/app/example",
+      "google_play_url": "https://play.google.com/store/apps/details?id=example"
+    }
+  },
+  "meta": {
+    "success": true
+  }
+}

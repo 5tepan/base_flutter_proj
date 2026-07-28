@@ -14,8 +14,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Демо экран для проверки MVP динамических форм.
 ///
-/// Schema загружается через repository (mock/real API);
-/// при ошибке доступен fallback на локальный mock schema.
+/// Schema загружается через repository (Fake API или реальный бэкенд);
+/// при ошибке доступен fallback на локальную JSON-фикстуру.
 class DynamicFormDemoPage extends ConsumerStatefulWidget {
   const DynamicFormDemoPage({super.key});
 
@@ -29,6 +29,7 @@ class _DynamicFormDemoPageState extends ConsumerState<DynamicFormDemoPage> {
 
   String? _lastSubmitted;
   DynamicFormSchema? _fallbackSchema;
+  bool _loadingFallback = false;
 
   @override
   void dispose() {
@@ -50,7 +51,7 @@ class _DynamicFormDemoPageState extends ConsumerState<DynamicFormDemoPage> {
 
     return AppPageScaffold(
       appBarConfig: const AppPageAppBarConfig(title: 'Dynamic form demo'),
-      isLoading: isSubmitting,
+      isLoading: isSubmitting || _loadingFallback,
       body: schemaAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => _fallbackSchema == null
@@ -77,16 +78,28 @@ class _DynamicFormDemoPageState extends ConsumerState<DynamicFormDemoPage> {
           ),
         ),
         TextButton(
-          onPressed: () {
-            setState(() {
-              _fallbackSchema = ref.read(dynamicFormDemoFallbackSchemaProvider);
-            });
-          },
+          onPressed: _loadingFallback ? null : _useLocalFallbackSchema,
           child: const Text('Use local mock schema'),
         ),
         const SizedBox(height: 16),
       ],
     );
+  }
+
+  Future<void> _useLocalFallbackSchema() async {
+    setState(() => _loadingFallback = true);
+    try {
+      final schema =
+          await ref.read(dynamicFormDemoFallbackSchemaProvider.future);
+      if (!mounted) {
+        return;
+      }
+      setState(() => _fallbackSchema = schema);
+    } finally {
+      if (mounted) {
+        setState(() => _loadingFallback = false);
+      }
+    }
   }
 
   Widget _buildForm(DynamicFormSchema schema) {

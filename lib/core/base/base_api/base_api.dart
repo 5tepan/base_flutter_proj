@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
-import 'package:base_flutter_proj/core/base/base_api/interceptors/base_api_interceptor.dart';
 import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
 import 'package:base_flutter_proj/core/base/base_api/entities/base_api_response.dart';
+import 'package:base_flutter_proj/core/base/base_api/interceptors/base_api_interceptor.dart';
+import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
+import 'package:base_flutter_proj/core/fake_api/fake_api_client.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http_interceptor.dart';
@@ -33,6 +34,9 @@ abstract class BaseApi {
   bool isLoggerOutputEnabled = true;
 
   late final InterceptedClient client = InterceptedClient.build(
+    client: config.useFakeApi
+        ? FakeApiClient(apiRelativePath: config.apiUrlRelativePath)
+        : null,
     interceptors: [
       BaseApiInterceptor(
         packageInfo: packageInfo,
@@ -41,6 +45,13 @@ abstract class BaseApi {
       if (isLoggerOutputEnabled) CustomLogger.httpInterceptor,
     ],
   );
+
+  Future<bool> _hasConnection() async {
+    if (config.useFakeApi) {
+      return true;
+    }
+    return checkConnection();
+  }
 
   @protected
   Future<Uri> buildUri({
@@ -74,7 +85,7 @@ abstract class BaseApi {
     Map<String, dynamic>? params,
   }) async {
     return _withUnauthorizedRetry(() async {
-      if (!await checkConnection()) {
+      if (!await _hasConnection()) {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
@@ -101,7 +112,7 @@ abstract class BaseApi {
     Map<String, String>? headers,
   }) async {
     return _withUnauthorizedRetry(() async {
-      if (!await checkConnection()) {
+      if (!await _hasConnection()) {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
@@ -130,7 +141,7 @@ abstract class BaseApi {
     Map<String, String>? headers,
   }) async {
     return _withUnauthorizedRetry(() async {
-      if (!await checkConnection()) {
+      if (!await _hasConnection()) {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
@@ -162,7 +173,7 @@ abstract class BaseApi {
     Map<String, dynamic>? params,
   ]) async {
     return _withUnauthorizedRetry(() async {
-      if (!await checkConnection()) {
+      if (!await _hasConnection()) {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 

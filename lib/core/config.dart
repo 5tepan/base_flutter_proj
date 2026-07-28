@@ -24,11 +24,11 @@ class Config {
 
   final bool showDebugBanner;
   final bool enableFirebase;
-  final bool useMockAuthApi;
-  final bool useMockShopApi;
-  final bool useMockAppSettingsApi;
-  final bool useMockChatApi;
-  final bool useMockDynamicFormApi;
+
+  /// Единый флаг REST Fake API: `*ApiImpl` ходят через HTTP,
+  /// а [FakeApiClient] отдаёт JSON из `assets/fake_api/`.
+  final bool useFakeApi;
+
   final bool enableWebSocket;
   final bool useMockWebSocket;
   final String? webSocketAppKey;
@@ -47,11 +47,7 @@ class Config {
     this.imagePickerImageQuality = 95,
     this.showDebugBanner = true,
     this.enableFirebase = false,
-    this.useMockAuthApi = true,
-    this.useMockShopApi = true,
-    this.useMockAppSettingsApi = true,
-    this.useMockChatApi = true,
-    this.useMockDynamicFormApi = true,
+    this.useFakeApi = true,
     this.enableWebSocket = true,
     this.useMockWebSocket = true,
     this.webSocketAppKey,

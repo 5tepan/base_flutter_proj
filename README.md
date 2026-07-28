@@ -6,11 +6,11 @@
 
 | Модуль | Кратко |
 |--------|--------|
-| **Auth** | Телефон + SMS, secure storage, refresh token, mock/real API |
+| **Auth** | Телефон + SMS, secure storage, refresh token, Fake/real API |
 | **Shop** | Эталон списка/сетки + деталка, Repository, push-модуль |
 | **Chat** | Список комнат, переписка, REST + WebSocket, вложения, typing |
 | **Навигация** | go_router, typed routes, bottom tabs (Home / Shop / Profile) |
-| **Сеть** | `PublicApi` / `CoreApi`, interceptors, retry при 401 |
+| **Сеть** | `PublicApi` / `CoreApi`, interceptors, retry при 401, Fake API |
 | **WebSocket** | Модульная подписка на каналы, mock/real клиент |
 | **UI** | `AppPageScaffold`, пагинация, медиа/файлы, bottom sheet, календарь |
 | **Настройки** | Server-driven `AppSettings` на splash |
@@ -30,7 +30,7 @@ flutter pub get
 make setup-secrets    # первый раз: .env и env/*.json из example
 make generate         # маршруты, JSON
 make intl             # после правок ARB
-make run-dev          # dev flavor, mock API
+make run-dev          # dev flavor, Fake API (без бэкенда)
 make run-dev-backend  # dev flavor, real backend API
 ```
 
@@ -44,18 +44,20 @@ flutter run --flavor dev --dart-define-from-file=env/dev.env.json
 flutter run --flavor devbackend --dart-define-from-file=env/dev-backend.env.json
 ```
 
-### Mock-авторизация (dev)
+### Fake API-авторизация (dev)
 
-При `USE_MOCK_AUTH_API=true` (по умолчанию в dev):
+При `USE_FAKE_API=true` (по умолчанию в dev):
 
 - Любой валидный номер с маской RU
 - Код: **`1234`**
 
+Моки REST живут в `assets/fake_api/` + `lib/core/fake_api/`.
+
 ### Flavors и конфиг
 
-| | dev (mock) | devbackend (real backend) | prod |
+| | dev (Fake API) | devbackend (real backend) | prod |
 |---|---|---|---|
-| Mock API | вкл. | выкл. | выкл. |
+| `USE_FAKE_API` | вкл. | выкл. | выкл. |
 | Debug banner | да | да | нет |
 | Локали | ru + en | ru + en | ru (по умолчанию) |
 
@@ -74,7 +76,7 @@ lib/
 ├── profile/       # профиль + вложенные demo/chat routes
 ├── demo/          # демо-экраны компонентов
 ├── web_view/
-└── core/          # инфраструктура (router, network, websocket, UI kit…)
+└── core/          # инфраструктура (router, network, fake_api, websocket, UI kit…)
 ```
 
 Шаблон фичи: `api/` → `repository/` → `providers/` → `route/` → `*_page.dart`.

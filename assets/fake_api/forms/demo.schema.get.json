@@ -1,0 +1,72 @@
+{
+  "data": {
+    "form_schema": {
+      "version": 1,
+      "fields": [
+        {
+          "name": "full_name",
+          "label": "Имя и фамилия",
+          "type": "text",
+          "required": true,
+          "min_length": 2,
+          "max_length": 60
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true
+        },
+        {
+          "name": "phone",
+          "label": "Телефон",
+          "type": "phone"
+        },
+        {
+          "name": "age",
+          "label": "Возраст",
+          "type": "number",
+          "required": true,
+          "min": 0,
+          "max": 120
+        },
+        {
+          "name": "country",
+          "label": "Страна",
+          "type": "select",
+          "required": true,
+          "options": [
+            {
+              "value": "ru",
+              "label": "Россия"
+            },
+            {
+              "value": "kz",
+              "label": "Казахстан"
+            },
+            {
+              "value": "ua",
+              "label": "Украина"
+            }
+          ]
+        },
+        {
+          "name": "bio",
+          "label": "О себе",
+          "type": "textarea",
+          "max_lines": 5,
+          "max_length": 400
+        },
+        {
+          "name": "subscribe",
+          "label": "Хочу получать уведомления",
+          "type": "checkbox",
+          "helper_text": "Можно будет изменить позже в настройках."
+        }
+      ]
+    }
+  },
+  "meta": {
+    "success": true
+  }
+}
