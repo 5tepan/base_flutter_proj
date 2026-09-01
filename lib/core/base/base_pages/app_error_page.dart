@@ -1,7 +1,8 @@
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/base_error_widget.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
-import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:flutter/material.dart';
 
 /// Полноэкранная ошибка на [AppPageScaffold] + [BaseErrorWidget].
@@ -38,7 +39,11 @@ class AppErrorPage extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: ClipOval(
-                      child: Image.asset(AssetsCatalog.logo),
+                      child: AppIcon(
+                        AppAssets.logo,
+                        size: MediaQuery.sizeOf(context).width * 0.6,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

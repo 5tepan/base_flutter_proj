@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/media/config/media_feed_style.dart';
 import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/safe_network_image.dart';
@@ -169,7 +170,7 @@ class _RemoveButton extends StatelessWidget {
         onTap: onPressed,
         child: Padding(
           padding: const EdgeInsets.all(4),
-          child: Icon(
+          child: AppIcon(
             style.removeButtonIcon,
             size: 16,
             color: style.removeButtonColor,

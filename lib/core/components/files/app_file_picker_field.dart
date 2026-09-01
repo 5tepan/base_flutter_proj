@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_list_view.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
@@ -86,7 +88,7 @@ class AppFilePickerField extends StatelessWidget {
           pickButtonBuilder?.call(context, () => _pickFiles(context)) ??
               OutlinedButton.icon(
                 onPressed: () => _pickFiles(context),
-                icon: const Icon(Icons.attach_file),
+                icon: const AppIcon(AppAssets.attachFile, size: 20),
                 label: Text(pickButtonLabel ?? l10n.filePickButton),
               ),
         ],

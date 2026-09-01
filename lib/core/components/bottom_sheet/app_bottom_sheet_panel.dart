@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/bottom_sheet/app_bottom_sheet_style.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -125,7 +126,7 @@ class AppBottomSheetPanel extends StatelessWidget {
                   tooltip: style.closeButtonTooltip ??
                       MaterialLocalizations.of(context).closeButtonTooltip,
                   onPressed: onClose ?? () => Navigator.of(context).pop(),
-                  icon: Icon(
+                  icon: AppIcon(
                     style.closeIcon,
                     color: style.closeIconColor,
                   ),

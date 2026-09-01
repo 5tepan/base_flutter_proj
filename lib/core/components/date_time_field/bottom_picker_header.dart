@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:flutter/material.dart';
 
 class BottomPickerHeader extends StatelessWidget {
@@ -29,7 +31,7 @@ class BottomPickerHeader extends StatelessWidget {
           const SizedBox(width: 48),
           Text(title, style: titleStyle, textAlign: TextAlign.center),
           IconButton(
-            icon: Icon(Icons.close, color: closeIconColor),
+            icon: AppIcon(AppAssets.close, color: closeIconColor),
             onPressed: onClosePressed ?? () => Navigator.of(context).pop(),
           ),
         ],

@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/map/config/app_map_config.dart';
 import 'package:base_flutter_proj/core/components/map/controller/app_map_controller.dart';
@@ -203,7 +205,7 @@ class _AppMapPageState extends State<AppMapPage> {
                         children: [
                           Expanded(child: Text(_statusMessage!)),
                           IconButton(
-                            icon: const Icon(Icons.close, size: 18),
+                            icon: const AppIcon(AppAssets.close, size: 18),
                             onPressed: () =>
                                 setState(() => _statusMessage = null),
                           ),

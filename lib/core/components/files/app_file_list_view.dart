@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_viewer.dart';
@@ -161,7 +163,7 @@ class _DefaultFileTile extends StatelessWidget {
         children: [
           if (onShare != null)
             IconButton(
-              icon: const Icon(Icons.share_outlined),
+              icon: const AppIcon(AppAssets.share),
               onPressed: onShare,
             ),
           if (onRemove != null)

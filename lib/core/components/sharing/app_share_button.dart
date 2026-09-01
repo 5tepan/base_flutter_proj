@@ -1,3 +1,6 @@
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +17,7 @@ class AppShareButton extends StatelessWidget {
     this.filePaths = const [],
     this.subject,
     this.label,
-    this.icon = Icons.share_outlined,
+    this.icon = AppAssets.share,
     this.builder,
   }) : assert(
          (url != null && url.isNotEmpty) ||
@@ -28,7 +31,7 @@ class AppShareButton extends StatelessWidget {
   final List<String> filePaths;
   final String? subject;
   final String? label;
-  final IconData icon;
+  final AppAsset icon;
   final AppShareButtonBuilder? builder;
 
   @override
@@ -37,7 +40,7 @@ class AppShareButton extends StatelessWidget {
     return builder?.call(context, _onPressed) ??
         IconButton(
           tooltip: resolvedLabel,
-          icon: Icon(icon),
+          icon: AppIcon(icon),
           onPressed: _onPressed,
         );
   }
@@ -76,14 +79,14 @@ class AppShareLinkButton extends StatelessWidget {
     this.text,
     this.subject,
     this.label,
-    this.icon = Icons.link,
+    this.icon = AppAssets.link,
   });
 
   final String url;
   final String? text;
   final String? subject;
   final String? label;
-  final IconData icon;
+  final AppAsset icon;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +96,7 @@ class AppShareLinkButton extends StatelessWidget {
         text: text,
         subject: subject,
       ),
-      icon: Icon(icon),
+      icon: AppIcon(icon, size: 20),
       label: Text(label ?? S.of(context).shareLinkButton),
     );
   }

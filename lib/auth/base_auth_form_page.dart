@@ -3,7 +3,8 @@ import 'package:base_flutter_proj/core/base/base_pages/base_form/app_form.dart';
 import 'package:base_flutter_proj/core/base/base_pages/base_form/app_form_controller.dart';
 import 'package:base_flutter_proj/core/base/base_pages/base_form/form_submit_helper.dart';
 import 'package:base_flutter_proj/core/components/decorated_text_form_field.dart';
-import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -72,10 +73,10 @@ class _BaseAuthFormPageState extends State<BaseAuthFormPage> {
           spacing: 20,
           children: [
               const Spacer(),
-              Image.asset(
-                AssetsCatalog.logo,
-                height: widget.logoSize,
-                width: widget.logoSize,
+              AppIcon(
+                AppAssets.logo,
+                size: widget.logoSize,
+                fit: BoxFit.contain,
               ),
               widget.startInfo ?? const SizedBox.shrink(),
               DecoratedTextFormField(

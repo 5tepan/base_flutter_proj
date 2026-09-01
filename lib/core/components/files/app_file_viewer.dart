@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_storage.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
@@ -103,7 +105,7 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
         actions: [
           if (widget.allowShare && path != null)
             IconButton(
-              icon: const Icon(Icons.share_outlined),
+              icon: const AppIcon(AppAssets.share),
               onPressed: () => AppShare.shareFiles(paths: [path]),
             ),
           if (widget.allowSaveToDownloads && path != null)

@@ -3,6 +3,7 @@ import 'package:base_flutter_proj/chat/widgets/chat_message_bubble.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_state.dart';
 import 'package:base_flutter_proj/core/components/app_loading_indicator.dart';
 import 'package:base_flutter_proj/core/components/base_error_widget.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/components/empty_state_widget.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
@@ -51,7 +52,7 @@ class _ChatMessagesListState extends State<ChatMessagesList> {
       return EmptyStateWidget(
         title: l10n.chatEmptyTitle,
         subtitle: l10n.chatEmptySubtitle,
-        icon: Icons.chat_bubble_outline,
+        icon: AppAssets.chat,
       );
     }
 

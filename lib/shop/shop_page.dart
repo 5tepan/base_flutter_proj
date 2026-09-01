@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/grid_layout_delegate.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_grid_view.dart';
@@ -41,7 +43,7 @@ class _ShopPageState extends ConsumerState<ShopPage> {
     final empty = EmptyStateWidget(
       title: l10n.shopEmptyTitle,
       subtitle: l10n.shopEmptySubtitle,
-      icon: Icons.shopping_bag_outlined,
+      icon: AppAssets.shoppingBag,
     );
 
     return AppPageScaffold(
@@ -54,12 +56,12 @@ class _ShopPageState extends ConsumerState<ShopPage> {
               segments: [
                 ButtonSegment(
                   value: ShopLayoutMode.list,
-                  icon: const Icon(Icons.view_list),
+                  icon: const AppIcon(AppAssets.viewList),
                   label: Text(l10n.shopLayoutList),
                 ),
                 ButtonSegment(
                   value: ShopLayoutMode.grid,
-                  icon: const Icon(Icons.grid_view),
+                  icon: const AppIcon(AppAssets.gridView),
                   label: Text(l10n.shopLayoutGrid),
                 ),
               ],

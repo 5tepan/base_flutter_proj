@@ -3,6 +3,7 @@ import 'package:base_flutter_proj/chat/widgets/chat_list_tile.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_layout.dart';
 import 'package:base_flutter_proj/core/base/base_pages/pagination/paginated_list_view.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/components/empty_state_widget.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:base_flutter_proj/profile/route/profile_route.dart';
@@ -37,7 +38,7 @@ class ChatListPage extends ConsumerWidget {
         empty: EmptyStateWidget(
           title: l10n.chatListEmptyTitle,
           subtitle: l10n.chatListEmptySubtitle,
-          icon: Icons.forum_outlined,
+          icon: AppAssets.forum,
         ),
         itemBuilder: (context, room, index) {
           return ChatListTile(

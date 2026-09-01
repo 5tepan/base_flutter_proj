@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +20,7 @@ class AppBottomSheetStyle {
     this.titleStyle,
     this.showHeaderDivider = false,
     this.headerDividerColor = AppColors.divider,
-    this.closeIcon = Icons.close,
+    this.closeIcon = AppAssets.close,
     this.closeIconColor = AppColors.darkGrey,
     this.closeButtonTooltip,
     this.gapAfterHeader = 12,
@@ -39,7 +41,7 @@ class AppBottomSheetStyle {
   final TextStyle? titleStyle;
   final bool showHeaderDivider;
   final Color headerDividerColor;
-  final IconData closeIcon;
+  final AppAsset closeIcon;
   final Color closeIconColor;
   final String? closeButtonTooltip;
   final double gapAfterHeader;
@@ -68,7 +70,7 @@ class AppBottomSheetStyle {
     TextStyle? titleStyle,
     bool? showHeaderDivider,
     Color? headerDividerColor,
-    IconData? closeIcon,
+    AppAsset? closeIcon,
     Color? closeIconColor,
     String? closeButtonTooltip,
     double? gapAfterHeader,

@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/assets/app_assets_preloader.dart';
 import 'package:base_flutter_proj/core/components/no_internet_connection.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/debug_banner_mixin.dart';
@@ -41,12 +42,14 @@ class Application extends ConsumerWidget with DebugBannerMixin {
       locale: config.forcedLocale,
       builder: (context, child) {
         final wrappedChild = botToastBuilder(context, child);
-        return AppLocalizationsBridge(
-          child: PushBridge(
-            child: WebSocketBridge(
-              child: AppLifecycleBridge(
-                child: Stack(
-                  children: [wrappedChild, const NoInternetConnection()],
+        return AppAssetsWarmup(
+          child: AppLocalizationsBridge(
+            child: PushBridge(
+              child: WebSocketBridge(
+                child: AppLifecycleBridge(
+                  child: Stack(
+                    children: [wrappedChild, const NoInternetConnection()],
+                  ),
                 ),
               ),
             ),

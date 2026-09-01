@@ -6,6 +6,7 @@ import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_fe
 import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_photo_page.dart';
 import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_video_page.dart';
 import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
@@ -91,7 +92,7 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
             top: topPadding + 8,
             left: 8,
             child: MediaFeedGalleryIconButton(
-              icon: Icons.close,
+              icon: AppAssets.close,
               tooltip: l10n.mediaFeedGalleryClose,
               onPressed: _closeGallery,
             ),
@@ -116,7 +117,7 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
               right: 16,
               bottom: bottomPadding + 16,
               child: MediaFeedGalleryIconButton(
-                icon: Icons.ios_share,
+                icon: AppAssets.share,
                 tooltip: l10n.shareButton,
                 onPressed: () => AppShare.shareFiles(paths: [sharePath]),
               ),

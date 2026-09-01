@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -87,7 +89,7 @@ class _YearPickerDialogState extends State<YearPickerDialog> {
         CupertinoButton(
           minimumSize: const Size(16, 16),
           onPressed: () => Navigator.of(context).pop(),
-          child: const Icon(Icons.close),
+          child: const AppIcon(AppAssets.close),
         ),
       ],
     );

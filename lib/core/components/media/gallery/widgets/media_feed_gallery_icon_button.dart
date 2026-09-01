@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,7 @@ class MediaFeedGalleryIconButton extends StatelessWidget {
     this.tooltip,
   });
 
-  final IconData icon;
+  final AppAsset icon;
   final VoidCallback onPressed;
   final String? tooltip;
 
@@ -22,7 +24,7 @@ class MediaFeedGalleryIconButton extends StatelessWidget {
       child: IconButton(
         onPressed: onPressed,
         tooltip: tooltip,
-        icon: Icon(icon, color: AppColors.white),
+        icon: AppIcon(icon, color: AppColors.white),
       ),
     );
   }

@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:base_flutter_proj/chat/config/chat_defaults.dart';
 import 'package:base_flutter_proj/chat/provider/chat_providers.dart';
 import 'package:base_flutter_proj/chat/repository/chat_repository.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/decorated_text_form_field.dart';
 import 'package:base_flutter_proj/core/components/media/feed/media_feed_strip.dart';
 import 'package:base_flutter_proj/core/components/media/model/media_feed_content_mode.dart';
@@ -97,7 +99,7 @@ class _ChatMessageInputState extends ConsumerState<ChatMessageInput> {
                 children: [
                   IconButton(
                     onPressed: widget.enabled ? _pickAttachment : null,
-                    icon: const Icon(Icons.attach_file_outlined),
+                    icon: const AppIcon(AppAssets.attachFile),
                   ),
                   Expanded(
                     child: DecoratedTextFormField(
@@ -115,7 +117,7 @@ class _ChatMessageInputState extends ConsumerState<ChatMessageInput> {
                   ),
                   IconButton.filled(
                     onPressed: widget.enabled ? _submit : null,
-                    icon: const Icon(Icons.send_rounded),
+                    icon: const AppIcon(AppAssets.send),
                   ),
                 ],
               ),

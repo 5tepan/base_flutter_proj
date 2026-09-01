@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/search_autocomplete/hive_search_autocomplete_history_storage.dart';
 import 'package:base_flutter_proj/core/components/search_autocomplete/search_autocomplete_history_storage.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
@@ -334,7 +337,7 @@ class _SearchAutocompleteFieldState<T extends Object>
         IconButton(
           tooltip: MaterialLocalizations.of(context).clearButtonTooltip,
           onPressed: widget.enabled ? _clearField : null,
-          icon: const Icon(Icons.clear, size: 20),
+          icon: const AppIcon(AppAssets.clear, size: 20),
         ),
       );
     }
@@ -360,13 +363,13 @@ class _SearchAutocompleteFieldState<T extends Object>
   Widget _defaultSuggestionTile(
     BuildContext context,
     String title, {
-    IconData? leadingIcon,
+    AppAsset? leadingIcon,
     required VoidCallback onTap,
   }) {
     return ListTile(
       dense: true,
       visualDensity: VisualDensity.compact,
-      leading: leadingIcon == null ? null : Icon(leadingIcon, size: 20),
+      leading: leadingIcon == null ? null : AppIcon(leadingIcon, size: 20),
       title: Text(title, style: AppTextStyle.body),
       onTap: onTap,
     );
@@ -391,7 +394,7 @@ class _SearchAutocompleteFieldState<T extends Object>
       return _defaultSuggestionTile(
         context,
         entry,
-        leadingIcon: Icons.history,
+        leadingIcon: AppAssets.history,
         onTap: () => onSelected(option),
       );
     }
@@ -408,7 +411,7 @@ class _SearchAutocompleteFieldState<T extends Object>
     return _defaultSuggestionTile(
       context,
       _displayFor(option),
-      leadingIcon: Icons.search,
+      leadingIcon: AppAssets.search,
       onTap: () => onSelected(option),
     );
   }

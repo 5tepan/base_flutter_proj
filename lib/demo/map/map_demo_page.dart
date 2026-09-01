@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/map/map.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
@@ -162,10 +164,10 @@ class _MapDemoPageState extends State<MapDemoPage> {
           const SizedBox(height: 24),
           ListTile(
             contentPadding: EdgeInsets.zero,
-            leading: const Icon(Icons.map_outlined),
+            leading: const AppIcon(AppAssets.map),
             title: Text(l10n.demoMapFullscreenTitle),
             subtitle: Text(l10n.demoMapFullscreenSubtitle),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const AppIcon(AppAssets.chevronRight),
             onTap: () => _openFullscreen(
               context,
               _baseMapConfig.copyWith(autoLocateOnOpen: true),
@@ -181,7 +183,7 @@ class _MapDemoPageState extends State<MapDemoPage> {
                   : '${_pickedPoint!.latitude.toStringAsFixed(5)}, '
                       '${_pickedPoint!.longitude.toStringAsFixed(5)}',
             ),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const AppIcon(AppAssets.chevronRight),
             onTap: () => _openPick(context),
           ),
           ListTile(
@@ -189,7 +191,7 @@ class _MapDemoPageState extends State<MapDemoPage> {
             leading: const Icon(Icons.bubble_chart_outlined),
             title: Text(l10n.demoMapClusterTitle),
             subtitle: Text(l10n.demoMapClusterSubtitle),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const AppIcon(AppAssets.chevronRight),
             onTap: () => _openFullscreen(context, _clusterConfig),
           ),
           ListTile(
@@ -197,7 +199,7 @@ class _MapDemoPageState extends State<MapDemoPage> {
             leading: const Icon(Icons.route_outlined),
             title: Text(l10n.demoMapPolylineTitle),
             subtitle: Text(l10n.demoMapPolylineSubtitle),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const AppIcon(AppAssets.chevronRight),
             onTap: () => _openFullscreen(context, _polylineConfig),
           ),
           ListTile(
@@ -205,7 +207,7 @@ class _MapDemoPageState extends State<MapDemoPage> {
             leading: const Icon(Icons.camera_alt_outlined),
             title: Text(l10n.demoMapSnapshotTitle),
             subtitle: Text(l10n.demoMapSnapshotSubtitle),
-            trailing: const Icon(Icons.chevron_right),
+            trailing: const AppIcon(AppAssets.chevronRight),
             onTap: () => _openSnapshotDemo(context),
           ),
         ],
@@ -278,7 +280,7 @@ class _SnapshotMapPageState extends State<_SnapshotMapPage> {
                         height: 18,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Icon(Icons.share),
+                    : const AppIcon(AppAssets.share),
                 label: const Text('Снимок и шаринг'),
               ),
             ),

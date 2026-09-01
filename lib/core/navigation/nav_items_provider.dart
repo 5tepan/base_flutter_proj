@@ -1,4 +1,5 @@
-import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NavBarItemConfig {
@@ -7,7 +8,7 @@ class NavBarItemConfig {
     this.badge,
   });
 
-  final String icon;
+  final AppAsset icon;
 
   /// Счётчик на иконке таба. Подключите реальный provider, например:
   /// `badge: ref.watch(cartProvider).count`.
@@ -18,11 +19,11 @@ final navBarItemsProvider = Provider<List<NavBarItemConfig>>((ref) {
   // final cartCount = ref.watch(cartProvider).count;
 
   return const [
-    NavBarItemConfig(icon: AssetsCatalog.icHome),
+    NavBarItemConfig(icon: AppAssets.home),
     NavBarItemConfig(
-      icon: AssetsCatalog.icShoppingCart,
+      icon: AppAssets.shoppingCart,
       badge: 3, // заготовка: заменить на cartCount
     ),
-    NavBarItemConfig(icon: AssetsCatalog.icUser),
+    NavBarItemConfig(icon: AppAssets.user),
   ];
 });

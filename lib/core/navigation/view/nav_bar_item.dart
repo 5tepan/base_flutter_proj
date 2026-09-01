@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/navigation/view/nav_badge.dart';
 import 'package:base_flutter_proj/core/navigation/view/nav_item.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class NavBarItem extends StatelessWidget {
         Stack(
           clipBehavior: Clip.none,
           children: [
-            Image.asset(item.icon, color: color),
+            AppIcon(item.icon, size: 24, color: color),
             if (item.badge != null && item.badge! > 0)
               Positioned(
                 right: -6,

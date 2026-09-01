@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/assets/app_assets_preloader.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/helpers/app_platform.dart';
@@ -39,6 +40,7 @@ abstract final class AppBootstrap {
     );
 
     await HiveBootstrap.ensureInitialized();
+    await AppAssetsPreloader.preloadVectors();
 
     return _loadAppSettings(config, packageInfo);
   }

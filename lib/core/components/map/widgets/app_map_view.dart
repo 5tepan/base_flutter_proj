@@ -1,3 +1,4 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/components/empty_state_widget.dart';
 import 'package:base_flutter_proj/core/components/map/app_map_bootstrap.dart';
 import 'package:base_flutter_proj/core/components/map/config/app_map_config.dart';
@@ -119,7 +120,7 @@ class _AppMapViewState extends State<AppMapView> with WidgetsBindingObserver {
         title: widget.unavailableTitle,
         subtitle: widget.unavailableSubtitle ??
             'Карты доступны только на iOS и Android',
-        icon: Icons.map_outlined,
+        icon: AppAssets.map,
       );
     }
 
@@ -128,7 +129,7 @@ class _AppMapViewState extends State<AppMapView> with WidgetsBindingObserver {
         title: widget.unavailableTitle,
         subtitle: widget.unavailableSubtitle ??
             'Укажите MAPKIT_API_KEY в env/*.env.json',
-        icon: Icons.key_off_outlined,
+        icon: AppAssets.map,
       );
     }
 

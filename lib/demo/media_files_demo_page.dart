@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
 import 'package:base_flutter_proj/core/components/colored_card_widget.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
@@ -105,7 +107,7 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
                   label: l10n.shareButton,
                   builder: (context, onPressed) => OutlinedButton.icon(
                     onPressed: onPressed,
-                    icon: const Icon(Icons.text_fields),
+                    icon: const AppIcon(AppAssets.textFields),
                     label: Text(l10n.demoShareTextButton),
                   ),
                 ),
@@ -119,7 +121,7 @@ class _MediaFilesDemoPageState extends State<MediaFilesDemoPage> {
                     label: l10n.shareButton,
                     builder: (context, onPressed) => FilledButton.icon(
                       onPressed: onPressed,
-                      icon: const Icon(Icons.ios_share),
+                      icon: const AppIcon(AppAssets.share),
                       label: Text(l10n.demoShareFilesButton),
                     ),
                   ),
@@ -179,7 +181,7 @@ class _EmptyMediaPlaceholder extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
       child: Center(
-        child: Icon(Icons.perm_media_outlined, color: AppColors.grey),
+        child: AppIcon(AppAssets.permMedia, color: AppColors.grey),
       ),
     );
   }

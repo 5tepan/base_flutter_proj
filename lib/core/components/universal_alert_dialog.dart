@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -458,7 +460,7 @@ class _ModalHeader extends StatelessWidget {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
             onPressed: () => _handleClose(context),
-            icon: const Icon(Icons.close, size: 22, color: AppColors.darkGrey),
+            icon: const AppIcon(AppAssets.close, size: 22, color: AppColors.darkGrey),
           ),
         ],
       );

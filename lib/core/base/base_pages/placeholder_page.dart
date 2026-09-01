@@ -1,5 +1,6 @@
 import 'package:base_flutter_proj/core/base/base_pages/app_page_scaffold.dart';
-import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class PlaceholderPage extends StatelessWidget {
         backgroundColor: _backgroundColor,
         actionsWidget: [
           IconButton(
-            icon: const Icon(Icons.logout, color: AppColors.white),
+            icon: const AppIcon(AppAssets.logout, color: AppColors.white),
             onPressed: onTap,
           ),
         ],
@@ -32,8 +33,9 @@ class PlaceholderPage extends StatelessWidget {
         dismissKeyboardOnTap: false,
       ),
       body: Center(
-        child: Image.asset(
-          AssetsCatalog.icInDevelopment,
+        child: AppIcon(
+          AppAssets.inDevelopment,
+          size: 280,
           fit: BoxFit.contain,
         ),
       ),

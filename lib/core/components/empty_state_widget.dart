@@ -1,3 +1,6 @@
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -7,14 +10,14 @@ class EmptyStateWidget extends StatelessWidget {
     required this.title,
     super.key,
     this.subtitle,
-    this.icon = Icons.inbox_outlined,
+    this.icon = AppAssets.inbox,
     this.actionLabel,
     this.onAction,
   });
 
   final String title;
   final String? subtitle;
-  final IconData icon;
+  final AppAsset icon;
   final String? actionLabel;
   final VoidCallback? onAction;
 
@@ -26,7 +29,7 @@ class EmptyStateWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 64, color: AppColors.darkGrey),
+            AppIcon(icon, size: 64, color: AppColors.darkGrey),
             const SizedBox(height: 16),
             Text(
               title,

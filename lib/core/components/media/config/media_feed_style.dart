@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_asset.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,7 @@ class MediaFeedStyle {
     this.borderColor = AppColors.border,
     this.borderWidth = 1,
     this.addButtonIcon = Icons.add_a_photo_outlined,
-    this.removeButtonIcon = Icons.close,
+    this.removeButtonIcon = AppAssets.close,
     this.removeButtonColor = AppColors.errorColor,
     this.removeButtonBackgroundColor = AppColors.white,
     this.videoOverlayIcon = Icons.play_circle_fill,
@@ -27,7 +29,7 @@ class MediaFeedStyle {
   final Color borderColor;
   final double borderWidth;
   final IconData addButtonIcon;
-  final IconData removeButtonIcon;
+  final AppAsset removeButtonIcon;
   final Color removeButtonColor;
   final Color removeButtonBackgroundColor;
   final IconData videoOverlayIcon;

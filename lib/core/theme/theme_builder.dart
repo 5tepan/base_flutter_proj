@@ -1,4 +1,5 @@
-import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -405,10 +406,9 @@ class ThemeBuilder {
       enabledBorder: border,
       focusedBorder: border,
       hintStyle: AppTextStyle.body.copyWith(color: AppColors.hint),
-      suffix: Image.asset(
-        AssetsCatalog.icArrowRight,
-        height: 22,
-        width: 22,
+      suffix: AppIcon(
+        AppAssets.arrowRight,
+        size: 22,
         alignment: Alignment.centerRight,
         color: AppColors.midGrey,
       ),

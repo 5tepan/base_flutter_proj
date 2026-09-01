@@ -1,5 +1,4 @@
 import 'package:base_flutter_proj/core/base/model/entities/file/custom_file.dart';
-import 'package:base_flutter_proj/core/helpers/assets_catalog.dart';
 import 'package:base_flutter_proj/core/helpers/picture_cache_helper.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class SafeNetworkImage extends StatelessWidget {
   const SafeNetworkImage({
     super.key,
     this.imageUrl,
-    this.placeholder = AssetsCatalog.placeholder,
+    this.placeholder = 'assets/placeholder.png',
     this.fit = BoxFit.cover,
     this.placeholderFit = BoxFit.cover,
     this.needPlaceholder = true,
@@ -37,7 +36,7 @@ class SafeNetworkImage extends StatelessWidget {
   SafeNetworkImage.customFile({
     required this.image,
     super.key,
-    this.placeholder = AssetsCatalog.placeholder,
+    this.placeholder = 'assets/placeholder.png',
     this.fit = BoxFit.cover,
     this.placeholderFit = BoxFit.cover,
     this.needPlaceholder = true,

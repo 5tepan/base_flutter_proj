@@ -1,3 +1,5 @@
+import 'package:base_flutter_proj/core/assets/app_assets.dart';
+import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/shop/entities/product.dart';
 import 'package:base_flutter_proj/shop/route/shop_route.dart';
@@ -12,7 +14,7 @@ class ProductListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(product.name, style: AppTextStyle.body),
-      leading: const Icon(Icons.shopping_bag_outlined),
+      leading: const AppIcon(AppAssets.shoppingBag),
       onTap: () => ShopProductRoute(productId: product.id).push(context),
     );
   }
@@ -34,7 +36,7 @@ class ProductGridTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.shopping_bag_outlined, size: 32),
+              const AppIcon(AppAssets.shoppingBag, size: 32),
               const SizedBox(height: 8),
               Text(
                 product.name,
