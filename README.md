@@ -66,6 +66,8 @@ flutter run --flavor devbackend --dart-define-from-file=env/dev-backend.env.json
 
 Перед первым запуском: `make setup-secrets` (создаёт `.env`, `env/*.json` из example). Секреты и Firebase-файлы в репозиторий не коммитятся — шаблоны: `.env.example`, `env/*.env.json.example`, `secrets/*.example`.
 
+Release-сборка локально может быть подписана debug-ключом, пока нет `android/key.properties` (шаблон: `android/key.properties.example`). Скрипт дистрибуции `scripts/ci_android_dev_distribution.sh` в этом случае останавливается: в стор и Firebase App Distribution уходит только сборка со своим upload keystore.
+
 ## Структура `lib/` (кратко)
 
 ```
