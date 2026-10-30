@@ -4,7 +4,7 @@ import 'package:base_flutter_proj/auth/model/token_refresh_result.dart';
 import 'package:base_flutter_proj/auth/repository/auth_repository.dart';
 import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/base/base_auth/providers/auth_infra_providers.dart';
-import 'package:base_flutter_proj/core/providers/api_providers.dart';
+import 'package:base_flutter_proj/core/providers/public_api_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authApiProvider = Provider<AuthApi>((ref) {
