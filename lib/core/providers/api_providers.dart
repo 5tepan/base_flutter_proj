@@ -1,2 +1,2 @@
-export 'package:base_flutter_proj/core/providers/core_api_provider.dart';
-export 'package:base_flutter_proj/core/providers/public_api_provider.dart';
+export 'core_api_provider.dart';
+export 'public_api_provider.dart';
