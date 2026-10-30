@@ -12,14 +12,15 @@ import 'package:http/http.dart' as http;
 class ApiResponseParser {
   static BaseApiResponse parseRawResponse(http.Response response) {
     final statusCode = response.statusCode;
-    final parsed = _parseBody(response.body);
+    final body = utf8.decode(response.bodyBytes);
+    final parsed = _parseBody(body);
     if (statusCode >= 200 && statusCode < 300) {
       return _withStatus(parsed, statusCode);
     }
 
     return BaseApiResponse(
       meta: parsed.meta,
-      rawData: response.body,
+      rawData: body,
       errorCode: parsed.errorCode ?? AppErrorCode.requestFailed,
       serverMessage: parsed.serverMessage,
       statusCode: statusCode,
