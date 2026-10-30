@@ -1,5 +1,6 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
 import 'package:base_flutter_proj/auth/api/auth_api_impl.dart';
+import 'package:base_flutter_proj/auth/model/token_refresh_result.dart';
 import 'package:base_flutter_proj/auth/repository/auth_repository.dart';
 import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/base/base_auth/providers/auth_infra_providers.dart';
@@ -21,7 +22,18 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 class AuthSessionNotifier extends AsyncNotifier<AuthSession?> {
   @override
   Future<AuthSession?> build() async {
-    return ref.read(authRepositoryProvider).loadSession();
+    final repository = ref.read(authRepositoryProvider);
+    final session = await repository.loadSession();
+    if (session == null || !session.isExpired) {
+      return session;
+    }
+
+    final refreshed = await repository.refreshTokens();
+    return switch (refreshed) {
+      TokenRefreshSuccess(:final session) => session,
+      TokenRefreshRejected() => null,
+      TokenRefreshUnavailable() => session,
+    };
   }
 
   Future<void> signIn(AuthSession session) async {
@@ -32,6 +44,21 @@ class AuthSessionNotifier extends AsyncNotifier<AuthSession?> {
   Future<void> signOut() async {
     await ref.read(authRepositoryProvider).signOut();
     state = const AsyncData(null);
+  }
+
+  /// Обновляет сессию для роутера и WebSocket. `false` — запрос не обновлён.
+  Future<bool> refreshSession() async {
+    final result = await ref.read(authRepositoryProvider).refreshTokens();
+    switch (result) {
+      case TokenRefreshSuccess(:final session):
+        state = AsyncData(session);
+        return true;
+      case TokenRefreshRejected():
+        state = const AsyncData(null);
+        return false;
+      case TokenRefreshUnavailable():
+        return false;
+    }
   }
 
   bool get isAuthenticated => state.value != null;

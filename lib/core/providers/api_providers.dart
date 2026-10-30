@@ -23,6 +23,7 @@ final coreApiProvider = Provider<CoreApi>((ref) {
     packageInfo: ref.watch(packageInfoProvider),
     checkConnection: () => ref.read(connectivityCheckProvider),
     tokenHolder: ref.watch(authTokenHolderProvider),
-    onRefreshToken: () => ref.read(authRepositoryProvider).refreshTokens(),
+    onRefreshToken: () =>
+        ref.read(authSessionProvider.notifier).refreshSession(),
   );
 });
