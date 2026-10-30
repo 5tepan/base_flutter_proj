@@ -139,8 +139,8 @@ class _PhoneConfirmationFormPageState
     final notifier = ref.read(
       phoneConfirmationFormProvider(widget.phoneNumber).notifier,
     );
-    await notifier.resendCode();
-    if (!mounted) return;
+    final sent = await notifier.resendCode();
+    if (!mounted || !sent) return;
     setState(_startTimer);
   }
 
