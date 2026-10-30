@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.base.base_flutter_proj"
+        applicationId = "com.base.baseflutterproj"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // Yandex MapKit Lite requires API 26+.
@@ -57,7 +57,7 @@ android {
         }
         create("prod") {
             dimension = "app"
-            applicationId = "com.base.ru.baseflutterproj.prod"
+            applicationIdSuffix = ".prod"
             manifestPlaceholders += mapOf(
                 "app_name" to "Base App",
             )
