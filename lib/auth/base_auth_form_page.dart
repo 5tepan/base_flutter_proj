@@ -5,6 +5,7 @@ import 'package:base_flutter_proj/core/base/base_pages/base_form/form_submit_hel
 import 'package:base_flutter_proj/core/components/decorated_text_form_field.dart';
 import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/assets/app_icon.dart';
+import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +14,7 @@ class BaseAuthFormPage extends StatefulWidget {
   final TextEditingController fieldController;
   final Widget? bottomWidget;
   final String? fieldLabel;
-  final String buttonText;
+  final String? buttonText;
   final TextInputType keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String? value)? validator;
@@ -32,7 +33,7 @@ class BaseAuthFormPage extends StatefulWidget {
     this.bottomWidget,
     super.key,
     this.fieldLabel,
-    this.buttonText = 'Продолжить',
+    this.buttonText,
     this.keyboardType = TextInputType.text,
     this.inputFormatters,
     this.validator,
@@ -94,7 +95,9 @@ class _BaseAuthFormPageState extends State<BaseAuthFormPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: widget.isSubmitting ? null : _submit,
-                  child: Text(widget.buttonText),
+                  child: Text(
+                    widget.buttonText ?? S.of(context).continueButton,
+                  ),
                 ),
               ),
               widget.bottomWidget ?? const SizedBox.shrink(),
