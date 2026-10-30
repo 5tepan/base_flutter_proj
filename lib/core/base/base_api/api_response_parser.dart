@@ -12,14 +12,18 @@ import 'package:http/http.dart' as http;
 class ApiResponseParser {
   static BaseApiResponse parseRawResponse(http.Response response) {
     final statusCode = response.statusCode;
-
-    if (statusCode < 200 || statusCode >= 300) {
-      return BaseApiResponse(
-        errorCode: AppErrorCode.requestFailed,
-        rawData: response.body,
-      );
+    final parsed = _parseBody(response.body);
+    if (statusCode >= 200 && statusCode < 300) {
+      return _withStatus(parsed, statusCode);
     }
-    return _parseBody(response.body);
+
+    return BaseApiResponse(
+      meta: parsed.meta,
+      rawData: response.body,
+      errorCode: parsed.errorCode ?? AppErrorCode.requestFailed,
+      serverMessage: parsed.serverMessage,
+      statusCode: statusCode,
+    );
   }
 
   static ApiResponse<List<T>> parseListFromResponse<T>(
@@ -99,20 +103,42 @@ class ApiResponseParser {
     }
   }
 
+  static BaseApiResponse _withStatus(BaseApiResponse parsed, int statusCode) {
+    return BaseApiResponse(
+      meta: parsed.meta,
+      rawData: parsed.rawData,
+      errorCode: parsed.errorCode,
+      serverMessage: parsed.serverMessage,
+      dataJson: parsed.dataJson,
+      statusCode: statusCode,
+    );
+  }
+
   static BaseApiResponse _parseBody(String? body) {
-    if (body == null) {
+    if (body == null || body.isEmpty) {
       return BaseApiResponse(
         errorCode: AppErrorCode.badRequestFormat,
         rawData: body,
       );
     }
-    final dynamic responseJson = json.decode(body);
-    if (responseJson is! Map<String, dynamic>) {
+
+    final Object? decoded;
+    try {
+      decoded = json.decode(body);
+    } catch (_) {
       return BaseApiResponse(
         errorCode: AppErrorCode.invalidJson,
         rawData: body,
       );
     }
+    if (decoded is! Map) {
+      return BaseApiResponse(
+        errorCode: AppErrorCode.invalidJson,
+        rawData: body,
+      );
+    }
+
+    final responseJson = Map<String, dynamic>.from(decoded);
     final dataJson = responseJson['data'];
     final metaJson = responseJson['meta'];
     if (metaJson == null) {
@@ -121,34 +147,53 @@ class ApiResponseParser {
         rawData: body,
       );
     }
-    if (dataJson == null) {
-      return BaseApiResponse(
-        errorCode: AppErrorCode.missingData,
-        rawData: body,
-      );
-    }
-    try {
-      final apiResponseMeta = ApiResponseMeta.fromJson(metaJson as JsonSchema);
-
-      if (!(apiResponseMeta.success ?? false)) {
-        return BaseApiResponse(
-          errorCode: AppErrorCode.requestFailed,
-          serverMessage: apiResponseMeta.error,
-          meta: apiResponseMeta,
-          rawData: body,
-        );
-      }
-
-      return BaseApiResponse(
-        dataJson: dataJson,
-        meta: apiResponseMeta,
-        rawData: body,
-      );
-    } catch (e) {
+    if (metaJson is! Map) {
       return BaseApiResponse(
         errorCode: AppErrorCode.invalidMeta,
         rawData: body,
       );
     }
+
+    final ApiResponseMeta apiResponseMeta;
+    try {
+      apiResponseMeta = ApiResponseMeta.fromJson(_normalizeMeta(metaJson));
+    } catch (_) {
+      return BaseApiResponse(
+        errorCode: AppErrorCode.invalidMeta,
+        rawData: body,
+      );
+    }
+
+    if (!(apiResponseMeta.success ?? false)) {
+      return BaseApiResponse(
+        errorCode: AppErrorCode.requestFailed,
+        serverMessage: apiResponseMeta.error,
+        meta: apiResponseMeta,
+        rawData: body,
+      );
+    }
+
+    if (dataJson == null) {
+      return BaseApiResponse(
+        errorCode: AppErrorCode.missingData,
+        meta: apiResponseMeta,
+        rawData: body,
+      );
+    }
+
+    return BaseApiResponse(
+      dataJson: dataJson,
+      meta: apiResponseMeta,
+      rawData: body,
+    );
+  }
+
+  static Map<String, dynamic> _normalizeMeta(Map<dynamic, dynamic> json) {
+    final meta = Map<String, dynamic>.from(json);
+    if (!meta.containsKey('invalidAccessToken') &&
+        meta.containsKey('invalid_access_token')) {
+      meta['invalidAccessToken'] = meta['invalid_access_token'];
+    }
+    return meta;
   }
 }

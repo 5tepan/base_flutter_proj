@@ -11,6 +11,7 @@ class BaseApiResponse {
   AppErrorCode? errorCode;
   String? serverMessage;
   dynamic dataJson;
+  int? statusCode;
 
   BaseApiResponse({
     this.meta,
@@ -18,6 +19,7 @@ class BaseApiResponse {
     this.errorCode,
     this.serverMessage,
     this.dataJson,
+    this.statusCode,
   });
 
   bool get isError =>

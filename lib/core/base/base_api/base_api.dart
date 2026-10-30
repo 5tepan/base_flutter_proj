@@ -224,12 +224,19 @@ abstract class BaseApi {
   }
 
   bool _shouldRefreshToken(BaseApiResponse response) {
+    if (response.statusCode == 401) {
+      return true;
+    }
     if (response.meta?.invalidAccessToken == true) {
       return true;
     }
 
-    return response.errorCode == AppErrorCode.requestFailed &&
-        (response.rawData?.contains('invalidAccessToken') ?? false);
+    final raw = response.rawData;
+    if (raw == null || response.errorCode != AppErrorCode.requestFailed) {
+      return false;
+    }
+    return raw.contains('invalidAccessToken') ||
+        raw.contains('invalid_access_token');
   }
 
   BaseApiResponse processResponseError(Object error, Uri uri) {
