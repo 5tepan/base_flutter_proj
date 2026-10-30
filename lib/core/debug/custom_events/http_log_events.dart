@@ -1,4 +1,5 @@
 import 'package:base_flutter_proj/core/debug/custom_events/base_http_log.dart';
+import 'package:base_flutter_proj/core/debug/sensitive_log_redaction.dart';
 import 'package:curl_converter/curl_converter.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -32,7 +33,7 @@ class HttpRequestLog extends BaseHttpLog<BaseRequest> {
     return Curl(
       uri: req.url,
       method: req.method,
-      headers: req.headers,
+      headers: SensitiveLogRedaction.headers(req.headers),
       data: req.body,
     ).toCurlString();
   }

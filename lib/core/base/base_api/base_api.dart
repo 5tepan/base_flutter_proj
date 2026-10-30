@@ -29,9 +29,10 @@ abstract class BaseApi {
     required this.checkConnection,
     this.tokenHolder,
     this.onRefreshToken,
-  });
+    bool enableHttpLogs = false,
+  }) : isLoggerOutputEnabled = enableHttpLogs;
 
-  bool isLoggerOutputEnabled = true;
+  final bool isLoggerOutputEnabled;
 
   late final InterceptedClient client = InterceptedClient.build(
     client: config.useFakeApi

@@ -46,8 +46,13 @@ class FastApiWebSocketClient implements WebSocketClient {
     _handshakeCompleter = Completer<void>();
 
     try {
-      final uri = _buildWebSocketUri(accessToken);
-      final socket = await WebSocket.connect(uri.toString());
+      final uri = _buildWebSocketUri();
+      final socket = await WebSocket.connect(
+        uri.toString(),
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+        },
+      );
       _socket = socket;
       _socketSubscription = socket.listen(
         _onSocketData,
@@ -60,7 +65,9 @@ class FastApiWebSocketClient implements WebSocketClient {
       await _handshakeCompleter!.future.timeout(const Duration(seconds: 5));
       _isConnected = true;
       _connectionStateController.add(WebSocketConnectionState.connected);
-      CustomLogger.info('FastApiWebSocketClient connected: $uri');
+      CustomLogger.info(
+        'FastApiWebSocketClient connected: ${uri.scheme}://${uri.host}:${uri.port}${uri.path}',
+      );
     } catch (error, stackTrace) {
       _handshakeCompleter = null;
       _connectionStateController.add(WebSocketConnectionState.disconnected);
@@ -135,7 +142,7 @@ class FastApiWebSocketClient implements WebSocketClient {
     unawaited(_eventsController.close());
   }
 
-  Uri _buildWebSocketUri(String accessToken) {
+  Uri _buildWebSocketUri() {
     final host = _resolveHost();
     final port = _resolvePort(host);
     final scheme = _config.isHttpsApi ? 'wss' : 'ws';
@@ -145,7 +152,6 @@ class FastApiWebSocketClient implements WebSocketClient {
       host: _stripPort(host),
       port: port,
       path: '/ws',
-      queryParameters: {'token': accessToken},
     );
   }
 

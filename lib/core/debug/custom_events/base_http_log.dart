@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:base_flutter_proj/core/debug/logger.dart';
+import 'package:base_flutter_proj/core/debug/sensitive_log_redaction.dart';
 import 'package:http/http.dart';
 import 'package:talker/talker.dart';
 
@@ -55,8 +56,11 @@ abstract class BaseHttpLog<T extends Object> extends TalkerLog {
     }
 
     try {
-      if (headers?.isNotEmpty ?? false) {
-        final prettyHeaders = _encoder.convert(headers);
+      final safeHeaders = headers == null
+          ? null
+          : SensitiveLogRedaction.headers(headers!);
+      if (safeHeaders?.isNotEmpty ?? false) {
+        final prettyHeaders = _encoder.convert(safeHeaders);
         msg += '\nHeaders: $prettyHeaders';
       }
       msg += '\nBody: $body';
