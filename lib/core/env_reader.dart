@@ -1,162 +1,117 @@
 import 'package:base_flutter_proj/core/config.dart';
+import 'package:flutter/foundation.dart';
+
+/// Снимок `--dart-define`. Пустая строка значит «ключ не задан».
+@immutable
+class EnvDefines {
+  const EnvDefines({
+    this.flavor = 'dev',
+    this.apiUrlDomain = '',
+    this.apiUrlRelativePath = '',
+    this.apiUseHttps = '',
+    this.enableFirebase = '',
+    this.showDebugBanner = '',
+    this.useFakeApi = '',
+    this.enableWebSocket = '',
+    this.useMockWebSocket = '',
+    this.webSocketAppKey = '',
+    this.webSocketHost = '',
+    this.webSocketPort = '',
+    this.localeMode = '',
+    this.mapKitApiKey = '',
+    this.yandexGeocoderApiKey = '',
+  });
+
+  final String flavor;
+  final String apiUrlDomain;
+  final String apiUrlRelativePath;
+  final String apiUseHttps;
+  final String enableFirebase;
+  final String showDebugBanner;
+  final String useFakeApi;
+  final String enableWebSocket;
+  final String useMockWebSocket;
+  final String webSocketAppKey;
+  final String webSocketHost;
+  final String webSocketPort;
+  final String localeMode;
+  final String mapKitApiKey;
+  final String yandexGeocoderApiKey;
+
+  static EnvDefines fromEnvironment() {
+    return const EnvDefines(
+      flavor: String.fromEnvironment('FLAVOR', defaultValue: 'dev'),
+      apiUrlDomain: String.fromEnvironment('API_URL_DOMAIN'),
+      apiUrlRelativePath: String.fromEnvironment('API_URL_RELATIVE_PATH'),
+      apiUseHttps: String.fromEnvironment('API_USE_HTTPS'),
+      enableFirebase: String.fromEnvironment('ENABLE_FIREBASE'),
+      showDebugBanner: String.fromEnvironment('SHOW_DEBUG_BANNER'),
+      useFakeApi: String.fromEnvironment('USE_FAKE_API'),
+      enableWebSocket: String.fromEnvironment('ENABLE_WEBSOCKET'),
+      useMockWebSocket: String.fromEnvironment('USE_MOCK_WEBSOCKET'),
+      webSocketAppKey: String.fromEnvironment('WS_APP_KEY'),
+      webSocketHost: String.fromEnvironment('WS_HOST'),
+      webSocketPort: String.fromEnvironment('WS_PORT'),
+      localeMode: String.fromEnvironment('LOCALE_MODE'),
+      mapKitApiKey: String.fromEnvironment('MAPKIT_API_KEY'),
+      yandexGeocoderApiKey: String.fromEnvironment('YANDEX_GEOCODER_API_KEY'),
+    );
+  }
+}
 
 /// Читает конфигурацию из `--dart-define` / `--dart-define-from-file`.
 abstract final class EnvReader {
-  static Config getConfig() {
-    const flavorName = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static Config getConfig() => configFrom(EnvDefines.fromEnvironment());
 
-    return switch (flavorName) {
-      'prod' => _prodConfig(),
-      'devbackend' => _devBackendConfig(),
-      'dev' => _devConfig(),
-      _ => throw Exception('Unknown FLAVOR: $flavorName'),
+  @visibleForTesting
+  static Config configFrom(EnvDefines env) {
+    final flavor = switch (env.flavor) {
+      'prod' => Flavor.prod,
+      'devbackend' => Flavor.devBackend,
+      'dev' => Flavor.dev,
+      _ => throw Exception('Unknown FLAVOR: ${env.flavor}'),
     };
-  }
+    final isProd = flavor == Flavor.prod;
+    final isDev = flavor == Flavor.dev;
 
-  static Config _devConfig() {
     return Config(
-      apiUrlDomain: const String.fromEnvironment(
-        'API_URL_DOMAIN',
-        defaultValue: 'localhost:8000',
+      apiUrlDomain: _orDefault(
+        env.apiUrlDomain,
+        isProd ? 'api.myapp.com' : 'localhost:8000',
       ),
-      apiUrlRelativePath: const String.fromEnvironment(
-        'API_URL_RELATIVE_PATH',
-        defaultValue: '/api/',
-      ),
-      isHttpsApi: _apiUseHttps,
-      flavor: Flavor.dev,
-      showDebugBanner: _showDebugBanner(defaultValue: true),
-      enableFirebase: _enableFirebase,
-      useFakeApi: _useFakeApi(defaultValue: true),
-      enableWebSocket: _enableWebSocket(defaultValue: true),
-      useMockWebSocket: _useMockWebSocket(defaultValue: true),
-      webSocketAppKey: _webSocketAppKey,
-      webSocketHost: _webSocketHost,
-      webSocketPort: _webSocketPort,
+      apiUrlRelativePath: _orDefault(env.apiUrlRelativePath, '/api/'),
+      isHttpsApi: _parseBool(env.apiUseHttps, defaultValue: isProd),
+      flavor: flavor,
+      showDebugBanner: _parseBool(env.showDebugBanner, defaultValue: !isProd),
+      enableFirebase: _parseBool(env.enableFirebase),
+      useFakeApi: _parseBool(env.useFakeApi, defaultValue: isDev),
+      enableWebSocket: _parseBool(env.enableWebSocket, defaultValue: !isProd),
+      useMockWebSocket: _parseBool(env.useMockWebSocket, defaultValue: !isProd),
+      webSocketAppKey: _orNull(env.webSocketAppKey),
+      webSocketHost: _orNull(env.webSocketHost),
+      webSocketPort: _parsePort(env.webSocketPort),
       localeMode: _localeMode(
-        const String.fromEnvironment(
-          'LOCALE_MODE',
-          defaultValue: 'russianAndEnglish',
-        ),
+        env.localeMode.isEmpty
+            ? (isProd ? 'russianOnly' : 'russianAndEnglish')
+            : env.localeMode,
       ),
-      mapKitApiKey: _mapKitApiKey,
-      yandexGeocoderApiKey: _yandexGeocoderApiKey,
+      mapKitApiKey: env.mapKitApiKey,
+      yandexGeocoderApiKey: env.yandexGeocoderApiKey,
     );
   }
 
-  static Config _prodConfig() {
-    return Config(
-      apiUrlDomain: const String.fromEnvironment(
-        'API_URL_DOMAIN',
-        defaultValue: 'api.myapp.com',
-      ),
-      apiUrlRelativePath: const String.fromEnvironment(
-        'API_URL_RELATIVE_PATH',
-        defaultValue: '/api/',
-      ),
-      isHttpsApi: _apiUseHttps,
-      flavor: Flavor.prod,
-      showDebugBanner: _showDebugBanner(),
-      enableFirebase: _enableFirebase,
-      useFakeApi: _useFakeApi(),
-      enableWebSocket: _enableWebSocket(),
-      useMockWebSocket: _useMockWebSocket(),
-      webSocketAppKey: _webSocketAppKey,
-      webSocketHost: _webSocketHost,
-      webSocketPort: _webSocketPort,
-      localeMode: _localeMode(
-        const String.fromEnvironment(
-          'LOCALE_MODE',
-          defaultValue: 'russianOnly',
-        ),
-      ),
-      mapKitApiKey: _mapKitApiKey,
-      yandexGeocoderApiKey: _yandexGeocoderApiKey,
-    );
+  static String _orDefault(String value, String fallback) {
+    return value.isEmpty ? fallback : value;
   }
 
-  static Config _devBackendConfig() {
-    return Config(
-      apiUrlDomain: const String.fromEnvironment(
-        'API_URL_DOMAIN',
-        defaultValue: 'localhost:8000',
-      ),
-      apiUrlRelativePath: const String.fromEnvironment(
-        'API_URL_RELATIVE_PATH',
-        defaultValue: '/api/',
-      ),
-      isHttpsApi: _apiUseHttps,
-      flavor: Flavor.devBackend,
-      showDebugBanner: _showDebugBanner(defaultValue: true),
-      enableFirebase: _enableFirebase,
-      useFakeApi: _useFakeApi(defaultValue: false),
-      enableWebSocket: _enableWebSocket(defaultValue: true),
-      useMockWebSocket: _useMockWebSocket(defaultValue: true),
-      webSocketAppKey: _webSocketAppKey,
-      webSocketHost: _webSocketHost,
-      webSocketPort: _webSocketPort,
-      localeMode: _localeMode(
-        const String.fromEnvironment(
-          'LOCALE_MODE',
-          defaultValue: 'russianAndEnglish',
-        ),
-      ),
-      mapKitApiKey: _mapKitApiKey,
-      yandexGeocoderApiKey: _yandexGeocoderApiKey,
-    );
-  }
+  static String? _orNull(String value) => value.isEmpty ? null : value;
 
-  static bool get _apiUseHttps => _parseBool(
-        const String.fromEnvironment('API_USE_HTTPS'),
-      );
-
-  static bool get _enableFirebase => _parseBool(
-        const String.fromEnvironment('ENABLE_FIREBASE'),
-      );
-
-  static bool _showDebugBanner({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('SHOW_DEBUG_BANNER'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _useFakeApi({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('USE_FAKE_API'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _enableWebSocket({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('ENABLE_WEBSOCKET'),
-        defaultValue: defaultValue,
-      );
-
-  static bool _useMockWebSocket({bool defaultValue = false}) => _parseBool(
-        const String.fromEnvironment('USE_MOCK_WEBSOCKET'),
-        defaultValue: defaultValue,
-      );
-
-  static String? get _webSocketAppKey {
-    const value = String.fromEnvironment('WS_APP_KEY');
-    return value.isEmpty ? null : value;
-  }
-
-  static String? get _webSocketHost {
-    const value = String.fromEnvironment('WS_HOST');
-    return value.isEmpty ? null : value;
-  }
-
-  static int? get _webSocketPort {
-    const value = String.fromEnvironment('WS_PORT');
+  static int? _parsePort(String value) {
     if (value.isEmpty) {
       return null;
     }
     return int.tryParse(value);
   }
-
-  static String get _mapKitApiKey =>
-      const String.fromEnvironment('MAPKIT_API_KEY');
-
-  static String get _yandexGeocoderApiKey =>
-      const String.fromEnvironment('YANDEX_GEOCODER_API_KEY');
 
   static bool _parseBool(String value, {bool defaultValue = false}) {
     if (value.isEmpty) {
