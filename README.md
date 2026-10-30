@@ -21,7 +21,7 @@
 
 ## Стек
 
-Flutter ^3.11 · Riverpod 3 · go_router · http · flutter_secure_storage · hive · intl · image_picker / file_picker / share_plus и др. (полный список — `pubspec.yaml`).
+Flutter ^3.44 · Dart ^3.12 · Riverpod 3 · go_router · http · flutter_secure_storage · hive · intl · image_picker / file_picker / share_plus и др. (полный список — `pubspec.yaml`).
 
 ## Быстрый старт
 
