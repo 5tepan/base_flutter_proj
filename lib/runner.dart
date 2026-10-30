@@ -26,7 +26,9 @@ Future<void> run(Config env) async {
   await AppMapBootstrap.initialize(apiKey: env.mapKitApiKey);
   await _prepareSystemChrome();
   _runApp(env, packageInfo, appSettings);
-  FlutterNativeSplash.remove();
+  widgetsBinding.addPostFrameCallback((_) {
+    FlutterNativeSplash.remove();
+  });
 }
 
 void _runApp(
