@@ -14,12 +14,10 @@ class EnvDefines {
     this.useFakeApi = '',
     this.enableWebSocket = '',
     this.useMockWebSocket = '',
-    this.webSocketAppKey = '',
     this.webSocketHost = '',
     this.webSocketPort = '',
     this.localeMode = '',
     this.mapKitApiKey = '',
-    this.yandexGeocoderApiKey = '',
   });
 
   final String flavor;
@@ -31,12 +29,10 @@ class EnvDefines {
   final String useFakeApi;
   final String enableWebSocket;
   final String useMockWebSocket;
-  final String webSocketAppKey;
   final String webSocketHost;
   final String webSocketPort;
   final String localeMode;
   final String mapKitApiKey;
-  final String yandexGeocoderApiKey;
 
   static EnvDefines fromEnvironment() {
     return const EnvDefines(
@@ -49,12 +45,10 @@ class EnvDefines {
       useFakeApi: String.fromEnvironment('USE_FAKE_API'),
       enableWebSocket: String.fromEnvironment('ENABLE_WEBSOCKET'),
       useMockWebSocket: String.fromEnvironment('USE_MOCK_WEBSOCKET'),
-      webSocketAppKey: String.fromEnvironment('WS_APP_KEY'),
       webSocketHost: String.fromEnvironment('WS_HOST'),
       webSocketPort: String.fromEnvironment('WS_PORT'),
       localeMode: String.fromEnvironment('LOCALE_MODE'),
       mapKitApiKey: String.fromEnvironment('MAPKIT_API_KEY'),
-      yandexGeocoderApiKey: String.fromEnvironment('YANDEX_GEOCODER_API_KEY'),
     );
   }
 }
@@ -86,8 +80,7 @@ abstract final class EnvReader {
       enableFirebase: _parseBool(env.enableFirebase),
       useFakeApi: _parseBool(env.useFakeApi, defaultValue: isDev),
       enableWebSocket: _parseBool(env.enableWebSocket, defaultValue: !isProd),
-      useMockWebSocket: _parseBool(env.useMockWebSocket, defaultValue: !isProd),
-      webSocketAppKey: _orNull(env.webSocketAppKey),
+      useMockWebSocket: _parseBool(env.useMockWebSocket, defaultValue: isDev),
       webSocketHost: _orNull(env.webSocketHost),
       webSocketPort: _parsePort(env.webSocketPort),
       localeMode: _localeMode(
@@ -96,7 +89,6 @@ abstract final class EnvReader {
             : env.localeMode,
       ),
       mapKitApiKey: env.mapKitApiKey,
-      yandexGeocoderApiKey: env.yandexGeocoderApiKey,
     );
   }
 

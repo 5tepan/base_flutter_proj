@@ -31,7 +31,6 @@ class Config {
 
   final bool enableWebSocket;
   final bool useMockWebSocket;
-  final String? webSocketAppKey;
   final String? webSocketHost;
   final int? webSocketPort;
   final String webSocketAuthRelativePath;
@@ -40,10 +39,6 @@ class Config {
 
   /// API-ключ Yandex MapKit (init SDK). Пустой — карта не инициализируется.
   final String mapKitApiKey;
-
-  /// API-ключ Yandex Geocoder HTTP API (для будущей фичи поиска).
-  /// Модуль `core/components/map` этот ключ не использует.
-  final String yandexGeocoderApiKey;
 
   const Config({
     required this.apiUrlDomain,
@@ -57,13 +52,11 @@ class Config {
     this.useFakeApi = true,
     this.enableWebSocket = true,
     this.useMockWebSocket = true,
-    this.webSocketAppKey,
     this.webSocketHost,
     this.webSocketPort,
     this.webSocketAuthRelativePath = '/api/broadcasting/auth',
     this.localeMode = AppLocaleMode.russianAndEnglish,
     this.mapKitApiKey = '',
-    this.yandexGeocoderApiKey = '',
   });
 
   /// Локали, доступные в приложении.
