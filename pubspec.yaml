@@ -92,6 +92,12 @@ flutter:
 
   assets:
     - assets/
+    - assets/icons/
+    - assets/fake_api/app/
+    - assets/fake_api/auth/
+    - assets/fake_api/chats/
+    - assets/fake_api/forms/
+    - assets/fake_api/shop/
 
   fonts:
     - family: Roboto
