@@ -9,9 +9,8 @@ import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/fake_api/fake_api_client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_interceptor/http_interceptor.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 typedef ConnectivityCheck = Future<bool> Function();
@@ -34,18 +33,22 @@ abstract class BaseApi {
 
   final bool isLoggerOutputEnabled;
 
-  late final InterceptedClient client = InterceptedClient.build(
-    client: config.useFakeApi
-        ? FakeApiClient(apiRelativePath: config.apiUrlRelativePath)
-        : null,
-    interceptors: [
-      BaseApiInterceptor(
-        packageInfo: packageInfo,
-        tokenHolder: tokenHolder,
-      ),
-      if (isLoggerOutputEnabled) CustomLogger.httpInterceptor,
-    ],
-  );
+  late final Dio client =
+      Dio(
+          BaseOptions(
+            responseType: ResponseType.plain,
+            validateStatus: (status) => status != null,
+          ),
+        )
+        ..interceptors.addAll([
+          BaseApiInterceptor(
+            packageInfo: packageInfo,
+            tokenHolder: tokenHolder,
+          ),
+          if (isLoggerOutputEnabled) CustomLogger.httpInterceptor,
+          if (config.useFakeApi)
+            FakeApiInterceptor(apiRelativePath: config.apiUrlRelativePath),
+        ]);
 
   Future<bool> _hasConnection() async {
     if (config.useFakeApi) {
@@ -108,7 +111,7 @@ abstract class BaseApi {
           queryParameters: encodeFields(params),
         );
 
-        final response = await client.get(uri);
+        final response = await client.getUri<String>(uri);
         return parseResponse(response);
       } catch (error) {
         return processResponseError(error, uri ?? _fallbackUri(relativePath));
@@ -129,10 +132,15 @@ abstract class BaseApi {
       Uri? uri;
       try {
         uri = await buildUri(relativePath: relativePath);
-        final response = await client.post(
+        final response = await client.postUri<String>(
           uri,
-          body: encodeFields(body),
-          headers: headers,
+          data: encodeFields(body),
+          options: Options(
+            headers: headers,
+            contentType: body == null
+                ? null
+                : Headers.formUrlEncodedContentType,
+          ),
         );
 
         return parseResponse(response);
@@ -156,13 +164,13 @@ abstract class BaseApi {
       try {
         uri = await buildUri(relativePath: relativePath);
         final requestHeaders = {
-          'Content-Type': 'application/json',
+          'Content-Type': Headers.jsonContentType,
           ...?headers,
         };
-        final response = await client.post(
+        final response = await client.postUri<String>(
           uri,
-          headers: requestHeaders,
-          body: body == null ? null : jsonEncode(body),
+          data: body,
+          options: Options(headers: requestHeaders),
         );
 
         return parseResponse(response);
@@ -174,7 +182,7 @@ abstract class BaseApi {
 
   Future<BaseApiResponse> sendPostRequestWithFiles(
     String relativePath,
-    List<http.MultipartFile> files, [
+    List<MapEntry<String, MultipartFile>> files, [
     Map<String, dynamic>? params,
   ]) async {
     return _withUnauthorizedRetry(() async {
@@ -185,16 +193,13 @@ abstract class BaseApi {
       Uri? uri;
       try {
         uri = await buildUri(relativePath: relativePath);
-        final request = http.MultipartRequest('POST', uri);
+        final formData = FormData();
         final fields = encodeFields(params);
         if (fields != null) {
-          request.fields.addAll(fields);
+          formData.fields.addAll(fields.entries);
         }
-
-        request.files.addAll(files);
-        final streamedResponse = await client.send(request);
-        final response = await http.Response.fromStream(streamedResponse);
-
+        formData.files.addAll(files);
+        final response = await client.postUri<String>(uri, data: formData);
         return parseResponse(response);
       } catch (error) {
         return processResponseError(error, uri ?? _fallbackUri(relativePath));
@@ -241,9 +246,16 @@ abstract class BaseApi {
 
   BaseApiResponse processResponseError(Object error, Uri uri) {
     switch (error) {
-      case String msg:
+      case final String msg:
         return BaseApiResponse(serverMessage: msg);
       case SocketException _:
+        return BaseApiResponse(errorCode: AppErrorCode.connectionError);
+      case DioException(:final type, :final error)
+          when type == DioExceptionType.connectionError ||
+              type == DioExceptionType.connectionTimeout ||
+              type == DioExceptionType.sendTimeout ||
+              type == DioExceptionType.receiveTimeout ||
+              error is SocketException:
         return BaseApiResponse(errorCode: AppErrorCode.connectionError);
       default:
         CustomLogger.error(error);
@@ -252,7 +264,7 @@ abstract class BaseApi {
   }
 
   @protected
-  BaseApiResponse parseResponse(http.Response response) {
+  BaseApiResponse parseResponse(Response<String> response) {
     if (isLoggerOutputEnabled) {
       CustomLogger.httpInterceptor.logResponse(response: response);
     }

@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:base_flutter_proj/core/fake_api/fake_api_constants.dart';
 import 'package:base_flutter_proj/core/fake_api/fake_api_fixture_loader.dart';
 import 'package:base_flutter_proj/core/fake_api/fake_api_response.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 abstract final class FakeAuthHandlers {
-  static Future<http.Response?> handle({
+  static Future<Response<String>?> handle({
     required String method,
     required String path,
     required Uri url,
@@ -36,7 +36,7 @@ abstract final class FakeAuthHandlers {
     }
   }
 
-  static Future<http.Response> _verifyCode({
+  static Future<Response<String>> _verifyCode({
     required Uri url,
     String? body,
   }) async {
@@ -65,7 +65,7 @@ abstract final class FakeAuthHandlers {
     return FakeApiResponse.json(url, data: data);
   }
 
-  static Future<http.Response> _refresh({
+  static Future<Response<String>> _refresh({
     required Uri url,
     String? body,
   }) async {

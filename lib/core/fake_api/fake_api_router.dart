@@ -6,7 +6,7 @@ import 'package:base_flutter_proj/core/fake_api/handlers/auth_handlers.dart';
 import 'package:base_flutter_proj/core/fake_api/handlers/chat_handlers.dart';
 import 'package:base_flutter_proj/core/fake_api/handlers/forms_handlers.dart';
 import 'package:base_flutter_proj/core/fake_api/handlers/shop_handlers.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 /// Маршрутизация Fake API: METHOD + relative path → handler / fixture.
 class FakeApiRouter {
@@ -14,49 +14,48 @@ class FakeApiRouter {
 
   final String apiRelativePath;
 
-  Future<http.Response> handle(http.BaseRequest request) async {
-    final path = _relativePath(request.url);
+  Future<Response<String>> handle(RequestOptions request) async {
+    final url = request.uri;
+    final path = _relativePath(url);
     final method = request.method.toUpperCase();
-    final body = await _readBody(request);
+    final body = _readBody(request.data);
 
-    final handled = await FakeAuthHandlers.handle(
+    final handled =
+        await FakeAuthHandlers.handle(
           method: method,
           path: path,
-          url: request.url,
+          url: url,
           body: body,
         ) ??
-        await FakeShopHandlers.handle(
-          method: method,
-          path: path,
-          url: request.url,
-        ) ??
+        await FakeShopHandlers.handle(method: method, path: path, url: url) ??
         await FakeChatHandlers.handle(
           method: method,
           path: path,
-          url: request.url,
+          url: url,
           body: body,
         ) ??
-        await FakeFormsHandlers.handle(
-          method: method,
-          path: path,
-          url: request.url,
-        );
+        await FakeFormsHandlers.handle(method: method, path: path, url: url);
 
     if (handled != null) {
+      handled.requestOptions = request;
       return handled;
     }
 
     if (method == 'GET' && path == 'app/settings') {
-      return FakeApiResponse.fromEnvelope(
-        request.url,
+      final response = FakeApiResponse.fromEnvelope(
+        url,
         await FakeApiFixtureLoader.loadEnvelope('app/settings.get.json'),
       );
+      response.requestOptions = request;
+      return response;
     }
 
-    return FakeApiResponse.notFound(
-      request.url,
+    final response = FakeApiResponse.notFound(
+      url,
       message: 'Fake API route not found: $method $path',
     );
+    response.requestOptions = request;
+    return response;
   }
 
   String _relativePath(Uri url) {
@@ -64,9 +63,6 @@ class FakeApiRouter {
     var prefix = apiRelativePath;
     if (!prefix.startsWith('/')) {
       prefix = '/$prefix';
-    }
-    if (prefix.endsWith('/') && prefix.length > 1) {
-      // keep trailing slash for startsWith against `/api/...`
     }
     if (path.startsWith(prefix)) {
       path = path.substring(prefix.length);
@@ -85,12 +81,15 @@ class FakeApiRouter {
     return path;
   }
 
-  Future<String?> _readBody(http.BaseRequest request) async {
-    if (request is http.Request) {
-      return request.body;
+  String? _readBody(Object? data) {
+    if (data is String) {
+      return data;
     }
-    if (request is http.MultipartRequest) {
-      return jsonEncode(request.fields);
+    if (data is FormData) {
+      return jsonEncode(Map.fromEntries(data.fields));
+    }
+    if (data is Map) {
+      return jsonEncode(data);
     }
     return null;
   }

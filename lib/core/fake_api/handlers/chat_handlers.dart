@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:base_flutter_proj/core/fake_api/fake_api_constants.dart';
 import 'package:base_flutter_proj/core/fake_api/fake_api_fixture_loader.dart';
 import 'package:base_flutter_proj/core/fake_api/fake_api_response.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 abstract final class FakeChatHandlers {
   static var _messageCounter = 1000;
 
-  static Future<http.Response?> handle({
+  static Future<Response<String>?> handle({
     required String method,
     required String path,
     required Uri url,
@@ -18,8 +18,9 @@ abstract final class FakeChatHandlers {
       return _rooms(url);
     }
 
-    final messagesMatch =
-        RegExp(r'^chats/rooms/([^/]+)/messages$').firstMatch(path);
+    final messagesMatch = RegExp(
+      r'^chats/rooms/([^/]+)/messages$',
+    ).firstMatch(path);
     if (messagesMatch != null) {
       final roomId = messagesMatch.group(1)!;
       if (method == 'GET') {
@@ -30,8 +31,9 @@ abstract final class FakeChatHandlers {
       }
     }
 
-    final typingMatch =
-        RegExp(r'^chats/rooms/([^/]+)/typing$').firstMatch(path);
+    final typingMatch = RegExp(
+      r'^chats/rooms/([^/]+)/typing$',
+    ).firstMatch(path);
     if (typingMatch != null && method == 'POST') {
       return FakeApiResponse.json(url, data: <String, dynamic>{});
     }
@@ -39,7 +41,7 @@ abstract final class FakeChatHandlers {
     return null;
   }
 
-  static Future<http.Response> _rooms(Uri url) async {
+  static Future<Response<String>> _rooms(Uri url) async {
     final catalog = await FakeApiFixtureLoader.loadJson('chats/rooms.json');
     final rooms = List<Map<String, dynamic>>.from(
       (catalog['rooms'] as List).map(
@@ -54,15 +56,16 @@ abstract final class FakeChatHandlers {
     if (start >= rooms.length) {
       return FakeApiResponse.json(url, data: {'rooms': <dynamic>[]});
     }
-    final end =
-        (start + pageSize > rooms.length) ? rooms.length : start + pageSize;
+    final end = (start + pageSize > rooms.length)
+        ? rooms.length
+        : start + pageSize;
     return FakeApiResponse.json(
       url,
       data: {'rooms': rooms.sublist(start, end)},
     );
   }
 
-  static Future<http.Response> _messages(Uri url, String roomId) async {
+  static Future<Response<String>> _messages(Uri url, String roomId) async {
     final roomIndex = int.tryParse(roomId.replaceFirst('room_', ''));
     if (roomIndex == null ||
         roomIndex < 0 ||
@@ -111,7 +114,7 @@ abstract final class FakeChatHandlers {
     return FakeApiResponse.json(url, data: {'messages': messages});
   }
 
-  static Future<http.Response> _sendMessage(
+  static Future<Response<String>> _sendMessage(
     Uri url,
     String roomId,
     String? body,

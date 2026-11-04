@@ -1,7 +1,7 @@
 import 'package:base_flutter_proj/core/base/base_api/custom_json_formatters.dart';
 import 'package:base_flutter_proj/core/base/model/entities/file/video_file.dart';
 import 'package:cross_file/cross_file.dart';
-import 'package:http_interceptor/http_interceptor.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'custom_file.g.dart';

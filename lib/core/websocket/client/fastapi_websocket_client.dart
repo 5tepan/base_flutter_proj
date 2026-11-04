@@ -8,13 +8,16 @@ import 'package:base_flutter_proj/core/websocket/client/websocket_client.dart';
 import 'package:base_flutter_proj/core/websocket/model/websocket_channel_event.dart';
 import 'package:base_flutter_proj/core/websocket/model/websocket_connection_state.dart';
 import 'package:base_flutter_proj/core/websocket/model/websocket_handler_module.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 /// Raw JSON WebSocket transport for FastAPI backend (`/ws` + `/api/broadcasting/auth`).
 class FastApiWebSocketClient implements WebSocketClient {
   FastApiWebSocketClient({required Config config}) : _config = config;
 
   final Config _config;
+  final Dio _httpClient = Dio(
+    BaseOptions(validateStatus: (status) => status != null),
+  );
 
   final _connectionStateController =
       StreamController<WebSocketConnectionState>.broadcast();
@@ -49,9 +52,7 @@ class FastApiWebSocketClient implements WebSocketClient {
       final uri = _buildWebSocketUri();
       final socket = await WebSocket.connect(
         uri.toString(),
-        headers: {
-          HttpHeaders.authorizationHeader: 'Bearer $accessToken',
-        },
+        headers: {HttpHeaders.authorizationHeader: 'Bearer $accessToken'},
       );
       _socket = socket;
       _socketSubscription = socket.listen(
@@ -138,6 +139,7 @@ class FastApiWebSocketClient implements WebSocketClient {
 
   void dispose() {
     unawaited(disconnect());
+    _httpClient.close(force: true);
     unawaited(_connectionStateController.close());
     unawaited(_eventsController.close());
   }
@@ -147,12 +149,7 @@ class FastApiWebSocketClient implements WebSocketClient {
     final port = _resolvePort(host);
     final scheme = _config.isHttpsApi ? 'wss' : 'ws';
 
-    return Uri(
-      scheme: scheme,
-      host: _stripPort(host),
-      port: port,
-      path: '/ws',
-    );
+    return Uri(scheme: scheme, host: _stripPort(host), port: port, path: '/ws');
   }
 
   Uri _buildAuthUri() {
@@ -204,23 +201,25 @@ class FastApiWebSocketClient implements WebSocketClient {
       return null;
     }
 
-    final response = await http.post(
-      _buildAuthUri(),
-      headers: {
-        HttpHeaders.authorizationHeader: 'Bearer $accessToken',
-        HttpHeaders.contentTypeHeader: 'application/json',
-      },
-      body: jsonEncode({
+    final response = await _httpClient.post<dynamic>(
+      _buildAuthUri().toString(),
+      options: Options(
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $accessToken',
+          Headers.contentTypeHeader: Headers.jsonContentType,
+        },
+      ),
+      data: {
         'channel_name': 'private-$channelName',
         'socket_id': _socketId ?? '',
-      }),
+      },
     );
 
     if (response.statusCode != 200) {
       return null;
     }
 
-    final body = jsonDecode(response.body);
+    final body = response.data;
     if (body is! Map<String, dynamic>) {
       return null;
     }

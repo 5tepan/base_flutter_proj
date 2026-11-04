@@ -2,48 +2,32 @@ import 'dart:convert';
 
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/debug/sensitive_log_redaction.dart';
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:talker/talker.dart';
 
 const _encoder = JsonEncoder.withIndent('  ');
 
-/// Базовый лог для HTTP-запросов/ответов
+/// Базовый лог для HTTP-запросов/ответов.
 abstract class BaseHttpLog<T extends Object> extends TalkerLog {
   BaseHttpLog(super.message, {required this.data, this.responseBody});
 
   final T data;
   final String? responseBody;
 
-  /// Цвет для конкретного типа лога
   @override
   AnsiPen get pen;
 
-  /// Ключ для конкретного типа лога
   @override
   String get key;
 
-  /// Название для вывода
   String get titleLog;
-
-  /// HTTP-метод (если доступен)
   String? get method;
-
-  /// HTTP-статус (если есть)
   int? get statusCode;
-
-  /// Заголовки
   Map<String, String>? get headers;
-
-  /// Тело запроса/ответа
-  String get body {
-    if (responseBody != null) {
-      return extractBody(responseBody!);
-    }
-    return checkBody(data);
-  }
-
-  /// Curl команда (только для Request)
   String? get curl;
+
+  String get body =>
+      responseBody != null ? extractBody(responseBody!) : checkBody(data);
 
   @override
   String generateTextMessage({
@@ -60,8 +44,7 @@ abstract class BaseHttpLog<T extends Object> extends TalkerLog {
           ? null
           : SensitiveLogRedaction.headers(headers!);
       if (safeHeaders?.isNotEmpty ?? false) {
-        final prettyHeaders = _encoder.convert(safeHeaders);
-        msg += '\nHeaders: $prettyHeaders';
+        msg += '\nHeaders: ${_encoder.convert(safeHeaders)}';
       }
       msg += '\nBody: $body';
       if (curl != null) {
@@ -73,23 +56,29 @@ abstract class BaseHttpLog<T extends Object> extends TalkerLog {
     return msg;
   }
 
-  String checkBody(T res) {
-    switch (res) {
-      case final Response res:
-        return extractBody(res.body);
-      case final Request res:
-        return extractBody(res.body);
-      case final MultipartRequest res:
-        return extractBody(jsonEncode(res.fields), files: res.files);
-      default:
-        return "Данный тип запроса не поддерживает вывод тела";
+  String checkBody(T value) {
+    if (value is Response) {
+      return extractBody(_encode(value.data));
     }
+    if (value is RequestOptions) {
+      final requestData = value.data;
+      if (requestData is FormData) {
+        return extractBody(
+          jsonEncode(Map.fromEntries(requestData.fields)),
+          files: requestData.files,
+        );
+      }
+      return extractBody(_encode(requestData));
+    }
+    return 'Данный тип запроса не поддерживает вывод тела';
   }
 
-  String extractBody(String body, {List<MultipartFile>? files}) {
-    final contentLength = body.length;
-    if (contentLength == 0) return '<Пустое тело запроса>';
-    if (contentLength > 20000) return "<Большое тело запроса>";
+  String extractBody(
+    String body, {
+    List<MapEntry<String, MultipartFile>>? files,
+  }) {
+    if (body.isEmpty) return '<Пустое тело запроса>';
+    if (body.length > 20000) return '<Большое тело запроса>';
 
     try {
       dynamic bodyJson;
@@ -102,15 +91,15 @@ abstract class BaseHttpLog<T extends Object> extends TalkerLog {
       if (files?.isNotEmpty ?? false) {
         final filesJson = files!
             .map(
-              (e) => {
-                'field': e.field,
-                'filename': e.filename,
-                'contentType': e.contentType.toString(),
+              (entry) => {
+                'field': entry.key,
+                'filename': entry.value.filename,
+                'contentType': entry.value.contentType.toString(),
               },
             )
             .toList();
 
-        bodyJson = {...(bodyJson as Map), 'files': filesJson};
+        bodyJson = {if (bodyJson is Map) ...bodyJson, 'files': filesJson};
       }
 
       return _encoder.convert(bodyJson);
@@ -129,4 +118,15 @@ abstract class BaseHttpLog<T extends Object> extends TalkerLog {
       }
     });
   }
+
+  String _encode(Object? value) {
+    if (value == null) return '';
+    if (value is String) return value;
+    return jsonEncode(value);
+  }
+
+  Map<String, String> stringHeaders(Map<String, dynamic> values) => values.map(
+    (key, value) =>
+        MapEntry(key, value is Iterable ? value.join(', ') : '$value'),
+  );
 }

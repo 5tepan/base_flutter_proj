@@ -1,13 +1,12 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:base_flutter_proj/core/fake_api/fake_api_constants.dart';
 import 'package:base_flutter_proj/core/fake_api/fake_api_router.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
-/// HTTP-клиент, эмулирующий бэкенд по JSON из `assets/fake_api/`.
-class FakeApiClient extends http.BaseClient {
-  FakeApiClient({
+/// Dio interceptor that serves JSON fixtures instead of sending requests.
+class FakeApiInterceptor extends Interceptor {
+  FakeApiInterceptor({
     required String apiRelativePath,
     this.latency = FakeApiConstants.latency,
   }) : _router = FakeApiRouter(apiRelativePath: apiRelativePath);
@@ -16,20 +15,22 @@ class FakeApiClient extends http.BaseClient {
   final Duration latency;
 
   @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     await Future<void>.delayed(latency);
-    final response = await _router.handle(request);
-    final bodyBytes = utf8.encode(response.body);
-    return http.StreamedResponse(
-      Stream<List<int>>.value(bodyBytes),
-      response.statusCode,
-      contentLength: bodyBytes.length,
-      request: request,
-      headers: {
-        'content-type': 'application/json; charset=utf-8',
-        ...response.headers,
-      },
-      reasonPhrase: response.reasonPhrase,
-    );
+    try {
+      final response = await _router.handle(options);
+      handler.resolve(response, true);
+    } catch (error, stackTrace) {
+      handler.reject(
+        DioException(
+          requestOptions: options,
+          error: error,
+          stackTrace: stackTrace,
+        ),
+      );
+    }
   }
 }

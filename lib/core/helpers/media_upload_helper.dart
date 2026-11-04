@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 /// Подготовка локальных [MediaFeedItem] к отправке на сервер (multipart).
 abstract final class MediaUploadHelper {
@@ -12,20 +12,19 @@ abstract final class MediaUploadHelper {
     return items.any((item) => item.hasLocalFile);
   }
 
-  /// Конвертирует локальные элементы ленты в [http.MultipartFile].
-  static Future<List<http.MultipartFile>> toMultipartFiles(
+  /// Конвертирует локальные элементы ленты в multipart части Dio.
+  static Future<List<MapEntry<String, MultipartFile>>> toMultipartFiles(
     List<MediaFeedItem> items, {
     String fieldName = 'files[]',
   }) async {
-    final files = <http.MultipartFile>[];
+    final files = <MapEntry<String, MultipartFile>>[];
     for (final item in localItems(items)) {
       final localFile = item.localFile!;
       final bytes = await localFile.readAsBytes();
       files.add(
-        http.MultipartFile.fromBytes(
+        MapEntry(
           fieldName,
-          bytes,
-          filename: _resolveFileName(item),
+          MultipartFile.fromBytes(bytes, filename: _resolveFileName(item)),
         ),
       );
     }

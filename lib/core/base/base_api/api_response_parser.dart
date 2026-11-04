@@ -6,13 +6,13 @@ import 'package:base_flutter_proj/core/base/base_api/entities/base_api_response.
 import 'package:base_flutter_proj/core/base/base_api/json_schema.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/errors/app_error_code.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 /// Утилитарный класс для парсинга ответа сервера.
 class ApiResponseParser {
-  static BaseApiResponse parseRawResponse(http.Response response) {
-    final statusCode = response.statusCode;
-    final body = utf8.decode(response.bodyBytes);
+  static BaseApiResponse parseRawResponse(Response<String> response) {
+    final statusCode = response.statusCode ?? 0;
+    final body = response.data ?? '';
     final parsed = _parseBody(body);
     if (statusCode >= 200 && statusCode < 300) {
       return _withStatus(parsed, statusCode);
