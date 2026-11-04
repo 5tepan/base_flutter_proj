@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/core/debug/logger.dart';
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 

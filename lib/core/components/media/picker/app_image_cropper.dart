@@ -1,7 +1,7 @@
-import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:base_flutter_proj/core/components/files/app_file_storage.dart';
+import 'package:base_flutter_proj/core/platform/files/app_file_image_provider.dart';
+import 'package:base_flutter_proj/core/platform/files/app_file_storage.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:croppy/croppy.dart';
 import 'package:cross_file/cross_file.dart';
@@ -30,7 +30,10 @@ abstract final class AppImageCropper {
       return source;
     }
 
-    final imageProvider = FileImage(File(source.path));
+    final imageProvider = await appFileImageProvider(source);
+    if (!context.mounted) {
+      return null;
+    }
     final CropImageResult? result;
     if (config.useAdaptiveCropper) {
       result = await showAdaptiveImageCropper(
@@ -58,14 +61,15 @@ abstract final class AppImageCropper {
         return null;
       }
 
-      final path = await AppFileStorage.writeTempFile(
+      return await AppFileStorage.writeTempFile(
         bytes: byteData.buffer.asUint8List(),
         extension: 'png',
         prefix: 'cropped_',
       );
-      return XFile(path);
     } catch (error, stackTrace) {
-      CustomLogger.warning('Не удалось сохранить обрезанное изображение: $error');
+      CustomLogger.warning(
+        'Не удалось сохранить обрезанное изображение: $error',
+      );
       CustomLogger.verbose('$stackTrace');
       return null;
     }

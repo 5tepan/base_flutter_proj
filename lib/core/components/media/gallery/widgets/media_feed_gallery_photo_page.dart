@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:base_flutter_proj/core/platform/files/app_file_image_provider.dart';
 import 'package:base_flutter_proj/core/components/media/gallery/config/media_feed_gallery_gesture_config.dart';
 import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
@@ -17,17 +16,27 @@ class MediaFeedGalleryPhotoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = S.of(context);
-    final localPath = item.localFile?.path;
     final remoteUrl = item.remoteUrl;
 
     Widget? content;
-    if (localPath != null && localPath.isNotEmpty) {
-      content = ExtendedImage.file(
-        File(localPath),
-        fit: BoxFit.contain,
-        mode: ExtendedImageMode.gesture,
-        enableSlideOutPage: true,
-        initGestureConfigHandler: (_) => mediaFeedGalleryGestureConfig,
+    if (item.localFile != null) {
+      content = FutureBuilder<ImageProvider<Object>>(
+        future: appFileImageProvider(item.localFile!),
+        builder: (context, snapshot) {
+          final image = snapshot.data;
+          if (image == null) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.white),
+            );
+          }
+          return ExtendedImage(
+            image: image,
+            fit: BoxFit.contain,
+            mode: ExtendedImageMode.gesture,
+            enableSlideOutPage: true,
+            initGestureConfigHandler: (_) => mediaFeedGalleryGestureConfig,
+          );
+        },
       );
     } else if (remoteUrl != null && remoteUrl.isNotEmpty) {
       content = ExtendedImage.network(
@@ -68,13 +77,14 @@ class MediaFeedGalleryPhotoPage extends StatelessWidget {
 
     return ExtendedImageSlidePage(
       slideAxis: SlideAxis.vertical,
-      slideEndHandler: (
-        Offset offset, {
-        ExtendedImageSlidePageState? state,
-        ScaleEndDetails? details,
-      }) {
-        return offset.dy.abs() >= _dismissOffset;
-      },
+      slideEndHandler:
+          (
+            Offset offset, {
+            ExtendedImageSlidePageState? state,
+            ScaleEndDetails? details,
+          }) {
+            return offset.dy.abs() >= _dismissOffset;
+          },
       child: Center(child: content),
     );
   }

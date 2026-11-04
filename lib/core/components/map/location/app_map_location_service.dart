@@ -1,6 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:base_flutter_proj/core/components/map/model/app_map_point.dart';
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart' as ph;
 

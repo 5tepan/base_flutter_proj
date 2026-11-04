@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:base_flutter_proj/core/base/base_api/api_response_parser.dart';
 import 'package:base_flutter_proj/core/base/base_api/entities/base_api_response.dart';
 import 'package:base_flutter_proj/core/base/base_api/interceptors/base_api_interceptor.dart';
@@ -248,14 +246,11 @@ abstract class BaseApi {
     switch (error) {
       case final String msg:
         return BaseApiResponse(serverMessage: msg);
-      case SocketException _:
-        return BaseApiResponse(errorCode: AppErrorCode.connectionError);
-      case DioException(:final type, :final error)
+      case DioException(:final type)
           when type == DioExceptionType.connectionError ||
               type == DioExceptionType.connectionTimeout ||
               type == DioExceptionType.sendTimeout ||
-              type == DioExceptionType.receiveTimeout ||
-              error is SocketException:
+              type == DioExceptionType.receiveTimeout:
         return BaseApiResponse(errorCode: AppErrorCode.connectionError);
       default:
         CustomLogger.error(error);

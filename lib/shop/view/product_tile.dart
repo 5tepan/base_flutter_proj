@@ -15,7 +15,7 @@ class ProductListTile extends StatelessWidget {
     return ListTile(
       title: Text(product.name, style: AppTextStyle.body),
       leading: const AppIcon(AppAssets.shoppingBag),
-      onTap: () => ShopProductRoute(productId: product.id).push(context),
+      onTap: () => ShopProductRoute(productId: product.id).go(context),
     );
   }
 }
@@ -30,7 +30,7 @@ class ProductGridTile extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => ShopProductRoute(productId: product.id).push(context),
+        onTap: () => ShopProductRoute(productId: product.id).go(context),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/media/config/media_feed_style.dart';
+import 'package:base_flutter_proj/core/components/files/app_file_image.dart';
 import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/safe_network_image.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
@@ -39,11 +38,7 @@ class MediaFeedTile extends StatelessWidget {
       return SizedBox(
         width: style.itemSize,
         height: style.itemSize,
-        child: builder!(
-          context,
-          item,
-          editable ? onRemove : null,
-        ),
+        child: builder!(context, item, editable ? onRemove : null),
       );
     }
 
@@ -74,10 +69,7 @@ class MediaFeedTile extends StatelessWidget {
             Positioned(
               top: -6,
               right: -6,
-              child: _RemoveButton(
-                style: style,
-                onPressed: onRemove!,
-              ),
+              child: _RemoveButton(style: style, onPressed: onRemove!),
             ),
         ],
       ),
@@ -86,10 +78,7 @@ class MediaFeedTile extends StatelessWidget {
 }
 
 class _MediaPreview extends StatelessWidget {
-  const _MediaPreview({
-    required this.item,
-    required this.style,
-  });
+  const _MediaPreview({required this.item, required this.style});
 
   final MediaFeedItem item;
   final MediaFeedStyle style;
@@ -100,16 +89,14 @@ class _MediaPreview extends StatelessWidget {
 
     Widget content;
     if (item.hasLocalFile && preview != null) {
-      content = Image.file(
-        File(preview),
+      content = AppFileImage(
+        path: preview,
+        file: item.localFile,
         fit: BoxFit.cover,
         errorBuilder: (_, __, ___) => const _BrokenPreview(),
       );
     } else if (preview != null && preview.isNotEmpty) {
-      content = SafeNetworkImage(
-        imageUrl: preview,
-        fit: BoxFit.cover,
-      );
+      content = SafeNetworkImage(imageUrl: preview, fit: BoxFit.cover);
     } else {
       content = const _BrokenPreview();
     }
@@ -151,10 +138,7 @@ class _BrokenPreview extends StatelessWidget {
 }
 
 class _RemoveButton extends StatelessWidget {
-  const _RemoveButton({
-    required this.style,
-    required this.onPressed,
-  });
+  const _RemoveButton({required this.style, required this.onPressed});
 
   final MediaFeedStyle style;
   final VoidCallback onPressed;

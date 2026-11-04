@@ -1,20 +1,22 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:base_flutter_proj/core/assets/app_assets.dart';
 import 'package:base_flutter_proj/core/assets/app_icon.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_item.dart';
-import 'package:base_flutter_proj/core/components/files/app_file_storage.dart';
+import 'package:base_flutter_proj/core/components/files/app_file_image.dart';
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
 import 'package:base_flutter_proj/core/components/media/model/media_feed_item.dart';
 import 'package:base_flutter_proj/core/components/sharing/app_share.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
+import 'package:base_flutter_proj/core/platform/files/app_file_opener.dart';
+import 'package:base_flutter_proj/core/platform/files/app_file_storage.dart';
+import 'package:base_flutter_proj/core/platform/files/app_pdf_preview.dart';
+import 'package:base_flutter_proj/core/platform/media/app_audio_preview.dart';
+import 'package:base_flutter_proj/core/platform/media/app_video_controller.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:open_file/open_file.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:video_player/video_player.dart';
 
 /// Просмотр файлов и медиа: PDF, изображения, видео, аудио, внешние приложения.
@@ -44,13 +46,22 @@ abstract final class AppFileViewer {
     final path = item.localFile?.path;
     final fileItem = AppFileItem(
       id: item.id,
-      name: path != null ? AppFileUtils.fileNameFromPath(path) : 'media',
-      localPath: path,
+      name:
+          item.localFile?.name ??
+          (path != null && path.isNotEmpty
+              ? AppFileUtils.fileNameFromPath(path)
+              : 'media'),
+      localPath: path?.isNotEmpty == true ? path : null,
       remoteUrl: item.remoteUrl,
       localFile: item.localFile,
-      mimeType: path == null
-          ? null
-          : AppFileUtils.guessMimeType(path: path),
+      mimeType:
+          item.localFile?.mimeType ??
+          (path == null
+              ? null
+              : AppFileUtils.guessMimeType(
+                  path: path,
+                  name: item.localFile?.name,
+                )),
     );
 
     return open(
@@ -64,14 +75,10 @@ abstract final class AppFileViewer {
   static Future<OpenResult> openExternally(
     AppFileItem item, {
     String? unavailableMessage,
-  }) async {
-    final path = item.resolvedPath;
-    if (path != null && path.isNotEmpty) {
-      return OpenFile.open(path);
-    }
-    return OpenResult(
-      type: ResultType.error,
-      message: unavailableMessage ?? 'Local file unavailable',
+  }) {
+    return openAppFile(
+      item.resolvedPath,
+      unavailableMessage: unavailableMessage ?? 'Local file unavailable',
     );
   }
 }
@@ -103,15 +110,16 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
       appBar: AppBar(
         title: Text(widget.item.name),
         actions: [
-          if (widget.allowShare && path != null)
+          if (widget.allowShare && path?.isNotEmpty == true)
             IconButton(
               icon: const AppIcon(AppAssets.share),
-              onPressed: () => AppShare.shareFiles(paths: [path]),
+              onPressed: () => AppShare.shareFiles(paths: [path!]),
             ),
-          if (widget.allowSaveToDownloads && path != null)
+          if (widget.allowSaveToDownloads &&
+              (path?.isNotEmpty == true || widget.item.localFile != null))
             IconButton(
               icon: const Icon(Icons.download_outlined),
-              onPressed: () => _saveToDownloads(path),
+              onPressed: () => _saveToDownloads(path ?? ''),
             ),
           IconButton(
             icon: const Icon(Icons.open_in_new),
@@ -129,18 +137,35 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
     required String? mime,
   }) {
     final l10n = S.of(context);
-    if (path != null) {
-      if (AppFileUtils.isImageMime(mime) || AppFileUtils.isImagePath(path)) {
-        return InteractiveViewer(child: Image.file(File(path), fit: BoxFit.contain));
+    final localFile = widget.item.localFile;
+    final hasLocalFile = path?.isNotEmpty == true || localFile != null;
+    if (hasLocalFile) {
+      final filePath = path?.isNotEmpty == true ? path! : localFile!.name;
+      if (AppFileUtils.isImageMime(mime) ||
+          AppFileUtils.isImagePath(filePath)) {
+        return InteractiveViewer(
+          child: AppFileImage(
+            path: filePath,
+            file: localFile,
+            fit: BoxFit.contain,
+          ),
+        );
       }
-      if (AppFileUtils.isVideoMime(mime) || AppFileUtils.isVideoPath(path)) {
-        return _VideoPreview(path: path);
+      if (AppFileUtils.isVideoMime(mime) ||
+          AppFileUtils.isVideoPath(filePath)) {
+        return _VideoPreview(path: filePath, file: localFile);
       }
-      if (AppFileUtils.isAudioMime(mime) || AppFileUtils.isAudioPath(path)) {
-        return _AudioPreview(path: path, title: widget.item.name);
+      if (AppFileUtils.isAudioMime(mime) ||
+          AppFileUtils.isAudioPath(filePath)) {
+        return appAudioPreview(
+          path: filePath,
+          file: localFile,
+          title: widget.item.name,
+          unavailableMessage: l10n.fileViewerPreviewUnavailable,
+        );
       }
-      if (AppFileUtils.isPdfMime(mime) || AppFileUtils.isPdfPath(path)) {
-        return PDFView(filePath: path);
+      if (AppFileUtils.isPdfMime(mime) || AppFileUtils.isPdfPath(filePath)) {
+        return appPdfPreview(filePath);
       }
     }
 
@@ -166,9 +191,9 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
       return;
     }
     if (result.type != ResultType.done) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result.message)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(result.message)));
     }
   }
 
@@ -176,6 +201,7 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
     final l10n = S.of(context);
     final savedPath = await AppFileStorage.copyToDownloads(
       sourcePath: path,
+      sourceFile: widget.item.localFile,
       fileName: widget.item.name,
     );
     if (!mounted) {
@@ -194,34 +220,54 @@ class _AppFileViewerPageState extends State<_AppFileViewerPage> {
 }
 
 class _VideoPreview extends StatefulWidget {
-  const _VideoPreview({required this.path});
+  const _VideoPreview({required this.path, this.file});
 
   final String path;
+  final XFile? file;
 
   @override
   State<_VideoPreview> createState() => _VideoPreviewState();
 }
 
 class _VideoPreviewState extends State<_VideoPreview> {
-  late final VideoPlayerController _controller;
+  VideoPlayerController? _controller;
   var _initialized = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.file(File(widget.path))
-      ..initialize().then((_) {
-        if (mounted) {
-          setState(() => _initialized = true);
-        }
-      }).catchError((Object error) {
-        CustomLogger.warning('Video init failed: $error');
-      });
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    final controller = await createAppVideoController(
+      file: widget.file,
+      path: widget.path,
+    );
+    if (controller == null) {
+      return;
+    }
+    if (!mounted) {
+      await controller.dispose();
+      return;
+    }
+    _controller = controller;
+    try {
+      await controller.initialize();
+      if (mounted) {
+        setState(() => _initialized = true);
+      }
+    } catch (error) {
+      CustomLogger.warning('Video init failed: $error');
+    }
   }
 
   @override
   void dispose() {
-    unawaited(_controller.dispose());
+    final controller = _controller;
+    if (controller != null) {
+      unawaited(controller.dispose());
+    }
     super.dispose();
   }
 
@@ -230,26 +276,30 @@ class _VideoPreviewState extends State<_VideoPreview> {
     if (!_initialized) {
       return const Center(child: CircularProgressIndicator());
     }
+    final controller = _controller;
+    if (controller == null) {
+      return const SizedBox.shrink();
+    }
 
     return Center(
       child: AspectRatio(
-        aspectRatio: _controller.value.aspectRatio,
+        aspectRatio: controller.value.aspectRatio,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            VideoPlayer(_controller),
+            VideoPlayer(controller),
             IconButton(
               iconSize: 56,
               color: AppColors.white,
               icon: Icon(
-                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
               ),
               onPressed: () {
                 setState(() {
-                  if (_controller.value.isPlaying) {
-                    _controller.pause();
+                  if (controller.value.isPlaying) {
+                    controller.pause();
                   } else {
-                    _controller.play();
+                    controller.play();
                   }
                 });
               },
@@ -258,108 +308,5 @@ class _VideoPreviewState extends State<_VideoPreview> {
         ),
       ),
     );
-  }
-}
-
-class _AudioPreview extends StatefulWidget {
-  const _AudioPreview({
-    required this.path,
-    required this.title,
-  });
-
-  final String path;
-  final String title;
-
-  @override
-  State<_AudioPreview> createState() => _AudioPreviewState();
-}
-
-class _AudioPreviewState extends State<_AudioPreview> {
-  final AudioPlayer _player = AudioPlayer();
-  var _isPlaying = false;
-  Duration _position = Duration.zero;
-  Duration _duration = Duration.zero;
-
-  @override
-  void initState() {
-    super.initState();
-    unawaited(_player.setSource(DeviceFileSource(widget.path)));
-    _player.onDurationChanged.listen((duration) {
-      if (mounted) {
-        setState(() => _duration = duration);
-      }
-    });
-    _player.onPositionChanged.listen((position) {
-      if (mounted) {
-        setState(() => _position = position);
-      }
-    });
-    _player.onPlayerComplete.listen((_) {
-      if (mounted) {
-        setState(() => _isPlaying = false);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    unawaited(_player.dispose());
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = S.of(context);
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.audiotrack, size: 72, color: AppColors.primaryColor),
-            const SizedBox(height: 16),
-            Text(widget.title, style: AppTextStyle.title, textAlign: TextAlign.center),
-            const SizedBox(height: 24),
-            Slider(
-              value: _duration.inMilliseconds == 0
-                  ? 0
-                  : _position.inMilliseconds / _duration.inMilliseconds,
-              onChanged: _duration.inMilliseconds == 0
-                  ? null
-                  : (value) {
-                      final target = Duration(
-                        milliseconds: (_duration.inMilliseconds * value).round(),
-                      );
-                      unawaited(_player.seek(target));
-                    },
-            ),
-            Text('${_format(_position)} / ${_format(_duration)}'),
-            const SizedBox(height: 16),
-            FilledButton.icon(
-              onPressed: _togglePlayback,
-              icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-              label: Text(_isPlaying ? l10n.fileAudioPause : l10n.fileAudioPlay),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _togglePlayback() async {
-    if (_isPlaying) {
-      await _player.pause();
-    } else {
-      await _player.resume();
-    }
-    if (mounted) {
-      setState(() => _isPlaying = !_isPlaying);
-    }
-  }
-
-  String _format(Duration value) {
-    final minutes = value.inMinutes.remainder(60).toString().padLeft(2, '0');
-    final seconds = value.inSeconds.remainder(60).toString().padLeft(2, '0');
-    return '$minutes:$seconds';
   }
 }

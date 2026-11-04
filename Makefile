@@ -2,6 +2,7 @@
 
 # Директория скриптов
 SCD := scripts
+WEB_DEVICE ?= web-server
 
 
 # В этот блок можно добавить скрипты уникальные для приложения
@@ -26,6 +27,15 @@ run-dev-backend:
 
 run-prod:
 	flutter run --flavor prod --dart-define-from-file=env/prod.env.json
+
+run-web-dev:
+	flutter run -d $(WEB_DEVICE) --dart-define-from-file=env/dev.env.json
+
+run-web-dev-backend:
+	flutter run -d $(WEB_DEVICE) --dart-define-from-file=env/dev-backend.env.json
+
+run-web-prod:
+	flutter run -d $(WEB_DEVICE) --dart-define-from-file=env/prod.env.json
 
 toAssets:
 	sh $(SCD)/asset_script.sh

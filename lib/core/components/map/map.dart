@@ -1,5 +1,6 @@
 export 'package:base_flutter_proj/core/components/map/app_map_bootstrap.dart';
-export 'package:base_flutter_proj/core/components/map/clustering/app_map_cluster_manager.dart';
+export 'package:base_flutter_proj/core/components/map/clustering/app_map_cluster_manager_web.dart'
+    if (dart.library.io) 'package:base_flutter_proj/core/components/map/clustering/app_map_cluster_manager.dart';
 export 'package:base_flutter_proj/core/components/map/config/app_map_config.dart';
 export 'package:base_flutter_proj/core/components/map/config/app_map_pick_config.dart';
 export 'package:base_flutter_proj/core/components/map/config/app_map_preview_config.dart';

@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/core/debug/http_log_interceptor.dart';
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:talker_flutter/talker_flutter.dart';

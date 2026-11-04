@@ -1,5 +1,5 @@
 import 'package:base_flutter_proj/core/app_bootstrap.dart';
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/push/provider/push_providers.dart';
 import 'package:flutter/material.dart';

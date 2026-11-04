@@ -43,7 +43,8 @@ class ChatListPage extends ConsumerWidget {
         itemBuilder: (context, room, index) {
           return ChatListTile(
             room: room,
-            onTap: () => ChatRoomRoute(roomId: room.id, title: room.title).push(context),
+            onTap: () =>
+                ChatRoomRoute(roomId: room.id, title: room.title).go(context),
           );
         },
       ),

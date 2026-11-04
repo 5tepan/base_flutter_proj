@@ -1,7 +1,7 @@
 import 'package:base_flutter_proj/core/assets/app_assets_preloader.dart';
 import 'package:base_flutter_proj/core/config.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:base_flutter_proj/core/model/entities/app_settings.dart';
 import 'package:base_flutter_proj/core/network/connectivity_utils.dart';
 import 'package:base_flutter_proj/core/network/public_api.dart';

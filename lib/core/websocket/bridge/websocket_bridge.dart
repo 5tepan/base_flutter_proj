@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:base_flutter_proj/auth/providers/auth_providers.dart';
 import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/events/app_event.dart';
-import 'package:base_flutter_proj/core/helpers/app_platform.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:base_flutter_proj/core/providers/app_event_provider.dart';
 import 'package:base_flutter_proj/core/providers/core_providers.dart';
 import 'package:base_flutter_proj/core/websocket/provider/websocket_providers.dart';

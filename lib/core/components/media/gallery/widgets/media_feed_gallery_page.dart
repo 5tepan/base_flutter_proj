@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:base_flutter_proj/core/platform/media/app_video_controller.dart';
+import 'package:base_flutter_proj/core/platform/system_ui/app_system_ui.dart';
 import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_dismissible.dart';
 import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_icon_button.dart';
 import 'package:base_flutter_proj/core/components/media/gallery/widgets/media_feed_gallery_photo_page.dart';
@@ -12,7 +13,6 @@ import 'package:base_flutter_proj/core/debug/logger.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class MediaFeedGalleryPage extends StatefulWidget {
@@ -42,7 +42,7 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
     super.initState();
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
-    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky));
+    unawaited(enterGalleryMode());
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _syncVideoForIndex(_currentIndex);
     });
@@ -52,7 +52,7 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
   void dispose() {
     unawaited(_disposeVideoController());
     _pageController.dispose();
-    unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
+    unawaited(restoreAfterGallery());
     super.dispose();
   }
 
@@ -80,7 +80,9 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
                 if (item.isVideo) {
                   return MediaFeedGalleryVideoPage(
                     isActive: index == _currentIndex,
-                    controller: index == _currentIndex ? _videoController : null,
+                    controller: index == _currentIndex
+                        ? _videoController
+                        : null,
                     isInitialized: index == _currentIndex && _videoInitialized,
                   );
                 }
@@ -150,8 +152,12 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
       return;
     }
 
-    final controller = _createVideoController(item);
+    final controller = await _createVideoController(item);
     if (controller == null) {
+      return;
+    }
+    if (!mounted || index != _currentIndex) {
+      await controller.dispose();
       return;
     }
 
@@ -172,19 +178,8 @@ class _MediaFeedGalleryPageState extends State<MediaFeedGalleryPage> {
     }
   }
 
-  VideoPlayerController? _createVideoController(MediaFeedItem item) {
-    final localPath = item.localFile?.path;
-    if (localPath != null && localPath.isNotEmpty) {
-      return VideoPlayerController.file(File(localPath));
-    }
-
-    final remoteUrl = item.remoteUrl;
-    if (remoteUrl != null && remoteUrl.isNotEmpty) {
-      return VideoPlayerController.networkUrl(Uri.parse(remoteUrl));
-    }
-
-    return null;
-  }
+  Future<VideoPlayerController?> _createVideoController(MediaFeedItem item) =>
+      createAppVideoController(file: item.localFile, url: item.remoteUrl);
 
   Future<void> _disposeVideoController() async {
     final controller = _videoController;

@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:base_flutter_proj/core/components/date_time_field/bottom_picker_header.dart';
 import 'package:base_flutter_proj/core/components/date_time_field/year_picker.dart';
+import 'package:base_flutter_proj/core/platform/app_platform.dart';
 import 'package:base_flutter_proj/core/helpers/date_time_helper.dart';
 import 'package:base_flutter_proj/core/helpers/widget_extensions/simple_padding_extension.dart';
 import 'package:base_flutter_proj/core/providers/theme_provider.dart';
@@ -210,7 +209,11 @@ class DateTimeField extends ConsumerWidget {
         }
       }
     }
-    final selectedTime = await selectTimeViaPicker(context, initialDateTime, ref);
+    final selectedTime = await selectTimeViaPicker(
+      context,
+      initialDateTime,
+      ref,
+    );
     if (selectedTime != null) {
       onDateSelected!(selectedTime);
     }
@@ -227,7 +230,7 @@ class DateTimeField extends ConsumerWidget {
     } else if (platform == DateTimeFieldPlatform.cupertino) {
       return _selectTimeViaCupertinoPicker(context, initialDateTime);
     }
-    return Platform.isIOS
+    return AppPlatform.isIOS
         ? await _selectTimeViaCupertinoPicker(context, initialDateTime)
         : await _selectTimeViaMaterialPicker(context, initialDateTime, ref);
   }

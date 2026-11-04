@@ -32,6 +32,7 @@ make generate         # маршруты, JSON
 make intl             # после правок ARB
 make run-dev          # flavor dev, Fake API (без бэкенда)
 make run-dev-backend  # flavor devbackend, реальный API
+make run-web-dev      # Web в Chrome, dev-конфиг
 ```
 
 Прямой запуск:
@@ -43,6 +44,18 @@ flutter run --flavor dev --dart-define-from-file=env/dev.env.json
 ```bash
 flutter run --flavor devbackend --dart-define-from-file=env/dev-backend.env.json
 ```
+
+Запуск в браузере:
+
+```bash
+make run-web-dev
+make run-web-dev-backend
+make run-web-prod
+```
+
+По умолчанию используется `web-server`: Flutter выводит локальный адрес, который можно открыть в Safari, Яндекс Браузере или другом браузере. Для запуска через Chrome передайте `WEB_DEVICE=chrome`, например `make run-web-dev WEB_DEVICE=chrome`.
+
+`--flavor` в Flutter CLI выбирает Android product flavor или iOS scheme. Для Web используется конфиг приложения из env-файла: например, `make run-web-dev` передаёт `env/dev.env.json`, где задано `"FLAVOR": "dev"`.
 
 ### Fake API-авторизация (dev)
 
@@ -84,7 +97,10 @@ lib/
 ├── demo/          # демо-экраны компонентов
 ├── web_view/
 └── core/          # инфраструктура (router, network, fake_api, websocket, UI kit…)
+    └── platform/  # общие IO/Web-адаптеры за платформенно-независимыми API
 ```
+
+Платформенные адаптеры для файлов, медиа и системного UI находятся в `lib/core/platform/`. Виджеты вызывают общий API; условные импорты выбирают IO- или Web-реализацию. UI-заглушки конкретной функции, например карты, остаются в модуле этой функции.
 
 Шаблон фичи: `api/` → `repository/` → `providers/` → `route/` → `*_page.dart`.
 
@@ -115,7 +131,8 @@ WebSocket подключается на `/ws` и передаёт access token �
 | Команда | Действие |
 |---------|----------|
 | `make setup-secrets` | env, secrets, xcconfig |
-| `make run-dev` / `make run-dev-backend` / `make run-prod` | запуск flavor |
+| `make run-dev` / `make run-dev-backend` / `make run-prod` | запуск Android/iOS flavor |
+| `make run-web-dev` / `make run-web-dev-backend` / `make run-web-prod` | запуск Web с соответствующим конфигом |
 | `make generate` | build_runner |
 | `make intl` | локализация |
 | `make createSplash` | нативный splash |

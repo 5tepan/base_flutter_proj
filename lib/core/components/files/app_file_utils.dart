@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:cross_file/cross_file.dart';
 import 'package:mime/mime.dart';
 import 'package:path/path.dart' as p;
 
@@ -24,7 +23,7 @@ abstract final class AppFileUtils {
 
   static Future<int?> fileSizeBytes(String path) async {
     try {
-      return await File(path).length();
+      return await XFile(path).length();
     } catch (_) {
       return null;
     }
@@ -60,25 +59,38 @@ abstract final class AppFileUtils {
   static bool isImagePath(String path) {
     final mime = guessMimeType(path: path);
     return isImageMime(mime) ||
-        const {'jpg', 'jpeg', 'png', 'gif', 'webp', 'heic'}.contains(
-          extensionFromName(path),
-        );
+        const {
+          'jpg',
+          'jpeg',
+          'png',
+          'gif',
+          'webp',
+          'heic',
+        }.contains(extensionFromName(path));
   }
 
   static bool isVideoPath(String path) {
     final mime = guessMimeType(path: path);
     return isVideoMime(mime) ||
-        const {'mp4', 'mov', 'avi', 'mkv', 'webm'}.contains(
-          extensionFromName(path),
-        );
+        const {
+          'mp4',
+          'mov',
+          'avi',
+          'mkv',
+          'webm',
+        }.contains(extensionFromName(path));
   }
 
   static bool isAudioPath(String path) {
     final mime = guessMimeType(path: path);
     return isAudioMime(mime) ||
-        const {'mp3', 'wav', 'aac', 'm4a', 'ogg'}.contains(
-          extensionFromName(path),
-        );
+        const {
+          'mp3',
+          'wav',
+          'aac',
+          'm4a',
+          'ogg',
+        }.contains(extensionFromName(path));
   }
 
   static bool isPdfPath(String path) {

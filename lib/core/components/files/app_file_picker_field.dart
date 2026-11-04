@@ -5,6 +5,7 @@ import 'package:base_flutter_proj/core/components/files/app_file_list_view.dart'
 import 'package:base_flutter_proj/core/components/files/app_file_utils.dart';
 import 'package:base_flutter_proj/core/components/media/picker/app_media_picker.dart';
 import 'package:base_flutter_proj/core/debug/logger.dart';
+import 'package:base_flutter_proj/core/platform/files/app_file_picker_adapter.dart';
 import 'package:base_flutter_proj/core/theme/theme_builder.dart';
 import 'package:base_flutter_proj/generated/l10n.dart';
 import 'package:file_picker/file_picker.dart';
@@ -106,7 +107,7 @@ class AppFilePickerField extends StatelessWidget {
         type: fileType,
         allowedExtensions: allowedExtensions,
         allowMultiple: allowMultiple,
-        withData: withData,
+        withData: withData || appFilePickerNeedsBytes,
         withReadStream: withReadStream,
       );
       if (result == null || result.files.isEmpty) {
@@ -119,18 +120,23 @@ class AppFilePickerField extends StatelessWidget {
 
       final picked = <AppFileItem>[];
       for (final platformFile in result.files.take(remainingSlots)) {
-        final path = platformFile.path;
-        if (path == null) {
+        final localFile = appXFileFromPlatformFile(platformFile);
+        if (localFile == null) {
           continue;
         }
+        final path = localFile.path;
 
         picked.add(
           AppFileItem(
             id: AppMediaPicker.createItemId(),
             name: platformFile.name,
-            localPath: path,
+            localPath: path.isEmpty ? null : path,
+            localFile: localFile,
             sizeBytes: platformFile.size,
-            mimeType: AppFileUtils.guessMimeType(path: path, name: platformFile.name),
+            mimeType: AppFileUtils.guessMimeType(
+              path: path,
+              name: platformFile.name,
+            ),
           ),
         );
       }
@@ -144,9 +150,9 @@ class AppFilePickerField extends StatelessWidget {
       CustomLogger.warning('Не удалось выбрать файлы: $error');
       CustomLogger.verbose('$stackTrace');
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(S.of(context).filePickError)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(S.of(context).filePickError)));
       }
     }
   }
