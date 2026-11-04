@@ -15,9 +15,6 @@ SCD := scripts
 generate:
 	sh $(SCD)/one_time_code_generation.sh
 
-test:
-	flutter test
-
 setup-secrets:
 	sh $(SCD)/setup_secrets.sh
 
