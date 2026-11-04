@@ -26,7 +26,12 @@ if [ ! -f "$FILE" ]; then
     flutter build ipa -t lib/main.dart --flavor dev --dart-define-from-file=env/dev.env.json
 else
     if flutter build ipa -t lib/main.dart --flavor dev --export-options-plist Dev_ExportOptions.plist --dart-define-from-file=env/dev.env.json;  then 
-        ios/Pods/FirebaseCrashlytics/upload-symbols -gsp ios/Runner/GoogleService-Info.plist -p ios build/ios/archive/Runner.xcarchive/dSYMs
+        CRASHLYTICS_UPLOAD_SYMBOLS="$(find build/ios/SourcePackages/checkouts -path '*/Crashlytics/upload-symbols' -type f -print -quit 2>/dev/null)"
+        if [ -z "$CRASHLYTICS_UPLOAD_SYMBOLS" ]; then
+            echo "Error: Firebase Crashlytics upload-symbols not found in Swift Package Manager checkouts"
+            exit 1
+        fi
+        "$CRASHLYTICS_UPLOAD_SYMBOLS" -gsp ios/Runner/GoogleService-Info.plist -p ios build/ios/archive/Runner.xcarchive/dSYMs
         if firebase appdistribution:distribute build/ios/ipa/base_flutter_proj.ipa --app $appId --groups Base;  then 
             echo "Upload success!"
         else

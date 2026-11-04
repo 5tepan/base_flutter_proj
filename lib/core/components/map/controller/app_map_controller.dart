@@ -136,7 +136,7 @@ class AppMapController extends ChangeNotifier {
       _toNativeCamera(camera),
       animation: animated
           ? const Animation(type: AnimationType.Smooth, duration: 0.35)
-          : null,
+          : const Animation(),
     );
   }
 
@@ -204,7 +204,7 @@ class AppMapController extends ChangeNotifier {
           position,
           animation: animated
               ? const Animation(type: AnimationType.Smooth, duration: 0.4)
-              : null,
+              : const Animation(),
         );
       } catch (_) {
         // Fallback if MapKit is not ready for geometry camera calc.

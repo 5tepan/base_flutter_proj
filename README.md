@@ -26,8 +26,7 @@ Flutter ^3.44 · Dart ^3.12 · Riverpod 3 · go_router · http · flutter_secure
 ## Быстрый старт
 
 ```bash
-flutter pub get
-make ios-spm-fix    # MapKit Lite → CocoaPods (сломанный SPM у пакета)
+flutter pub get    # генерирует Swift Package для iOS-плагинов
 make setup-secrets    # первый раз: .env и env/*.json из example
 make generate         # маршруты, JSON
 make intl             # после правок ARB
