@@ -43,16 +43,19 @@ class AuthByPhoneFormNotifier extends FormNotifier<AuthByPhoneFormModel> {
     setField(AuthByPhoneFormModel.phoneField, value);
   }
 
-  Future<void> submitPhone() async {
+  Future<bool> submitPhone() async {
     final l10n = ref.read(appLocalizationsProvider);
     try {
       await runSubmit((model) async {
         await _repository.requestConfirmationCode(model.phoneNumber);
       });
+      return true;
     } on AppException catch (error) {
       _toast.showError(ErrorLocalizer.fromAppException(error, l10n));
+      return false;
     } catch (error) {
       _toast.showError(l10n.authSendCodeError);
+      return false;
     }
   }
 }
@@ -101,16 +104,19 @@ class PhoneConfirmationFormNotifier
     }
   }
 
-  Future<void> resendCode() async {
+  Future<bool> resendCode() async {
     final l10n = ref.read(appLocalizationsProvider);
     try {
       await runSubmit((model) async {
         await _repository.resendCode(model.phoneNumber);
       });
+      return true;
     } on AppException catch (error) {
       _toast.showError(ErrorLocalizer.fromAppException(error, l10n));
+      return false;
     } catch (error) {
       _toast.showError(l10n.authResendCodeError);
+      return false;
     }
   }
 }

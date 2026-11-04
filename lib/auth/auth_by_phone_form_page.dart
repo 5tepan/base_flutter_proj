@@ -62,8 +62,8 @@ class _AuthByPhoneFormPageState extends ConsumerState<AuthByPhoneFormPage> {
   Future<void> _onContinuePressed(String phone) async {
     final notifier = ref.read(authByPhoneFormProvider.notifier);
     notifier.updatePhone(phone);
-    await notifier.submitPhone();
-    if (!mounted) return;
+    final sent = await notifier.submitPhone();
+    if (!mounted || !sent) return;
     PhoneConfirmationFormRoute(
       phoneNumber: notifier.model.phoneNumber,
     ).go(context);

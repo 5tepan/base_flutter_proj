@@ -3,6 +3,7 @@ import 'package:base_flutter_proj/auth/route/auth_route.dart';
 import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/router/route_access_policy.dart';
 import 'package:base_flutter_proj/core/router/router_shell.dart';
+import 'package:base_flutter_proj/core/router/session_gate_page.dart';
 import 'package:base_flutter_proj/home/route/home_route.dart';
 import 'package:base_flutter_proj/web_view/route/web_view_route.dart';
 import 'package:flutter/material.dart';
@@ -30,15 +31,29 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: const HomeRoute().location,
     navigatorKey: rootNavigatorKey,
     refreshListenable: routerRefresh,
-    routes: [...otherRoutes, navigationShell],
+    routes: [
+      GoRoute(
+        path: SessionGatePage.location,
+        builder: (context, state) => const SessionGatePage(),
+      ),
+      ...otherRoutes,
+      navigationShell,
+    ],
     redirect: (context, state) {
       final sessionAsync = ref.read(authSessionProvider);
+      final location = state.matchedLocation;
+      final isSessionGate = location == SessionGatePage.location;
       if (sessionAsync.isLoading) {
-        return null;
+        return isSessionGate ? null : SessionGatePage.location;
+      }
+      if (isSessionGate) {
+        final isAuthorized = sessionAsync.value != null;
+        return isAuthorized
+            ? const HomeRoute().location
+            : const AuthByPhoneFormRoute().location;
       }
 
       final isAuthorized = sessionAsync.value != null;
-      final location = state.matchedLocation;
       final isPublicRoute = publicRouteMatchers.any(
         (matcher) => matcher.matches(location),
       );

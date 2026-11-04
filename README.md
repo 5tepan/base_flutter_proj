@@ -21,7 +21,7 @@
 
 ## Стек
 
-Flutter ^3.11 · Riverpod 3 · go_router · http · flutter_secure_storage · hive · intl · image_picker / file_picker / share_plus и др. (полный список — `pubspec.yaml`).
+Flutter ^3.44 · Dart ^3.12 · Riverpod 3 · go_router · http · flutter_secure_storage · hive · intl · image_picker / file_picker / share_plus и др. (полный список — `pubspec.yaml`).
 
 ## Быстрый старт
 
@@ -31,8 +31,8 @@ make ios-spm-fix    # MapKit Lite → CocoaPods (сломанный SPM у па�
 make setup-secrets    # первый раз: .env и env/*.json из example
 make generate         # маршруты, JSON
 make intl             # после правок ARB
-make run-dev          # dev flavor, Fake API (без бэкенда)
-make run-dev-backend  # dev flavor, real backend API
+make run-dev          # flavor dev, Fake API (без бэкенда)
+make run-dev-backend  # flavor devbackend, реальный API
 ```
 
 Прямой запуск:
@@ -59,12 +59,19 @@ flutter run --flavor devbackend --dart-define-from-file=env/dev-backend.env.json
 | | dev (Fake API) | devbackend (real backend) | prod |
 |---|---|---|---|
 | `USE_FAKE_API` | вкл. | выкл. | выкл. |
+| `API_USE_HTTPS` | выкл. | выкл. | вкл., если ключ пустой |
+| `USE_MOCK_WEBSOCKET` | вкл. | выкл. | выкл. |
 | Debug banner | да | да | нет |
 | Локали | ru + en | ru + en | ru (по умолчанию) |
+| Application id | `com.base.baseflutterproj` | `com.base.baseflutterproj.devbackend` | `com.base.baseflutterproj.prod` |
+
+Kotlin-пакет и method channel остаются `com.base.base_flutter_proj`. Менять их вместе с application id не нужно.
 
 Конфиг читается из `env/<flavor>.env.json` через `lib/core/env_reader.dart` → `lib/core/config.dart`.
 
 Перед первым запуском: `make setup-secrets` (создаёт `.env`, `env/*.json` из example). Секреты и Firebase-файлы в репозиторий не коммитятся — шаблоны: `.env.example`, `env/*.env.json.example`, `secrets/*.example`.
+
+Release-сборка локально может быть подписана debug-ключом, пока нет `android/key.properties` (шаблон: `android/key.properties.example`). Скрипт дистрибуции `scripts/ci_android_dev_distribution.sh` в этом случае останавливается: в стор и Firebase App Distribution уходит только сборка со своим upload keystore.
 
 ## Структура `lib/` (кратко)
 
@@ -81,6 +88,28 @@ lib/
 ```
 
 Шаблон фичи: `api/` → `repository/` → `providers/` → `route/` → `*_page.dart`.
+
+## Контракт бэкенда
+
+REST-ответ — объект `{ "data", "meta" }`. `meta.success: false` кладёт `meta.error` в сообщение для пользователя. Протухший access token — это HTTP 401 или `meta.invalidAccessToken` / `meta.invalid_access_token`. Refresh ходит на `POST auth/refresh` без Bearer, тело `{ "refresh_token" }`.
+
+Список пагинируется с нуля: `page=0`, конец ленты — страница короче `pageSize`. Свой исходящий `sender_id` в Fake API — строка `me`; у реального пользователя такой id не используют.
+
+WebSocket подключается на `/ws` и передаёт access token заголовком `Authorization: Bearer`, не в query.
+
+## Что можно выключить
+
+Модули оставлены в репозитории как конструктор. Если продукт их не использует, их лучше убрать из форка, а не тащить разрешения в стор.
+
+| Модуль | Что удалить |
+|--------|-------------|
+| Карты | `yandex_maps_mapkit_lite`, `lib/core/components/map`, демо карты, `MAPKIT_API_KEY`, `ACCESS_FINE_LOCATION` / `ACCESS_COARSE_LOCATION`, `NSLocationWhenInUseUsageDescription`. После этого `minSdk` можно опустить ниже 26. |
+| Медиа | `image_picker`, `file_picker`, `video_player`, `audioplayers`, `flutter_pdfview`, `croppy`, камера/микрофон/галерея в Android-манифесте и соответствующие строки в `Info.plist`. |
+| Чаты | `lib/chat`, маршруты чата, `ENABLE_WEBSOCKET`. |
+| Firebase / push | `ENABLE_FIREBASE=false` уже выключает инициализацию. Пакеты `firebase_*` и `POST_NOTIFICATIONS` удаляют, если пушей не будет. |
+| Геолокация без карт | `geolocator`, `permission_handler`, location permissions. |
+
+`make generate` после правок моделей и роутов. В CI имеет смысл падать, если после `dart run build_runner build --delete-conflicting-outputs` дерево грязное.
 
 ## Make-команды
 

@@ -22,7 +22,7 @@ class AuthApiImpl implements AuthApi {
       _sendCodePath,
       body: {'phone': phoneNumber},
     );
-    _ensureSuccess(response, defaultCode: AppErrorCode.sendCodeFailed);
+    _ensureSuccess(response, fallback: AppErrorCode.sendCodeFailed);
   }
 
   @override
@@ -40,7 +40,7 @@ class AuthApiImpl implements AuthApi {
 
     return _parseSession(
       response,
-      defaultCode: AppErrorCode.verifyCodeFailed,
+      fallback: AppErrorCode.verifyCodeFailed,
     );
   }
 
@@ -50,7 +50,7 @@ class AuthApiImpl implements AuthApi {
       _resendCodePath,
       body: {'phone': phoneNumber},
     );
-    _ensureSuccess(response, defaultCode: AppErrorCode.resendCodeFailed);
+    _ensureSuccess(response, fallback: AppErrorCode.resendCodeFailed);
   }
 
   @override
@@ -62,24 +62,24 @@ class AuthApiImpl implements AuthApi {
 
     return _parseSession(
       response,
-      defaultCode: AppErrorCode.refreshSessionFailed,
+      fallback: AppErrorCode.refreshSessionFailed,
     );
   }
 
   AuthSession _parseSession(
     BaseApiResponse response, {
-    required AppErrorCode defaultCode,
+    required AppErrorCode fallback,
   }) {
     final parsed = ApiResponseParser.parseObjectFromResponse<AuthSession>(
       response,
       key: 'session',
       fromJson: AuthSession.fromApiJson,
-      emptyErrorCode: defaultCode,
+      emptyErrorCode: fallback,
     );
 
     if (parsed.isError || parsed.result == null) {
       throw AppException(
-        parsed.errorCode ?? defaultCode,
+        _publicCode(parsed.errorCode, fallback),
         serverMessage: parsed.serverMessage,
       );
     }
@@ -89,13 +89,24 @@ class AuthApiImpl implements AuthApi {
 
   void _ensureSuccess(
     BaseApiResponse response, {
-    required AppErrorCode defaultCode,
+    required AppErrorCode fallback,
   }) {
     if (response.isError) {
       throw AppException(
-        response.errorCode ?? defaultCode,
+        _publicCode(response.errorCode, fallback),
         serverMessage: response.serverMessage,
       );
     }
+  }
+
+  /// Сетевые коды не подменяются доменной ошибкой, чтобы refresh не разлогинивал
+  /// пользователя из-за обрыва связи.
+  AppErrorCode _publicCode(AppErrorCode? code, AppErrorCode fallback) {
+    if (code == AppErrorCode.noInternet ||
+        code == AppErrorCode.connectionError ||
+        code == AppErrorCode.unknownError) {
+      return code!;
+    }
+    return fallback;
   }
 }

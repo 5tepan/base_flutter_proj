@@ -29,9 +29,10 @@ abstract class BaseApi {
     required this.checkConnection,
     this.tokenHolder,
     this.onRefreshToken,
-  });
+    bool enableHttpLogs = false,
+  }) : isLoggerOutputEnabled = enableHttpLogs;
 
-  bool isLoggerOutputEnabled = true;
+  final bool isLoggerOutputEnabled;
 
   late final InterceptedClient client = InterceptedClient.build(
     client: config.useFakeApi
@@ -73,11 +74,22 @@ abstract class BaseApi {
           );
   }
 
-  Map<String, String>? prepareParams(Map<String, dynamic>? params) {
+  /// Строки, числа и bool уходят как есть. Вложенные структуры — JSON,
+  /// а не `toString()` у Map.
+  Map<String, String>? encodeFields(Map<String, dynamic>? params) {
     return params?.map((key, value) {
+      if (value == null) return MapEntry(key, '');
       if (value is String) return MapEntry(key, value);
+      if (value is num || value is bool) return MapEntry(key, '$value');
       return MapEntry(key, jsonEncode(value));
     });
+  }
+
+  Uri _fallbackUri(String relativePath) {
+    final path = config.apiUrlRelativePath + relativePath;
+    return config.isHttpsApi
+        ? Uri.https(config.apiUrlDomain, path)
+        : Uri.http(config.apiUrlDomain, path);
   }
 
   Future<BaseApiResponse> sendGetRequest(
@@ -89,19 +101,17 @@ abstract class BaseApi {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
+      Uri? uri;
       try {
-        final uri = await buildUri(
+        uri = await buildUri(
           relativePath: relativePath,
-          queryParameters: params?.map((k, v) => MapEntry(k, v.toString())),
+          queryParameters: encodeFields(params),
         );
 
         final response = await client.get(uri);
         return parseResponse(response);
       } catch (error) {
-        return processResponseError(
-          error,
-          Uri.parse(config.apiUrlDomain + relativePath),
-        );
+        return processResponseError(error, uri ?? _fallbackUri(relativePath));
       }
     });
   }
@@ -116,21 +126,18 @@ abstract class BaseApi {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
+      Uri? uri;
       try {
-        final uri = await buildUri(relativePath: relativePath);
-        final stringBody = body?.map((k, v) => MapEntry(k, v.toString()));
+        uri = await buildUri(relativePath: relativePath);
         final response = await client.post(
           uri,
-          body: stringBody,
+          body: encodeFields(body),
           headers: headers,
         );
 
         return parseResponse(response);
       } catch (error) {
-        return processResponseError(
-          error,
-          Uri.parse(config.apiUrlDomain + relativePath),
-        );
+        return processResponseError(error, uri ?? _fallbackUri(relativePath));
       }
     });
   }
@@ -145,8 +152,9 @@ abstract class BaseApi {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
+      Uri? uri;
       try {
-        final uri = await buildUri(relativePath: relativePath);
+        uri = await buildUri(relativePath: relativePath);
         final requestHeaders = {
           'Content-Type': 'application/json',
           ...?headers,
@@ -159,10 +167,7 @@ abstract class BaseApi {
 
         return parseResponse(response);
       } catch (error) {
-        return processResponseError(
-          error,
-          Uri.parse(config.apiUrlDomain + relativePath),
-        );
+        return processResponseError(error, uri ?? _fallbackUri(relativePath));
       }
     });
   }
@@ -177,15 +182,13 @@ abstract class BaseApi {
         return BaseApiResponse(errorCode: AppErrorCode.noInternet);
       }
 
+      Uri? uri;
       try {
-        final uri = await buildUri(relativePath: relativePath);
+        uri = await buildUri(relativePath: relativePath);
         final request = http.MultipartRequest('POST', uri);
-
-        if (params != null) {
-          final stringParams = params.map(
-            (key, value) => MapEntry(key, value.toString()),
-          );
-          request.fields.addAll(stringParams);
+        final fields = encodeFields(params);
+        if (fields != null) {
+          request.fields.addAll(fields);
         }
 
         request.files.addAll(files);
@@ -194,10 +197,7 @@ abstract class BaseApi {
 
         return parseResponse(response);
       } catch (error) {
-        return processResponseError(
-          error,
-          Uri.parse(config.apiUrlDomain + relativePath),
-        );
+        return processResponseError(error, uri ?? _fallbackUri(relativePath));
       }
     });
   }
@@ -224,12 +224,19 @@ abstract class BaseApi {
   }
 
   bool _shouldRefreshToken(BaseApiResponse response) {
+    if (response.statusCode == 401) {
+      return true;
+    }
     if (response.meta?.invalidAccessToken == true) {
       return true;
     }
 
-    return response.errorCode == AppErrorCode.requestFailed &&
-        (response.rawData?.contains('invalidAccessToken') ?? false);
+    final raw = response.rawData;
+    if (raw == null || response.errorCode != AppErrorCode.requestFailed) {
+      return false;
+    }
+    return raw.contains('invalidAccessToken') ||
+        raw.contains('invalid_access_token');
   }
 
   BaseApiResponse processResponseError(Object error, Uri uri) {

@@ -46,11 +46,7 @@
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Приложению нужен доступ к галерее для выбора фото и видео.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>This app needs access to location when open.</string>
-		<key>NSLocationAlwaysUsageDescription</key>
-		<string>This app needs access to location when in the background.</string>
-		<key>NSContactsUsageDescription</key>
-		<string>Reason why you need contacts</string>
+		<string>Приложению нужна геолокация, чтобы показать ваше положение на карте.</string>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>

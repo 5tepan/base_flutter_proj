@@ -5,7 +5,7 @@ publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.0
+  sdk: ^3.12.0
 
 dependencies:
   flutter:
@@ -92,6 +92,12 @@ flutter:
 
   assets:
     - assets/
+    - assets/icons/
+    - assets/fake_api/app/
+    - assets/fake_api/auth/
+    - assets/fake_api/chats/
+    - assets/fake_api/forms/
+    - assets/fake_api/shop/
 
   fonts:
     - family: Roboto

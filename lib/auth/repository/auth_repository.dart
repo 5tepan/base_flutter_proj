@@ -1,7 +1,9 @@
 import 'package:base_flutter_proj/auth/api/auth_api.dart';
+import 'package:base_flutter_proj/auth/model/token_refresh_result.dart';
 import 'package:base_flutter_proj/core/base/base_auth/entities/auth_session.dart';
 import 'package:base_flutter_proj/core/base/base_auth/storage/auth_session_storage.dart';
 import 'package:base_flutter_proj/core/base/base_auth/token/auth_token_holder.dart';
+import 'package:base_flutter_proj/core/errors/app_error_code.dart';
 import 'package:base_flutter_proj/core/errors/app_exception.dart';
 
 class AuthRepository {
@@ -16,6 +18,8 @@ class AuthRepository {
   final AuthApi _api;
   final AuthSessionStorage _storage;
   final AuthTokenHolder _tokenHolder;
+
+  Future<TokenRefreshResult>? _refreshInFlight;
 
   Future<AuthSession?> loadSession() async {
     final session = await _storage.read();
@@ -52,23 +56,51 @@ class AuthRepository {
     _tokenHolder.clear();
   }
 
-  Future<bool> refreshTokens() async {
+  /// Один refresh на все параллельные 401.
+  ///
+  /// Повторный вызов, пока первый ещё идёт, ждёт тот же результат и не шлёт
+  /// второй запрос: иначе ротация refresh-токена на сервере разлогинит сессию.
+  Future<TokenRefreshResult> refreshTokens() {
+    final inFlight = _refreshInFlight;
+    if (inFlight != null) {
+      return inFlight;
+    }
+
+    final future = _refreshTokensOnce();
+    _refreshInFlight = future;
+    return future.whenComplete(() {
+      if (identical(_refreshInFlight, future)) {
+        _refreshInFlight = null;
+      }
+    });
+  }
+
+  Future<TokenRefreshResult> _refreshTokensOnce() async {
     final refreshToken =
         _tokenHolder.refreshToken ?? (await _storage.read())?.refreshToken;
     if (refreshToken == null || refreshToken.isEmpty) {
-      return false;
+      await signOut();
+      return const TokenRefreshRejected();
     }
 
     try {
       final session = await _api.refreshToken(refreshToken);
       await saveSession(session);
-      return true;
-    } on AppException {
+      return TokenRefreshSuccess(session);
+    } on AppException catch (error) {
+      if (_isTransient(error.code)) {
+        return const TokenRefreshUnavailable();
+      }
       await signOut();
-      return false;
+      return const TokenRefreshRejected();
     } catch (_) {
-      await signOut();
-      return false;
+      return const TokenRefreshUnavailable();
     }
+  }
+
+  bool _isTransient(AppErrorCode code) {
+    return code == AppErrorCode.noInternet ||
+        code == AppErrorCode.connectionError ||
+        code == AppErrorCode.unknownError;
   }
 }

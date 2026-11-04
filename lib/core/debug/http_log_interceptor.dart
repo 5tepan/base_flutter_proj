@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_flutter_proj/core/debug/custom_events/http_log_events.dart';
+import 'package:base_flutter_proj/core/debug/sensitive_log_redaction.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -15,7 +16,7 @@ class HTTPLogInterceptor extends InterceptorContract {
 
   @override
   Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
-    final message = '${request.url}';
+    final message = SensitiveLogRedaction.url(request.url);
     _talker.logCustom(HttpRequestLog(message, data: request));
     return request;
   }
@@ -26,7 +27,10 @@ class HTTPLogInterceptor extends InterceptorContract {
   }
 
   Future<BaseResponse> logResponse({required BaseResponse response}) async {
-    final message = '${response.request?.url}';
+    final requestUrl = response.request?.url;
+    final message = requestUrl == null
+        ? ''
+        : SensitiveLogRedaction.url(requestUrl);
 
     if (response.statusCode >= 400 && response.statusCode < 600) {
       _talker.logCustom(HttpErrorLog(message, data: response));
